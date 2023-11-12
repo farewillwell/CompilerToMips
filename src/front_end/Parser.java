@@ -206,7 +206,7 @@ public class Parser {
         TokenNode tokenNode = new TokenNode(ts.now());
         ts.move();
         if (ts.now().type != RW.TYPE.LBRACK) {
-            return new FuncFParam(tokenNode, false);
+            return new FuncFParam(RW.TYPE.INTTK, tokenNode, false);
         }
         ts.move();
         if (ts.now().type != RW.TYPE.RBRACK) {
@@ -214,7 +214,7 @@ public class Parser {
         } else {
             ts.move();
         }
-        FuncFParam funcFParam = new FuncFParam(tokenNode, true);
+        FuncFParam funcFParam = new FuncFParam(RW.TYPE.INTTK, tokenNode, true);
         while (ts.now().type == RW.TYPE.LBRACK) {
             ts.move();
             funcFParam.addConstExp(parserConstExp());

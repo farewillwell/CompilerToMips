@@ -3,6 +3,7 @@ package front_end.AST.Exp;
 import front_end.AST.Node;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.Value;
+import mid_end.llvm_ir.type.ArrayType;
 
 public class Exp extends Node {
     private final AddExp addExp;

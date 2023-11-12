@@ -94,7 +94,7 @@ public class VarDef extends Node {
             GlobalVar globalVar;
             if (initVal != null) {
                 Initial initial = (Initial) initVal.getIRCode();
-                globalVar = new GlobalVar(indent.content(), llvmType, initial, false);
+                globalVar = new GlobalVar(indent.content(), new PointerType(llvmType), initial, false);
             } else {
                 globalVar = new GlobalVar(indent.content(), new PointerType(llvmType), new Initial(llvmType), false);
             }

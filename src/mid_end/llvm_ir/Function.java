@@ -37,11 +37,11 @@ public class Function extends User {
         stringBuilder.append(" (");
         for (int i = 0; i < params.size(); i++) {
             stringBuilder.append(params.get(i).type);
+            stringBuilder.append(" ");
+            stringBuilder.append(params.get(i));
             if (i < params.size() - 1) {
                 stringBuilder.append(",");
             }
-            stringBuilder.append(" ");
-            stringBuilder.append(params.get(i));
         }
         stringBuilder.append("){\n");
         for (BasicBlock block : basicBlocks) {

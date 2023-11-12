@@ -18,9 +18,7 @@ public class CallInstr extends Instr {
         for (Value value : rps) {
             addValue(value);
         }
-        if (function.type != BaseType.Void) {
-            addValue(new LocalVar(function.type, false));
-        }
+        addValue(new LocalVar(function.type, false));
     }
 
     @Override

@@ -5,6 +5,7 @@ import front_end.AST.Node;
 import front_end.AST.TokenNode;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
+import front_end.RW;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.AllocInstr;
 import mid_end.llvm_ir.Instrs.StoreInstr;
@@ -20,12 +21,14 @@ import mid_end.symbols.VarSymbol;
 import java.util.ArrayList;
 
 public class FuncFParam extends Node {
+    private final RW.TYPE type;
     public final TokenNode tokenNode;
     public final ArrayList<ConstExp> constExps;
 
     public final boolean hasBrack;
 
-    public FuncFParam(TokenNode tokenNode, boolean hasBrack) {
+    public FuncFParam(RW.TYPE type,TokenNode tokenNode, boolean hasBrack) {
+        this.type=type;
         this.tokenNode = tokenNode;
         this.hasBrack = hasBrack;
         constExps = new ArrayList<>();
