@@ -16,7 +16,7 @@ public class ConstInitVal extends Node {
     private ConstExp constExp;
 
     public ConstInitVal constInitVal;
-    private ArrayList<ConstInitVal> otherConstInitVals;
+    public ArrayList<ConstInitVal> otherConstInitVals;
 
     public ConstInitVal(ConstExp constExp) {
         this.isBraces = false;
@@ -40,7 +40,6 @@ public class ConstInitVal extends Node {
     public void addOtherConstInitVals(ConstInitVal constInitVal) {
         otherConstInitVals.add(constInitVal);
     }
-
 
 
     @Override
@@ -112,6 +111,36 @@ public class ConstInitVal extends Node {
         } else {
             return constExp.getIRCode();
             // 这里默认只会赋值给非数组**********************************************
+        }
+    }
+
+    public Value getIrByIndex(int x) {
+        if (SymbolManager.SM.isGlobal()) {
+            throw new RuntimeException("");
+        }
+        if (x == 0) {
+            return constInitVal.getIRCode();
+        } else {
+            return otherConstInitVals.get(x - 1).getIRCode();
+        }
+    }
+
+    public Value getIrByIndex(int x, int y) {
+        if (SymbolManager.SM.isGlobal()) {
+            throw new RuntimeException("");
+        }
+        if (x == 0) {
+            if (y == 0) {
+                return constInitVal.constInitVal.getIRCode();
+            } else {
+                return constInitVal.otherConstInitVals.get(y - 1).getIRCode();
+            }
+        } else {
+            if (y == 0) {
+                return otherConstInitVals.get(x - 1).constInitVal.getIRCode();
+            } else {
+                return otherConstInitVals.get(x - 1).otherConstInitVals.get(y - 1).getIRCode();
+            }
         }
     }
 }

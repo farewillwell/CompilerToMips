@@ -30,6 +30,14 @@ public class Initial extends User {
         this.value = 0;
     }
 
+    public Initial(LLVMType llvmType) {
+        this.initials = new ArrayList<>();
+        this.isZero = true;
+        this.containType = llvmType;
+        // 标记
+        this.value = 0;
+    }
+
     public Initial(LLVMType type, ArrayList<Initial> initials) {
         this.initials = new ArrayList<>(initials);
         this.isZero = false;

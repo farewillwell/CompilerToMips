@@ -46,7 +46,6 @@ public class InitVal extends Node {
     }
 
 
-
     @Override
     public void show() {
         super.show();
@@ -95,6 +94,36 @@ public class InitVal extends Node {
         } else {
             return exp.getIRCode();
             // 这里默认只会赋值给非数组**********************************************
+        }
+    }
+
+    public Value getIrByIndex(int x) {
+        if (SymbolManager.SM.isGlobal()) {
+            throw new RuntimeException("");
+        }
+        if (x == 0) {
+            return initVal.getIRCode();
+        } else {
+            return otherInitVals.get(x - 1).getIRCode();
+        }
+    }
+
+    public Value getIrByIndex(int x, int y) {
+        if (SymbolManager.SM.isGlobal()) {
+            throw new RuntimeException("");
+        }
+        if (x == 0) {
+            if (y == 0) {
+                return initVal.initVal.getIRCode();
+            } else {
+                return initVal.otherInitVals.get(y - 1).getIRCode();
+            }
+        } else {
+            if (y == 0) {
+                return otherInitVals.get(x - 1).initVal.getIRCode();
+            } else {
+                return otherInitVals.get(x - 1).otherInitVals.get(y - 1).getIRCode();
+            }
         }
     }
 }

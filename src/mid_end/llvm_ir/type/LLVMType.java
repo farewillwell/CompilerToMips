@@ -8,7 +8,4 @@ public class LLVMType {
         return super.toString();
     }
 
-    public LLVMType getElementType() {
-        return null;
-    }
 }

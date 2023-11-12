@@ -7,12 +7,12 @@ import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.IO.GetInt;
 import mid_end.llvm_ir.Instrs.StoreInstr;
 import mid_end.llvm_ir.Value;
+import mid_end.symbols.SymbolManager;
 
-public class GetIntStmt extends Stmt {
-    private final LVal lVal;
+public class GetIntStmt extends AssignStmt {
 
     public GetIntStmt(LVal lVal) {
-        this.lVal = lVal;
+        super(lVal, null);
     }
 
     @Override
@@ -38,8 +38,7 @@ public class GetIntStmt extends Stmt {
     public Value getIRCode() {
         GetInt getInt = new GetInt();
         IRBuilder.IB.addInstrForBlock(getInt);
-        StoreInstr storeInstr = new StoreInstr(getInt.getAns(), lVal.getIRAsLeft());
-        IRBuilder.IB.addInstrForBlock(storeInstr);
+        storeIntoWith(getInt.getAns());
         return null;
     }
 }

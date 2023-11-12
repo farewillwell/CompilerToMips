@@ -5,13 +5,15 @@ import front_end.AST.Exp.LVal;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.IRBuilder;
+import mid_end.llvm_ir.Instrs.GEPInstr;
 import mid_end.llvm_ir.Instrs.StoreInstr;
 import mid_end.llvm_ir.Value;
+import mid_end.symbols.SymbolManager;
 
 
 public class AssignStmt extends Stmt {
-    private final LVal lVal;
-    private final Exp exp;
+    protected final LVal lVal;
+    protected final Exp exp;
 
     public AssignStmt(LVal lVal, Exp exp) {
         this.lVal = lVal;
@@ -41,9 +43,24 @@ public class AssignStmt extends Stmt {
 
     @Override
     public Value getIRCode() {
-        Value value = exp.getIRCode();
-        StoreInstr storeInstr = new StoreInstr(value, lVal.getIRAsLeft());
-        IRBuilder.IB.addInstrForBlock(storeInstr);
+        Value valueToBeStore = exp.getIRCode();
+        storeIntoWith(valueToBeStore);
         return null;
+    }
+
+    public void storeIntoWith(Value valueToBeStore) {
+        Value toBeAssign = SymbolManager.SM.getVarSymbol(lVal.getName()).value;
+        if (lVal.exps.size() == 0) {
+            StoreInstr storeInstr = new StoreInstr(valueToBeStore, toBeAssign);
+            IRBuilder.IB.addInstrForBlock(storeInstr);
+        }
+        Value nowArrayOrAnsPointer =  toBeAssign;
+        for (Exp exp1 : lVal.exps) {
+            GEPInstr gepInstr = new GEPInstr(nowArrayOrAnsPointer, exp1.getIRCode());
+            IRBuilder.IB.addInstrForBlock(gepInstr);
+            nowArrayOrAnsPointer =  gepInstr.getAns();
+        }
+        StoreInstr storeInstr = new StoreInstr(valueToBeStore, nowArrayOrAnsPointer);
+        IRBuilder.IB.addInstrForBlock(storeInstr);
     }
 }

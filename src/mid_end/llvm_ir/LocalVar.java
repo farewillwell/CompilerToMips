@@ -1,6 +1,5 @@
 package mid_end.llvm_ir;
 
-import mid_end.llvm_ir.type.BaseType;
 import mid_end.llvm_ir.type.LLVMType;
 
 public class LocalVar extends Value {

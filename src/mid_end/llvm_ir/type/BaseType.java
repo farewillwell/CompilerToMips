@@ -31,9 +31,4 @@ public class BaseType extends LLVMType {
             throw new RuntimeException("Invalid type " + width);
         }
     }
-
-    @Override
-    public LLVMType getElementType() {
-        return this;
-    }
 }

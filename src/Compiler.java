@@ -8,6 +8,9 @@ import java.io.*;
 
 
 public class Compiler {
+    // 是否进行代码检查
+    private static final boolean CHECK_ERROR = false;
+
     public static void main(String[] args) {
         //-----------------------------------------------------------------------------------------
         // read in
@@ -33,16 +36,18 @@ public class Compiler {
         errorCollector.setAllLine(lexer.getLineNum());
         //--------------------------------------------------------------------------------------
         // error check
-        try {
-            PrintStream printStream = new PrintStream("error.txt");
-            System.setOut(printStream);
-            errorCollector.printErrors();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        if (CHECK_ERROR) {
+            try {
+                PrintStream printStream = new PrintStream("error.txt");
+                System.setOut(printStream);
+                errorCollector.printErrors();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
         //---------------------------------------------------------------------------------------
         // llvm make
-        if (errorCollector.noError()) {
+        if (!CHECK_ERROR||errorCollector.noError()) {
             try {
                 PrintStream printStream = new PrintStream("output.ll");
                 System.setOut(printStream);

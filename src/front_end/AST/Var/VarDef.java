@@ -7,6 +7,7 @@ import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.Instrs.AllocInstr;
+import mid_end.llvm_ir.Instrs.GEPInstr;
 import mid_end.llvm_ir.Instrs.StoreInstr;
 import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.BaseType;
@@ -77,6 +78,7 @@ public class VarDef extends Node {
             initVal.checkError(errorCollector);
         }
     }
+
     @Override
     public Value getIRCode() {
         LLVMType llvmType;
@@ -94,22 +96,40 @@ public class VarDef extends Node {
                 Initial initial = (Initial) initVal.getIRCode();
                 globalVar = new GlobalVar(indent.content(), llvmType, initial, false);
             } else {
-                globalVar = new GlobalVar(indent.content(), new PointerType(llvmType), new Initial(), false);
+                globalVar = new GlobalVar(indent.content(), new PointerType(llvmType), new Initial(llvmType), false);
             }
             IRBuilder.IB.moduleAddGlobal(globalVar);
             VarSymbol varSymbol = new VarSymbol(indent.content(), globalVar);
             SymbolManager.SM.addVarSymbol(varSymbol);
         } else {
-            AllocInstr allocInstr = new AllocInstr(llvmType, false);
+            AllocInstr allocInstr = new AllocInstr(llvmType, true);
             IRBuilder.IB.addInstrForBlock(allocInstr);
             VarSymbol varSymbol = new VarSymbol(indent.content(), allocInstr.getAns());
             if (initVal != null) {
-                Value value = initVal.getIRCode();
-                StoreInstr storeInstr = new StoreInstr(value, allocInstr.getAns());
-                IRBuilder.IB.addInstrForBlock(storeInstr);
-            } else {
-                StoreInstr storeInstr = new StoreInstr(new Constant(0), allocInstr.getAns());
-                IRBuilder.IB.addInstrForBlock(storeInstr);
+                if (getDim() == 0) {
+                    Value value = initVal.getIRCode();
+                    StoreInstr storeInstr = new StoreInstr(value, allocInstr.getAns());
+                    IRBuilder.IB.addInstrForBlock(storeInstr);
+                } else if (getDim() == 1) {
+                    for (int i = 0; i < constExps.get(0).queryValue(); i++) {
+                        GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
+                        IRBuilder.IB.addInstrForBlock(gepInstr);
+                        StoreInstr storeInstr = new StoreInstr(initVal.getIrByIndex(i), gepInstr.getAns());
+                        IRBuilder.IB.addInstrForBlock(storeInstr);
+                    }
+                } else {
+                    for (int i = 0; i < constExps.get(0).queryValue(); i++) {
+                        GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
+                        IRBuilder.IB.addInstrForBlock(gepInstr);
+                        for (int j = 0; j < constExps.get(1).queryValue(); j++) {
+                            GEPInstr insideGepInstr = new GEPInstr(gepInstr.getAns(), new Constant(j));
+                            IRBuilder.IB.addInstrForBlock(insideGepInstr);
+                            StoreInstr storeInstr =
+                                    new StoreInstr(initVal.getIrByIndex(i, j), insideGepInstr.getAns());
+                            IRBuilder.IB.addInstrForBlock(storeInstr);
+                        }
+                    }
+                }
             }
             SymbolManager.SM.addVarSymbol(varSymbol);
         }

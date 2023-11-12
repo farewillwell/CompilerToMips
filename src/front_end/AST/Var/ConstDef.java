@@ -7,6 +7,7 @@ import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.Instrs.AllocInstr;
+import mid_end.llvm_ir.Instrs.GEPInstr;
 import mid_end.llvm_ir.Instrs.StoreInstr;
 import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.BaseType;
@@ -102,9 +103,30 @@ public class ConstDef extends Node {
             AllocInstr allocInstr = new AllocInstr(llvmType, true);
             IRBuilder.IB.addInstrForBlock(allocInstr);
             VarSymbol varSymbol = new VarSymbol(indent.content(), allocInstr.getAns());
-            Value value = constInitVal.getIRCode();
-            StoreInstr storeInstr = new StoreInstr(value, allocInstr.getAns());
-            IRBuilder.IB.addInstrForBlock(storeInstr);
+            if (getDim() == 0) {
+                Value value = constInitVal.getIRCode();
+                StoreInstr storeInstr = new StoreInstr(value, allocInstr.getAns());
+                IRBuilder.IB.addInstrForBlock(storeInstr);
+            } else if (getDim() == 1) {
+                for (int i = 0; i < constExps.get(0).queryValue(); i++) {
+                    GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
+                    IRBuilder.IB.addInstrForBlock(gepInstr);
+                    StoreInstr storeInstr = new StoreInstr(constInitVal.getIrByIndex(i), gepInstr.getAns());
+                    IRBuilder.IB.addInstrForBlock(storeInstr);
+                }
+            } else {
+                for (int i = 0; i < constExps.get(0).queryValue(); i++) {
+                    GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
+                    IRBuilder.IB.addInstrForBlock(gepInstr);
+                    for (int j = 0; j < constExps.get(1).queryValue(); j++) {
+                        GEPInstr insideGepInstr = new GEPInstr(gepInstr.getAns(), new Constant(j));
+                        IRBuilder.IB.addInstrForBlock(insideGepInstr);
+                        StoreInstr storeInstr =
+                                new StoreInstr(constInitVal.getIrByIndex(i, j), insideGepInstr.getAns());
+                        IRBuilder.IB.addInstrForBlock(storeInstr);
+                    }
+                }
+            }
             SymbolManager.SM.addVarSymbol(varSymbol);
         }
         /*TODO 已经实现，但是符号一定要整个声明完成后再被放入符号表*/
