@@ -13,8 +13,6 @@ public class ALUInstr extends Instr {
     public static final String MUL = "mul ";
     public static final String DIV = "sdiv ";
     public static final String SREM = "srem ";
-    public static final String AND = "AND";
-    public static final String OR = "OR";
 
     private final String opcode;
 

@@ -1,25 +1,14 @@
-int a=1;
-int func(){
-    a=2;return 1;
-}
+int a=10;
+int b[a%3+!a];
+int main()
+{
+if(a)
+{
 
-int func2(){
-    a=4;return 10;
 }
-int func3(){
-    a=3;return 0;
+if(!a)
+{
 }
-int main(){
-
-
-    int b=1;
-    int c=1;
-    int d=1;
-    if(0||func()&&func3()||func2()){}
-    b=a;
-    if(1||func3()){}
-    c=a;
-    if(0||func3()||func()<func2()){}
-    d=a;
-    return c;
+}
+return 0;
 }

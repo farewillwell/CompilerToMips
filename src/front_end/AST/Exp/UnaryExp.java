@@ -210,7 +210,7 @@ public class UnaryExp extends Node {
             throw new RuntimeException("query value of a func");
         } else {
             if (unaryOp.isNot()) {
-                return unaryExp.evaluate() == 0 ? 1 : 0;
+                return unaryExp.queryValue() == 0 ? 1 : 0;
             }
             return (unaryOp.isPositive() ? 1 : -1) * unaryExp.queryValue();
         }

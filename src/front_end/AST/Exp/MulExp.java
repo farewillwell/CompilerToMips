@@ -50,10 +50,12 @@ public class MulExp extends Node {
     public int evaluate() {
         int temp = unaryExp.evaluate();
         for (int i = 0; i < tokenNodes.size(); i++) {
-            if (tokenNodes.get(i).type() == RW.TYPE.PLUS) {
+            if (tokenNodes.get(i).type() == RW.TYPE.MULT) {
                 temp *= otherUnaryExps.get(i).evaluate();
-            } else {
+            } else if (tokenNodes.get(i).type() == RW.TYPE.DIV) {
                 temp /= otherUnaryExps.get(i).evaluate();
+            } else {
+                temp %= otherUnaryExps.get(i).evaluate();
             }
         }
         return temp;
@@ -99,8 +101,13 @@ public class MulExp extends Node {
     public int queryValue() {
         int ans = unaryExp.queryValue();
         for (int i = 0; i < otherUnaryExps.size(); i++) {
-            ans = (tokenNodes.get(i).type() == RW.TYPE.MULT ?
-                    ans * otherUnaryExps.get(i).queryValue() : ans / otherUnaryExps.get(i).queryValue());
+            if (tokenNodes.get(i).type() == RW.TYPE.MULT) {
+                ans *= otherUnaryExps.get(i).queryValue();
+            } else if (tokenNodes.get(i).type() == RW.TYPE.DIV) {
+                ans /= otherUnaryExps.get(i).queryValue();
+            } else {
+                ans %= otherUnaryExps.get(i).queryValue();
+            }
         }
         return ans;
     }
