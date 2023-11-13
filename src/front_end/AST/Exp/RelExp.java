@@ -41,7 +41,7 @@ public class RelExp extends Node {
     @Override
     public Value getIRCode() {
         Value addValue = addExp.getIRCode();
-        // 但是不确定，最好check一下
+        // 一般返回的是一个i32
         for (int i = 0; i < otherAddExps.size(); i++) {
             Value I32Value = BaseType.ensureReturnType(BaseType.I32, addValue);
             String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
@@ -49,6 +49,7 @@ public class RelExp extends Node {
             IRBuilder.IB.addInstrForBlock(icmpInstr);
             addValue = icmpInstr.getAns();
         }
-        return BaseType.ensureReturnType(BaseType.I1, addValue);
+        // 可以看出，返回的有可能是32(直接把add的值返回回来了)，也有可能是i1，把icmp的值返回回来了。
+        return addValue;
     }
 }

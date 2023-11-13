@@ -10,7 +10,6 @@ import mid_end.llvm_ir.Value;
 public class IfStmt extends Stmt {
     private final Cond cond;
     private final Stmt lStmt;
-
     private final Stmt rStmt;
 
     public IfStmt(Cond cond, Stmt lStmt) {

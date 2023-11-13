@@ -48,10 +48,10 @@ public class Compiler {
         }
         //---------------------------------------------------------------------------------------
         // llvm make
-        if (!CHECK_ERROR||errorCollector.noError()) {
+        if (!CHECK_ERROR || errorCollector.noError()) {
             try {
                 PrintStream printStream = new PrintStream("output.ll");
-                Value irUnit=compUnit.getIRCode();
+                Value irUnit = compUnit.getIRCode();
                 System.setOut(printStream);
                 System.out.println(irUnit.toString());
             } catch (FileNotFoundException e) {

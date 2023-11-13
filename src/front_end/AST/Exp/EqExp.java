@@ -40,8 +40,8 @@ public class EqExp extends Node {
 
     @Override
     public Value getIRCode() {
-        Value eqValue = relExp.getIRCode(); //得到的一般是1,而返回的也需要是1，
-        // 但是不确定，最好check一下
+        Value eqValue = relExp.getIRCode();
+        // 一般得到的返回值是1或者32，根据里面的返回而异。
         for (int i = 0; i < otherRelExps.size(); i++) {
             Value I32Value = BaseType.ensureReturnType(BaseType.I32, eqValue);
             String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
@@ -50,5 +50,6 @@ public class EqExp extends Node {
             eqValue = icmpInstr.getAns();
         }
         return BaseType.ensureReturnType(BaseType.I1, eqValue);
+        // 这里必须保证返回的是i1
     }
 }

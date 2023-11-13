@@ -1,16 +1,12 @@
 package front_end.AST.Exp;
 
-import front_end.AST.Node;
-import front_end.ErrUseSymbols.ErrUseSymbolManager;
-import front_end.ErrorCollector;
+import front_end.AST.Stmt.AssignStmt;
 
-public class ForStmt extends Node {
-    private final LVal lVal;
-    private final Exp exp;
+public class ForStmt extends AssignStmt {
+    // 都是赋值，可以直接继承
 
     public ForStmt(LVal lVal, Exp exp) {
-        this.lVal = lVal;
-        this.exp = exp;
+        super(lVal,exp);
     }
 
     @Override
@@ -21,14 +17,5 @@ public class ForStmt extends Node {
         System.out.println("<ForStmt>");
         super.show();
     }
-
-    @Override
-    public void checkError(ErrorCollector errorCollector) {
-        super.checkError(errorCollector);
-        if (ErrUseSymbolManager.SM.identIsVarButConst(lVal.getTokenNode())) {
-            errorCollector.addError(lVal.getTokenNode().getLine(), "h");
-        }
-        lVal.checkError(errorCollector);
-        exp.checkError(errorCollector);
-    }
+    // check Err  和 lval 一样的
 }

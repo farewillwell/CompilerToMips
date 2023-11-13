@@ -42,7 +42,7 @@ public class IcmpInstr extends Instr {
 
     public IcmpInstr(String op, Value para1, Value para2) {
         if (para1.type != para2.type) {
-            throw new RuntimeException("compare not same type");
+            throw new RuntimeException("compare not same type :"+para1.type+"--"+para2.type);
         }
         this.opcode = op;
         addValue(para1);

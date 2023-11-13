@@ -1,6 +1,10 @@
 package mid_end.llvm_ir;
 
 
+import mid_end.llvm_ir.Instrs.Loop;
+
+import java.util.Stack;
+
 public class IRBuilder {
 
     // 实际的llvm中中间代码都是 %i 形式的，而且命名都是直接@name之类的，我们为了测试方便，选择自行加一个前缀。
@@ -19,12 +23,15 @@ public class IRBuilder {
 
     public static final IRBuilder IB = new IRBuilder();
 
+    private final Stack<Loop> loopStack;
+
     public IRBuilder() {
         bbCnt = 0;
         paraCnt = 0;
         stringCnt = 0;
         localCnt = 1;
         module = new Module();
+        loopStack = new Stack<>();
     }
 
     // 保证只在compUnit处获得
@@ -95,6 +102,19 @@ public class IRBuilder {
 
     public String getBasicBlockName() {
         return BLOCK_PRE + bbCnt++;
+    }
+
+
+    public void enterLoop(Loop loop) {
+        loopStack.push(loop);
+    }
+
+    public void exitLoop() {
+        loopStack.pop();
+    }
+
+    public Loop getCurLoop() {
+        return loopStack.peek();
     }
 
 }
