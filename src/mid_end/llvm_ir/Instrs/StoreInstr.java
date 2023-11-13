@@ -6,6 +6,7 @@ import mid_end.llvm_ir.Value;
 public class StoreInstr extends Instr {
     // store value 是要被存的值
     public StoreInstr(Value storeValue, Value inTo) {
+        super();
         addValue(storeValue);
         addValue(inTo);
     }

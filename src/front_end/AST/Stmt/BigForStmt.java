@@ -104,8 +104,12 @@ public class BigForStmt extends Stmt {
         // 进入循环体，可以break 和 continue
         IRBuilder.IB.enterBlock(condBlock);
         // 进入到condBlock
+        // 如果这里是一个 空的 cond会发生什么？不是空的话会自己设计跳转
         if (cond != null) {
             cond.genCondIr(loopBlock, afterLoopBlock);
+        } else {
+            JumpInstr emptyJump = new JumpInstr(loopBlock);
+            IRBuilder.IB.addInstrForBlock(emptyJump);
         }
         // 如果成立的话需要跳进入循环体，否则跳出彻底，显然cond本身满足了这样的性质，因此不用专门跳了
         IRBuilder.IB.enterBlock(loopBlock);

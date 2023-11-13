@@ -12,6 +12,6 @@ public class PutInt extends IOInstr {
 
     @Override
     public String toString() {
-        return "call void @putint(" + getAns().toString() + ")";
+        return "call void @putint(" + getAns().type + " " + getAns().toString() + ")";
     }
 }

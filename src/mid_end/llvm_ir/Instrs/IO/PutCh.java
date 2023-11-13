@@ -13,6 +13,6 @@ public class PutCh extends IOInstr {
 
     @Override
     public String toString() {
-        return "call void @putch(" + getAns().toString() + ")";
+        return "call void @putch(" + getAns().type + " " + getAns() + ")";
     }
 }

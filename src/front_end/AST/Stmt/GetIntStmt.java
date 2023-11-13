@@ -28,10 +28,12 @@ public class GetIntStmt extends AssignStmt {
 
     @Override
     public void checkError(ErrorCollector errorCollector) {
-        super.checkError(errorCollector);
-        if (ErrUseSymbolManager.SM.identIsVarButConst(lVal.getTokenNode())) {
-            errorCollector.addError(lVal.getTokenNode().getLine(), "h");
+        if (!ErrUseSymbolManager.SM.notDefineVarYet(lVal.getTokenNode().content())) {
+            if (ErrUseSymbolManager.SM.identIsVarButConst(lVal.getTokenNode())) {
+                errorCollector.addError(lVal.getTokenNode().getLine(), "h");
+            }
         }
+        lVal.checkError(errorCollector);
     }
 
     @Override

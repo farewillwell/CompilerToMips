@@ -6,8 +6,11 @@ import mid_end.llvm_ir.type.LLVMType;
 import java.util.ArrayList;
 
 public class Initial extends User {
+    // 实际上逻辑无非两点：
+    // 有初始内容，按初始内容来
+    // 无初始内容，按照类型来，是int 就是0，不是int就是zeroInitial
 
-    private final boolean isZero;
+    private final boolean initialExplicitly;
 
     private final ArrayList<Initial> initials;
 
@@ -17,22 +20,14 @@ public class Initial extends User {
 
     public Initial(int value) {
         this.initials = new ArrayList<>();
-        this.isZero = false;
+        this.initialExplicitly = true;
         this.containType = BaseType.I32;
         this.value = value;
     }
 
-    public Initial() {
-        this.initials = new ArrayList<>();
-        this.isZero = true;
-        this.containType = null;
-        // 标记
-        this.value = 0;
-    }
-
     public Initial(LLVMType llvmType) {
         this.initials = new ArrayList<>();
-        this.isZero = true;
+        this.initialExplicitly = false;
         this.containType = llvmType;
         // 标记
         this.value = 0;
@@ -40,15 +35,15 @@ public class Initial extends User {
 
     public Initial(LLVMType type, ArrayList<Initial> initials) {
         this.initials = new ArrayList<>(initials);
-        this.isZero = false;
+        this.initialExplicitly = true;
         this.containType = type;
         this.value = 0;
     }
 
     @Override
     public String toString() {
-        if (isZero) {
-            if (containType != null) {
+        if (!initialExplicitly) {
+            if (containType != null && containType != BaseType.I32) {
                 return containType + " zeroinitializer";
             } else {
                 return BaseType.I32 + " 0";

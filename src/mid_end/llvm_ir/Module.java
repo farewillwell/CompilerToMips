@@ -16,6 +16,12 @@ public class Module extends Value {
         globalVars = new ArrayList<>();
     }
 
+    public void finish() {
+        for (Function function : functions) {
+            function.ensureReturnExist();
+        }
+    }
+
     public void addFunction(Function function) {
         functions.add(function);
     }
@@ -26,6 +32,7 @@ public class Module extends Value {
 
     @Override
     public String toString() {
+        finish();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(GetInt.defineHead);
         stringBuilder.append(PutCh.defineHead);

@@ -50,7 +50,7 @@ public class Compiler {
         // llvm make
         if (!CHECK_ERROR || errorCollector.noError()) {
             try {
-                PrintStream printStream = new PrintStream("output.ll");
+                PrintStream printStream = new PrintStream("llvm_ir.txt");
                 Value irUnit = compUnit.getIRCode();
                 System.setOut(printStream);
                 System.out.println(irUnit.toString());

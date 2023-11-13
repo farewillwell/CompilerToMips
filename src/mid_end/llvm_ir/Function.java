@@ -1,5 +1,6 @@
 package mid_end.llvm_ir;
 
+import mid_end.llvm_ir.Instrs.ReturnInstr;
 import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
@@ -25,6 +26,22 @@ public class Function extends User {
 
     public void addBasicBlock(BasicBlock block) {
         basicBlocks.add(block);
+    }
+
+    // bug :  要是其中没有 return的话，就会导致出错
+
+    public void ensureReturnExist() {
+        if (basicBlocks.size() == 0) {
+            addBasicBlock(new BasicBlock());
+        }
+        BasicBlock last = basicBlocks.get(basicBlocks.size() - 1);
+        if (last.lastInstrNotRet()) {
+            if (type == BaseType.Void) {
+                last.addInstr(new ReturnInstr());
+            } else {
+                last.addInstr(new ReturnInstr(new Constant(0)));
+            }
+        }
     }
 
     @Override

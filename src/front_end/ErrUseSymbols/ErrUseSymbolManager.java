@@ -170,7 +170,7 @@ public class ErrUseSymbolManager {
             return true;
         }
         if (dim != errUseFuncSymbol.paraDim.get(0)) {
-            System.out.println(dim+" "+ errUseFuncSymbol.paraDim.get(0));
+            //System.out.println(dim+" "+ errUseFuncSymbol.paraDim.get(0));
             return false;
         }
         if (dim == 2 && errUseFuncSymbol.paraSecondLength.get(0) != funcRParams.exp.getSec()) {
@@ -187,11 +187,11 @@ public class ErrUseSymbolManager {
             }
 
             if (theDim != errUseFuncSymbol.paraDim.get(i)) {
-                System.out.println(3);
+                //System.out.println(3);
                 return false;
             }
             if (theDim == 2 && errUseFuncSymbol.paraSecondLength.get(i) != funcRParams.exp.getSec()) {
-                System.out.println(4);
+                //System.out.println(4);
                 return false;
             }
         }

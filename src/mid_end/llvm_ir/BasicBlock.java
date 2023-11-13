@@ -1,5 +1,7 @@
 package mid_end.llvm_ir;
 
+import mid_end.llvm_ir.Instrs.ReturnInstr;
+
 import java.util.ArrayList;
 
 public class BasicBlock extends Value {
@@ -14,6 +16,10 @@ public class BasicBlock extends Value {
 
     public void addInstr(Instr instr) {
         instrList.add(instr);
+    }
+
+    public boolean lastInstrNotRet() {
+        return instrList.size() == 0 || !(instrList.get(instrList.size() - 1) instanceof ReturnInstr);
     }
 
     @Override
