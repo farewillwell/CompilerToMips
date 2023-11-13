@@ -11,6 +11,7 @@ import mid_end.llvm_ir.Function;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.ALUInstr;
 import mid_end.llvm_ir.Instrs.CallInstr;
+import mid_end.llvm_ir.Instrs.IcmpInstr;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.BaseType;
 import mid_end.symbols.SymbolManager;
@@ -117,7 +118,11 @@ public class UnaryExp extends Node {
             return 0;
         } else {
             assert unaryOp != null && unaryExp != null;
+            if (unaryOp.isNot()) {
+                return unaryExp.evaluate() == 0 ? 1 : 0;
+            }
             return unaryExp.evaluate() * unaryOp.evaluate();
+            // 由于!仅出现在条件表达式，因此不会在这种情况下出现取值的情况。
         }
     }
 
@@ -181,8 +186,17 @@ public class UnaryExp extends Node {
                 Value value = aluInstr.getAns();
                 IRBuilder.IB.addInstrForBlock(aluInstr);
                 return value;
-            } else {
+            } else if (unaryOp.isPositive()) {
                 return unaryExp.getIRCode();
+            } else {
+                if (unaryOp.isNot()) {
+                    IcmpInstr icmpInstr = new IcmpInstr
+                            (IcmpInstr.EQ, unaryExp.getIRCode(), new Constant(0));
+                    IRBuilder.IB.addInstrForBlock(icmpInstr);
+                    return icmpInstr.getAns();
+                } else {
+                    return unaryExp.getIRCode();
+                }
             }
         }
     }
@@ -193,8 +207,11 @@ public class UnaryExp extends Node {
             return primaryExp.queryValue();
         } else if (mode == 2) {
             /*TODO*/
-            return 0;
+            throw new RuntimeException("query value of a func");
         } else {
+            if (unaryOp.isNot()) {
+                return unaryExp.evaluate() == 0 ? 1 : 0;
+            }
             return (unaryOp.isPositive() ? 1 : -1) * unaryExp.queryValue();
         }
     }

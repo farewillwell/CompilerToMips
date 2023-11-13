@@ -14,7 +14,7 @@ public class IRBuilder {
     public static final String PARAM_PRE = "%P_";
 
     // jump to the basic block 为了方便划分，单独在基本块内部设计这个。
-    public static final String BLOCK_PRE = "b";
+    public static final String BLOCK_PRE = "%b";
 
 
     public static final IRBuilder IB = new IRBuilder();
@@ -91,6 +91,10 @@ public class IRBuilder {
         paraCnt = 0;
         localCnt = 1;
         this.nowFunc = function;
+    }
+
+    public String getBasicBlockName() {
+        return BLOCK_PRE + bbCnt++;
     }
 
 }

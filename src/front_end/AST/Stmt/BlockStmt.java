@@ -30,10 +30,9 @@ public class BlockStmt extends Stmt {
 
     @Override
     public Value getIRCode() {
-        BasicBlock basicBlock = new BasicBlock();
-        IRBuilder.IB.enterBlock(basicBlock);
-        block.getIRCode();
+        // 这里就不能再新建块了，实际上，基本块和{}没关系，块是和符号表有关，基本块和跳转有关
         SymbolManager.SM.enterBlock();
+        block.getIRCode();
         SymbolManager.SM.exitBlock();
         return null;
     }

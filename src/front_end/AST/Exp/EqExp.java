@@ -2,6 +2,10 @@ package front_end.AST.Exp;
 
 import front_end.AST.Node;
 import front_end.AST.TokenNode;
+import mid_end.llvm_ir.IRBuilder;
+import mid_end.llvm_ir.Instrs.IcmpInstr;
+import mid_end.llvm_ir.Value;
+import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
 
@@ -32,5 +36,19 @@ public class EqExp extends Node {
         }
 
         super.show();
+    }
+
+    @Override
+    public Value getIRCode() {
+        Value eqValue = relExp.getIRCode(); //得到的一般是1,而返回的也需要是1，
+        // 但是不确定，最好check一下
+        for (int i = 0; i < otherRelExps.size(); i++) {
+            Value I32Value = BaseType.ensureReturnType(BaseType.I32, eqValue);
+            String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
+            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, otherRelExps.get(i).getIRCode());
+            IRBuilder.IB.addInstrForBlock(icmpInstr);
+            eqValue = icmpInstr.getAns();
+        }
+        return BaseType.ensureReturnType(BaseType.I1, eqValue);
     }
 }

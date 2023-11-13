@@ -5,35 +5,32 @@ import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
 public class BranchInstr extends Instr {
-    public boolean needCond;
-    private Value condValue;
-    private BasicBlock destTo;
-    private BasicBlock ifBlock;
-    private BasicBlock elseBlock;
-
-    public BranchInstr(Value cond,BasicBlock ifBlock)
-    {
-        this.needCond=true;
-        this.condValue=cond;
-        this.ifBlock=ifBlock;
-        this.destTo=null;
-        this.elseBlock=null;
-
+    public Value getCond() {
+        return paras.get(0);
     }
-    public BranchInstr(Value cond,BasicBlock ifBlock ,BasicBlock elseBlock)
-    {
-        this.needCond=true;
-        this.condValue=cond;
-        this.destTo=null;
-        this.ifBlock=ifBlock;
-        this.elseBlock=elseBlock;
+
+    public BasicBlock getThenBlock() {
+        return (BasicBlock) paras.get(1);
     }
-    public BranchInstr(BasicBlock destTo)
-    {
-        this.needCond=false;
-        this.condValue=null;
-        this.destTo=destTo;
-        this.ifBlock=null;
-        this.elseBlock=null;
+
+    public BasicBlock getElseBlock() {
+        return (BasicBlock) paras.get(2);
+    }
+
+    @Override
+    public Value getAns() {
+        throw new RuntimeException("use ans of a branch instr");
+    }
+
+    public BranchInstr(Value cond, Value thenBlock, Value elseBlock) {
+        addValue(cond);
+        addValue(thenBlock);
+        addValue(elseBlock);
+    }
+
+    @Override
+    public String toString() {
+        return "br " + getCond().type + " " + getCond() +
+                ", label " + getThenBlock().name + ", label " + getElseBlock().name;
     }
 }

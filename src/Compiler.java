@@ -3,6 +3,7 @@ import front_end.ErrorCollector;
 import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
+import mid_end.llvm_ir.Value;
 
 import java.io.*;
 
@@ -50,8 +51,9 @@ public class Compiler {
         if (!CHECK_ERROR||errorCollector.noError()) {
             try {
                 PrintStream printStream = new PrintStream("output.ll");
+                Value irUnit=compUnit.getIRCode();
                 System.setOut(printStream);
-                System.out.println(compUnit.getIRCode().toString());
+                System.out.println(irUnit.toString());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }

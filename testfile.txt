@@ -1,14 +1,25 @@
-int a[3+3]={1,2,3,4,5,6};
-int b[3][3]={{3,6+2,5},{1,2,0},{0,0,0}};
-int a2(int x,int y[]){
-    return x+y[2];
+int a=1;
+int func(){
+    a=2;return 1;
 }
-int a3(int x,int y[],int z[][3]){
-    return x*y[1]-z[2][1];
+
+int func2(){
+    a=4;return 10;
+}
+int func3(){
+    a=3;return 0;
 }
 int main(){
-    int c[2][3]={{1,2,3},{0,0,0}};
-    int x=a2(a[4],a);
-    int y=a3(b[0][1],b[1],b);
-    return x+y;
+
+
+    int b=1;
+    int c=1;
+    int d=1;
+    if(0||func()&&func3()||func2()){}
+    b=a;
+    if(1||func3()){}
+    c=a;
+    if(0||func3()||func()<func2()){}
+    d=a;
+    return c;
 }

@@ -49,12 +49,7 @@ public class AssignStmt extends Stmt {
     }
 
     public void storeIntoWith(Value valueToBeStore) {
-        Value toBeAssign = SymbolManager.SM.getVarSymbol(lVal.getName()).value;
-        if (lVal.exps.size() == 0) {
-            StoreInstr storeInstr = new StoreInstr(valueToBeStore, toBeAssign);
-            IRBuilder.IB.addInstrForBlock(storeInstr);
-        }
-        Value nowArrayOrAnsPointer =  toBeAssign;
+        Value nowArrayOrAnsPointer = SymbolManager.SM.getVarSymbol(lVal.getName()).value;
         for (Exp exp1 : lVal.exps) {
             GEPInstr gepInstr = new GEPInstr(nowArrayOrAnsPointer, exp1.getIRCode());
             IRBuilder.IB.addInstrForBlock(gepInstr);
