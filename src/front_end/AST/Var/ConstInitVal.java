@@ -116,7 +116,7 @@ public class ConstInitVal extends Node {
 
     public Value getIrByIndex(int x) {
         if (SymbolManager.SM.isGlobal()) {
-            throw new RuntimeException("");
+            throw new RuntimeException(" ");
         }
         if (x == 0) {
             return constInitVal.getIRCode();

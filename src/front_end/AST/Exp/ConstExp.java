@@ -2,6 +2,7 @@ package front_end.AST.Exp;
 
 import front_end.AST.Node;
 import front_end.ErrorCollector;
+import mid_end.llvm_ir.Value;
 
 public class ConstExp extends Node {
     private final AddExp addExp;
@@ -33,5 +34,10 @@ public class ConstExp extends Node {
     @Override
     public int queryValue() {
         return addExp.queryValue();
+    }
+
+    @Override
+    public Value getIRCode() {
+        return addExp.getIRCode();
     }
 }

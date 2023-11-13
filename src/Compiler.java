@@ -4,7 +4,6 @@ import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
 import mid_end.llvm_ir.Value;
-
 import java.io.*;
 
 
@@ -33,12 +32,12 @@ public class Compiler {
         TokenStream tokenStream = new TokenStream(lexer);
         Parser parser = new Parser(tokenStream);
         CompUnit compUnit = parser.parserComUnit();
-        compUnit.checkError(errorCollector);
-        errorCollector.setAllLine(lexer.getLineNum());
         //--------------------------------------------------------------------------------------
         // error check
         if (CHECK_ERROR) {
             try {
+                compUnit.checkError(errorCollector);
+                errorCollector.setAllLine(lexer.getLineNum());
                 PrintStream printStream = new PrintStream("error.txt");
                 System.setOut(printStream);
                 errorCollector.printErrors();
