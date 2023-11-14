@@ -117,6 +117,7 @@ public class LVal extends Node {
     }
 
     // 仅仅在全局初始化计算的时候才使用。否则无效
+    // 默认该方法得到的不是数组，因此可以用exp(不能用getDim())判断维度
     @Override
     public int queryValue() {
         if (!SymbolManager.SM.isGlobal()) {
@@ -126,7 +127,13 @@ public class LVal extends Node {
             if (!(varSymbol.value instanceof GlobalVar)) {
                 throw new RuntimeException("evaluate from not global value");
             }
-            return ((GlobalVar) varSymbol.value).getInitValue();
+            GlobalVar value = (GlobalVar) varSymbol.value;
+            if (exps.size() == 0) {
+                return value.getInitValue();
+            } else if (exps.size() == 1) {
+                return value.getInitValue(exps.get(0).queryValue());
+            }
+            return value.getInitValue(exps.get(0).queryValue(), exps.get(1).queryValue());
         }
     }
 

@@ -1,5 +1,6 @@
 package mid_end.llvm_ir;
 
+import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.BaseType;
 import mid_end.llvm_ir.type.LLVMType;
 
@@ -64,10 +65,37 @@ public class Initial extends User {
         }
     }
 
+    public int getValue(int x) {
+        if (!(containType instanceof ArrayType)) {
+            throw new RuntimeException("getValue of not  a array with index");
+        }
+        if (initialExplicitly) {
+            return initials.get(x).value;
+        } else {
+            return 0;
+        }
+    }
+
     public int getValue() {
         if (containType != BaseType.I32) {
-            throw new RuntimeException("getValue of a array");
+            throw new RuntimeException("getValue of  a array");
         }
-        return value;
+        if (initialExplicitly) {
+            return value;
+        } else {
+            return 0;
+        }
     }
+
+    public int getValue(int x, int y) {
+        if (!(containType instanceof ArrayType)) {
+            throw new RuntimeException("getValue of not  a array with index");
+        }
+        if (initialExplicitly) {
+            return initials.get(x).initials.get(y).value;
+        } else {
+            return 0;
+        }
+    }
+
 }

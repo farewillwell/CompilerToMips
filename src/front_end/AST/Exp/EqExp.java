@@ -45,7 +45,9 @@ public class EqExp extends Node {
         for (int i = 0; i < otherRelExps.size(); i++) {
             Value I32Value = BaseType.ensureReturnType(BaseType.I32, eqValue);
             String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
-            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, otherRelExps.get(i).getIRCode());
+            // 要保证 除了本身是要I32之外，添加上的也是I32
+            Value BeI32Value = BaseType.ensureReturnType(BaseType.I32,otherRelExps.get(i).getIRCode());
+            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, BeI32Value);
             IRBuilder.IB.addInstrForBlock(icmpInstr);
             eqValue = icmpInstr.getAns();
         }

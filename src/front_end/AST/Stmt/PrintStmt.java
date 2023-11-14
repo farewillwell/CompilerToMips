@@ -92,9 +92,15 @@ public class PrintStmt extends Stmt {
         }
         String str = formatString.content();
         int cur = 0;
-        for (int i = 0; i < str.length(); i++) {
+        // bug:没有处理换行符
+        for (int i = 1; i < str.length() - 1; i++) {
             if (str.charAt(i) != '%') {
-                IRBuilder.IB.addInstrForBlock(new PutCh(new Constant(str.charAt(i))));
+                if (str.charAt(i) == '\\') {
+                    IRBuilder.IB.addInstrForBlock(new PutCh(new Constant('\n')));
+                    i++;
+                } else {
+                    IRBuilder.IB.addInstrForBlock(new PutCh(new Constant(str.charAt(i))));
+                }
             } else {
                 i++;
                 IRBuilder.IB.addInstrForBlock(new PutInt(values.get(cur++)));

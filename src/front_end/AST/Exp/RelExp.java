@@ -45,7 +45,9 @@ public class RelExp extends Node {
         for (int i = 0; i < otherAddExps.size(); i++) {
             Value I32Value = BaseType.ensureReturnType(BaseType.I32, addValue);
             String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
-            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, otherAddExps.get(i).getIRCode());
+            // 要保证 除了本身是要I32之外，添加上的也是I32
+            Value BeI32Value = BaseType.ensureReturnType(BaseType.I32, otherAddExps.get(i).getIRCode());
+            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, BeI32Value);
             IRBuilder.IB.addInstrForBlock(icmpInstr);
             addValue = icmpInstr.getAns();
         }

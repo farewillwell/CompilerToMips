@@ -30,4 +30,10 @@ public class GlobalVar extends Value {
     public int getInitValue() {
         return initial.getValue();
     }
+    public int getInitValue(int x) {
+        return initial.getValue(x);
+    }
+    public int getInitValue(int x,int y) {
+        return initial.getValue(x,y);
+    }
 }
