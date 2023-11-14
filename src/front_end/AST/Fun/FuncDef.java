@@ -51,6 +51,8 @@ public class FuncDef extends Node {
     public void checkError(ErrorCollector errorCollector) {
         if (ErrUseSymbolManager.SM.hasDefineFunc(tokenNode.content())) {
             errorCollector.addError(tokenNode.getLine(), "b");
+        } else if (ErrUseSymbolManager.SM.blockHasDefineVar(tokenNode.content())) {
+            errorCollector.addError(tokenNode.getLine(), "b");
         } else {
             ErrUseSymbolManager.SM.newDeclareFunc(this);
             if (this.funcType.getType() == RW.TYPE.INTTK && this.block.notHasReturnLastLine()) {
@@ -60,12 +62,9 @@ public class FuncDef extends Node {
                 //errorCollector.addError(block.intReturnLine(), "f");
                 ErrUseSymbolManager.SM.isInVoidFunc = true;
             }
-            ErrUseSymbolManager.SM.enterNewBlock();
-            if (funcFParams != null) {
-                funcFParams.checkError(errorCollector);
-            }
-            block.checkError(errorCollector);
-            ErrUseSymbolManager.SM.exitBlock();
+            // 不能在这里enterNewBlock,因为实际上参数的block和函数的body是一起的
+            // 会导致定义域错误
+            block.checkErrAsFuncBody(errorCollector, funcFParams);
             ErrUseSymbolManager.SM.isInVoidFunc = false;
         }
     }

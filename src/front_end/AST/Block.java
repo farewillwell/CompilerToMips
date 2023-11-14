@@ -1,5 +1,6 @@
 package front_end.AST;
 
+import front_end.AST.Fun.FuncFParams;
 import front_end.AST.Stmt.ReturnStmt;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
@@ -44,6 +45,20 @@ public class Block extends Node {
         for (Node node : nodes) {
             node.checkError(errorCollector);
         }
+        // 之前这里没退出去，居然没发现???
+        ErrUseSymbolManager.SM.exitBlock();
+    }
+
+    public void checkErrAsFuncBody(ErrorCollector errorCollector, FuncFParams funcFParams)
+    {
+        ErrUseSymbolManager.SM.enterNewBlock();
+        if (funcFParams != null) {
+            funcFParams.checkError(errorCollector);
+        }
+        for (Node node : nodes) {
+            node.checkError(errorCollector);
+        }
+        ErrUseSymbolManager.SM.exitBlock();
     }
 
     @Override

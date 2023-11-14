@@ -13,7 +13,7 @@ import java.util.Stack;
 public class ErrUseSymbolManager {
     public static final ErrUseSymbolManager SM = new ErrUseSymbolManager();
 
-    public boolean isInVoidFunc=false;
+    public boolean isInVoidFunc = false;
     //当前所在的函数，如果现在在void所在的函数内部，那么所有的return int都要报错！！！
     //考虑到函数实际上只有一层
 
@@ -89,6 +89,14 @@ public class ErrUseSymbolManager {
 
     public void exitBlock() {
         errUseSymbolTables.pop();
+    }
+    // 在不同作用域，函数和变量名字可以相同
+    // 也就是说只要不是全局，那么函数和变量确实可以相同名
+    // 可以相同是认识到的，全局的不相同是没意识到的.
+    // 不可能去大改了，因此采取补丁，就是全局状态下额外需要检查一下有无同名函数或者同名变量
+
+    public boolean isGlobal() {
+        return errUseSymbolTables.size() == 1;
     }
 
     public boolean blockHasDefineVar(String name) {
@@ -177,7 +185,7 @@ public class ErrUseSymbolManager {
             //System.out.println(funcRParams.exp.getSec()+" "+errUseFuncSymbol.paraSecondLength.get(0));
             return false;
         }
-        
+
         for (int i = 1; i < errUseFuncSymbol.paraDim.size(); i++) {
             int theDim;
             try {
@@ -185,12 +193,13 @@ public class ErrUseSymbolManager {
             } catch (RuntimeException e) {
                 return true;
             }
-
             if (theDim != errUseFuncSymbol.paraDim.get(i)) {
                 //System.out.println(3);
                 return false;
             }
-            if (theDim == 2 && errUseFuncSymbol.paraSecondLength.get(i) != funcRParams.exp.getSec()) {
+            // 之前这里有bug，仅仅测试了第一个参数
+            if (theDim == 2 && errUseFuncSymbol.paraSecondLength.get(i)
+                    != funcRParams.otherExps.get(i - 1).getSec()) {
                 //System.out.println(4);
                 return false;
             }

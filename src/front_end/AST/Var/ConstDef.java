@@ -64,6 +64,10 @@ public class ConstDef extends Node {
         super.checkError(errorCollector);
         if (ErrUseSymbolManager.SM.blockHasDefineVar(indent.content())) {
             errorCollector.addError(indent.getLine(), "b");
+        } else if (ErrUseSymbolManager.SM.isGlobal()
+                &&ErrUseSymbolManager.SM.hasDefineFunc(indent.content())) {
+            // 如果是全局变量并且有同名函数，报错
+            errorCollector.addError(indent.getLine(), "b");
         } else {
             ErrUseSymbolManager.SM.newDeclareConst(this);
         }

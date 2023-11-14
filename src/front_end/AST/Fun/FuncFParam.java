@@ -75,6 +75,10 @@ public class FuncFParam extends Node {
     public void checkError(ErrorCollector errorCollector) {
         if (ErrUseSymbolManager.SM.blockHasDefineVar(tokenNode.content())) {
             errorCollector.addError(tokenNode.getLine(), "b");
+        } else if (ErrUseSymbolManager.SM.isGlobal()
+        &&ErrUseSymbolManager.SM.hasDefineFunc(tokenNode.content())) {
+            // 如果是全局变量并且有同名函数，报错
+            errorCollector.addError(tokenNode.getLine(), "b");
         } else {
             ErrUseSymbolManager.SM.newDeclarePara(this);
             for (ConstExp constExp : constExps) {

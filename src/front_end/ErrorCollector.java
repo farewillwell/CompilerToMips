@@ -19,7 +19,7 @@ public class ErrorCollector {
     }
 
     public void addError(int line, String errorType) {
-        if (lineError.containsKey(line)) {
+        if (lineError.containsKey(line) && !lineError.get(line).equals(errorType)) {
             throw new RuntimeException("line error dub! at " + line + " the old is " + lineError.get(line) + " new error is " + errorType);
         }
         lineError.put(line, errorType);

@@ -277,6 +277,8 @@ public class Parser {
         } else {
             int mark = ts.getPos();
             Exp exp = parserExp();
+            // 回溯型bug，exp处可能发现一个错误，然后检查到时assign的时候又回去再检查一次
+            // 解决方法：如果一行两个错误一样类型，就不报错
             if (ts.now().type == RW.TYPE.ASSIGN) {
                 if (ts.next().type == RW.TYPE.GETINTTK) {
                     ts.backToMark(mark);
