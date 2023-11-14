@@ -14,11 +14,4 @@ public class ArrayType extends LLVMType {
         return "[" + length + " x " + memberType.toString() + "]";
     }
 
-    public LLVMType getOriginType() {
-        if (memberType instanceof ArrayType) {
-            return ((ArrayType) memberType).memberType;
-        }
-        return memberType;
-    }
-
 }

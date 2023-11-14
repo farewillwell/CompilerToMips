@@ -25,7 +25,7 @@ public class ReturnInstr extends Instr {
         // StringBuilder builder =new StringBuilder();
         if (retType.equals(BaseType.I32)) {
             assert retValue != null;
-            return "ret i32 " + retValue.toString();
+            return "ret i32 " + retValue;
         } else {
             return "ret void";
         }

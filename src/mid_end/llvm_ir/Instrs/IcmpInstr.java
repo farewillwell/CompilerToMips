@@ -42,7 +42,7 @@ public class IcmpInstr extends Instr {
 
     public IcmpInstr(String op, Value para1, Value para2) {
         if (para1.type != para2.type) {
-            throw new RuntimeException("compare not same type :"+para1.type+"--"+para2.type);
+            throw new RuntimeException("compare not same type :" + para1.type + "--" + para2.type);
         }
         this.opcode = op;
         addValue(para1);
@@ -55,5 +55,9 @@ public class IcmpInstr extends Instr {
         Value operand1 = paras.get(0);
         Value operand2 = paras.get(1);
         return getAns() + " = icmp " + opcode + " " + operand1.type + " " + operand1 + ", " + operand2;
+    }
+
+    public String llOpToMipsOp() {
+        return opcode.length() == 2 ? "s" + opcode : opcode;
     }
 }

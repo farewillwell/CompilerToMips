@@ -19,4 +19,8 @@ public class Value {
     public String toString() {
         return super.toString();
     }
+
+    public void genMipsCode() {
+
+    }
 }
