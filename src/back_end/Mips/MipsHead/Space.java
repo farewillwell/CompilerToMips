@@ -7,12 +7,8 @@ public class Space extends Header {
     public Space(String name, int length) {
         // length 是 数组的长度
         this.name = name;
-        this.size = length * 4;
-    }
-
-    public Space(String name, int firstLength, int secondLength) {
-        this.name = name;
-        this.size = 4 * firstLength * secondLength;
+        this.size = length;
+        // 传进来的时候默认的字节数字已经得到了，所以根本不用乘4
     }
 
     @Override

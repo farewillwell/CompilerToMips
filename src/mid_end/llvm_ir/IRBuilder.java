@@ -1,8 +1,6 @@
 package mid_end.llvm_ir;
 
 
-import mid_end.llvm_ir.Instrs.Loop;
-
 import java.util.Stack;
 
 public class IRBuilder {
@@ -13,12 +11,10 @@ public class IRBuilder {
     public static final String STRING_VAR_PRE = "@S_";
     public static final String LOCAL_VAR_PRE = "%V";
 
-    public static final String FUNC_PRE = "@F_";
-
     public static final String PARAM_PRE = "%P_";
 
     // jump to the basic block 为了方便划分，单独在基本块内部设计这个。
-    public static final String BLOCK_PRE = "%b";
+    public static final String BLOCK_PRE = "b";
 
 
     public static final IRBuilder IB = new IRBuilder();
@@ -49,14 +45,10 @@ public class IRBuilder {
 
     private int localCnt;
 
-    public String getFuncName(String name) {
-        if (name.equals("main")) {
-            return "@main";
-        }
-        return FUNC_PRE + name;
-    }
+    public int globalCnt;
 
     public String getGlobalVarName(String name) {
+        globalCnt++;
         return GLOBAL_VAR_PRE + name;
     }
 
@@ -104,6 +96,9 @@ public class IRBuilder {
         return BLOCK_PRE + bbCnt++;
     }
 
+    public String getNowFuncName() {
+        return nowFunc.name;
+    }
 
     public void enterLoop(Loop loop) {
         loopStack.push(loop);

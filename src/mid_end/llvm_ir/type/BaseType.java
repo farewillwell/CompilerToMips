@@ -60,4 +60,9 @@ public class BaseType extends LLVMType {
             throw new RuntimeException("Invalid type " + width);
         }
     }
+
+    @Override
+    public int getSize() {
+        return width / 8;
+    }
 }

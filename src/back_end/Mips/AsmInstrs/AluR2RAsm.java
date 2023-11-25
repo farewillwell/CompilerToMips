@@ -3,8 +3,9 @@ package back_end.Mips.AsmInstrs;
 import back_end.Mips.Register;
 
 public class AluR2RAsm extends AsmInstr {
-    public static final String ADD = "add";
-    public static final String SUB = "sub";
+    // 算数溢出?讨论区说不用检查这个
+    public static final String ADDU = "addu";
+    public static final String SUBU = "subu";
 
     public static final String OR = "or";
     public static final String AND = "and";

@@ -2,15 +2,23 @@ declare i32 @getint()
 declare void @putch(i32)
 declare void @putint(i32)
 
-define dso_local void @F_func (i32 %P_0){
-b0:
-  %V1 = alloca i32
-  store i32 %P_0 , i32* %V1
-  %V2 = alloca i32
-  ret void
-}
 define dso_local i32 @main() {
 b0:
+  %V1 = alloca i32
+  store i32 1 , i32* %V1
+  %V2 = alloca i32
+  store i32 1 , i32* %V2
+  %V3 = load i32, i32* %V2
+  %V4 = icmp eq i32 3, 0
+  %V5 = zext i1 %V4 to i32
+  %V6 = icmp ne i32 %V3, %V5
+  br i1 %V6, label %b1, label %b2
+b1:
+  store i32 0 , i32* %V1
+  br label %b2
+b2:
+  %V7 = load i32, i32* %V1
+  call void @putint(i32 %V7)
   ret i32 0
 }
 

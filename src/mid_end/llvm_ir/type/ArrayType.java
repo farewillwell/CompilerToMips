@@ -14,4 +14,8 @@ public class ArrayType extends LLVMType {
         return "[" + length + " x " + memberType.toString() + "]";
     }
 
+    @Override
+    public int getSize() {
+        return length * memberType.getSize();
+    }
 }

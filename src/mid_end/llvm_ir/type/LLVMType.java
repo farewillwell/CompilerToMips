@@ -8,4 +8,8 @@ public class LLVMType {
         return super.toString();
     }
 
+    public int getSize() {
+        return 0;
+    }
+
 }

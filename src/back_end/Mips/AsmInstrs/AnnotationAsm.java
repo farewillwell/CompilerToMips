@@ -5,7 +5,7 @@ public class AnnotationAsm extends AsmInstr {
     // 注解，防止生成的mips代码太难绷
 
     public AnnotationAsm(String messgae) {
-        super("//");
+        super("\n#");
         this.message = messgae;
     }
 

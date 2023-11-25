@@ -17,4 +17,10 @@ public class LocalVar extends Value {
     public String toString() {
         return name;
     }
+    // 一个localVar生成什么代码啊。。
+
+    @Override
+    public void genMipsCode() {
+        //
+    }
 }

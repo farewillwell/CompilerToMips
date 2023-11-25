@@ -44,7 +44,9 @@ SW 存储字
 
 sw rt, offset(base)
 
-rt:要存到地址中的寄存器，base，一个寄存器地址，offset，一个立即数
+rt:要存到地址中的寄存器，base，一个寄存器地址，offset，一个立即数。
+
+当然sw也有扩展的算法，不过需要
 
 ### R-R运算
 
@@ -210,7 +212,7 @@ SYSCALL 系统调用，这个必须有，显然
 
 ### 伪指令
 
-一些伪指令很好用
+一些伪指令很好用，但是他们用的都是一号寄存器$at，所以切记不要用$at存东西。
 
 ### la
 
@@ -232,3 +234,58 @@ move rs rt
 
 （rt到rs）
 
+
+
+
+
+![image-20231115160022233](D:\A大三课程资料\编译\Compile_mips\images\image-20231115160022233.png)
+
+需要实现的指令表：
+
+### lw: 加载字,sw:存字
+
+lw rt, offset(base)
+
+rt:取出来的数值放的寄存器，base，一个寄存器存地址，offset，一个立即数
+
+sw rt, offset(base)
+
+rt:要存到地址中的寄存器，base，一个寄存器地址，offset，一个立即数
+
+### AND,OR,ADD,SUB,
+
+### MUL，DIV
+
+### ADDI ,sll
+
+### BEQ 等于转移 
+
+### BNE 不等转移 
+
+### SLT..
+
+sle:小于等于置1
+
+sge:大于等于置1
+
+sgt:大于置1
+
+seq:等于置1
+
+sne:不等于置1
+
+### j,jr,jal
+
+### syscall
+
+### li,la,move
+
+这些是扩展指令，需要好好考虑。
+
+li会根据不同的操作有不同的翻译，因此我们不需要自己完成这部分的逻辑，只需要放一个li即可。
+
+la是存进了来一个地址，主要用来
+
+### MFHI 读 HI 寄存器 
+
+### MFLO 读 LO 寄存器 

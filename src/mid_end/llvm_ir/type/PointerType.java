@@ -12,5 +12,8 @@ public class PointerType extends LLVMType {
         return objType.toString() + "*";
     }
 
-
+    @Override
+    public int getSize() {
+        return 4;
+    }
 }

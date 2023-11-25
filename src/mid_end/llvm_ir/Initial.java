@@ -11,11 +11,13 @@ public class Initial extends User {
     // 有初始内容，按初始内容来
     // 无初始内容，按照类型来，是int 就是0，不是int就是zeroInitial
 
-    private final boolean initialExplicitly;
+    public final boolean initialExplicitly;
 
     private final ArrayList<Initial> initials;
 
     public final LLVMType containType;
+    // i32 , initial的就是数字
+    // array ,initial的是数组，要从initials里面取
 
     private final int value;
 
@@ -89,7 +91,7 @@ public class Initial extends User {
 
     public int getValue(int x, int y) {
         if (!(containType instanceof ArrayType)) {
-            throw new RuntimeException("getValue of not  a array with index");
+            throw new RuntimeException("getValue of not a array with index");
         }
         if (initialExplicitly) {
             return initials.get(x).initials.get(y).value;
@@ -98,4 +100,19 @@ public class Initial extends User {
         }
     }
 
+    public ArrayList<Integer> makeInitMipsCode() {
+        ArrayList<Integer> initValues = new ArrayList<>();
+        if (((ArrayType) containType).memberType instanceof BaseType) {
+            for (Initial initial : initials) {
+                initValues.add(initial.value);
+            }
+        } else {
+            for (int i = 0; i < initials.size(); i++) {
+                for (int j = 0; j < initials.get(i).initials.size(); j++) {
+                    initValues.add(initials.get(i).initials.get(j).value);
+                }
+            }
+        }
+        return initValues;
+    }
 }

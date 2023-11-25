@@ -1,5 +1,7 @@
 package mid_end.llvm_ir;
 
+import back_end.Mips.MipsBuilder;
+import back_end.Mips.MipsHead.Header;
 import mid_end.llvm_ir.Instrs.IO.GetInt;
 import mid_end.llvm_ir.Instrs.IO.PutCh;
 import mid_end.llvm_ir.Instrs.IO.PutInt;
@@ -47,5 +49,17 @@ public class Module extends Value {
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public void genMipsCode() {
+        for (GlobalVar globalVar : globalVars) {
+            globalVar.genMipsCode();
+        }
+        MipsBuilder.MB.headerFinish();
+        for (Function function : functions) {
+            function.genMipsCode();
+        }
+        MipsBuilder.MB.textFinish();
     }
 }

@@ -1,5 +1,11 @@
 package mid_end.llvm_ir.Instrs;
 
+import back_end.Mips.AsmInstrs.LiAsm;
+import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.MipsBuilder;
+import back_end.Mips.Register;
+import mid_end.llvm_ir.Constant;
+import mid_end.llvm_ir.GlobalVar;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
@@ -20,5 +26,26 @@ public class StoreInstr extends Instr {
     @Override
     public Value getAns() {
         throw new RuntimeException("get ans of a store instr");
+    }
+
+    @Override
+    public void genMipsCode() {
+        super.genMipsCode();
+        if (paras.get(0) instanceof Constant) {
+            new LiAsm(((Constant) paras.get(0)).getValue(), Register.T0);
+        } else {
+            int offset = MipsBuilder.MB.queryOffset(paras.get(0));
+            new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
+        }
+        // 找到指针的位置
+        if (paras.get(1) instanceof GlobalVar) {
+            new MemAsm(MemAsm.SW, Register.T0, ((GlobalVar) paras.get(1)).nameInMips(), 0);
+        } else {
+            int offset = MipsBuilder.MB.queryOffset(paras.get(1));
+            // 获取指针存的值，就是变量的实际地址
+            new MemAsm(MemAsm.LW, Register.T1, Register.SP, offset);
+            // 把值存到实际地址里面
+            new MemAsm(MemAsm.SW, Register.T0, Register.T1, 0);
+        }
     }
 }

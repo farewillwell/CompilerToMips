@@ -15,4 +15,6 @@ public class Param extends Value {
     public String toString() {
         return name;
     }
+
+    // 被func所包含，因此不需要进行getMipsCode
 }
