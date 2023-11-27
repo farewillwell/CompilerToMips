@@ -114,6 +114,19 @@ public class ConstInitVal extends Node {
         }
     }
 
+    public Initial getInit() {
+        if (!isBraces) {
+            return new Initial(constExp.queryValue());
+        } else {
+            ArrayList<Initial> initials = new ArrayList<>();
+            initials.add(constInitVal.getInit()); // 这里也要换成init而不是irCode
+            for (ConstInitVal constInitVal1 : otherConstInitVals) {
+                initials.add(constInitVal1.getInit());
+            }
+            return new Initial(new ArrayType(initials.size(), initials.get(0).containType), initials);
+        }
+    }
+
     public Value getIrByIndex(int x) {
         if (SymbolManager.SM.isGlobal()) {
             throw new RuntimeException(" ");

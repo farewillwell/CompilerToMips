@@ -118,16 +118,25 @@ public class LVal extends Node {
 
     // 仅仅在全局初始化计算的时候才使用。否则无效
     // 默认该方法得到的不是数组，因此可以用exp(不能用getDim())判断维度
+
+
+    // 文法规范中定义：常量表达式 ConstExp → AddExp 注：使用的Ident 必须是常量 // 存在即可
+    // 要求是常量，没有要求在什么阶段整的
+    // 常量不要求必须是全局变量，因为在文法中指出，必须在编译时求值到非负整数，显然我局部定义const a=10也是可以的.
+    // ConstDef 中表示各维长度的 ConstExp 都必须能在编译时求值到非负整数
     @Override
     public int queryValue() {
-        if (!SymbolManager.SM.isGlobal()) {
-            throw new RuntimeException("evaluate in not global state");
-        } else {
-            VarSymbol varSymbol = SymbolManager.SM.getVarSymbol(tokenNode.content());
-            if (!(varSymbol.value instanceof GlobalVar)) {
-                throw new RuntimeException("evaluate from not global value");
-            }
+        VarSymbol varSymbol = SymbolManager.SM.getVarSymbol(tokenNode.content());
+        if (varSymbol.value instanceof GlobalVar) {
             GlobalVar value = (GlobalVar) varSymbol.value;
+            if (exps.size() == 0) {
+                return value.getInitValue();
+            } else if (exps.size() == 1) {
+                return value.getInitValue(exps.get(0).queryValue());
+            }
+            return value.getInitValue(exps.get(0).queryValue(), exps.get(1).queryValue());
+        } else {
+            LocalVar value = (LocalVar) varSymbol.value;
             if (exps.size() == 0) {
                 return value.getInitValue();
             } else if (exps.size() == 1) {

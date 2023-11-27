@@ -1,0 +1,3847 @@
+.data
+g1 : .word 4
+g2 : .word 64
+g3 : .word -49331
+g4 : .word 24
+g5 : .word 1040
+g6 : .word 10086, 16
+g7 : .word 212132, 76, 308, 26, 57048, 3194880, 8792, -687331, 908, 1040, 136, 10104
+g8 : .word 4491858
+g9 : .word -597
+g10 : .word 0
+g11 : .word 1983
+g12 : .word 2323, 9254, 0, -1269906
+g13: .space 24
+g14: .space 8
+g15 : .word 0
+g16 : .word 287, -98662, 287, 11505
+g17 : .word 0
+
+.text
+
+# enter main
+jal main
+
+
+# leave main
+j END
+
+__my_Ha_s__h:
+__my_Ha_s__hb0:
+
+# %V1 = alloca i32*
+addi $t0, $sp, -12
+sw $t0, -16($sp)
+
+# store i32* %P_0 , i32** %V1
+lw $t0, -4($sp)
+lw $t1, -16($sp)
+sw $t0, 0($t1)
+
+# %V2 = alloca i32
+addi $t0, $sp, -20
+sw $t0, -24($sp)
+
+# store i32 %P_1 , i32* %V2
+lw $t0, -8($sp)
+lw $t1, -24($sp)
+sw $t0, 0($t1)
+
+# %V3 = alloca i32
+addi $t0, $sp, -28
+sw $t0, -32($sp)
+
+# %V4 = alloca i32
+addi $t0, $sp, -36
+sw $t0, -40($sp)
+
+# %V5 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -44($sp)
+
+# store i32 %V5 , i32* %V3
+lw $t0, -44($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# store i32 0 , i32* %V4
+li $t0, 0
+lw $t1, -40($sp)
+sw $t0, 0($t1)
+
+# br label %b1
+j __my_Ha_s__hb1
+
+__my_Ha_s__hb1:
+
+# %V6 = load i32, i32* %V4
+lw $t0, -40($sp)
+lw $t0, 0($t0)
+sw $t0, -48($sp)
+
+# %V7 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -52($sp)
+
+# %V8 = icmp slt i32 %V6, %V7
+lw $t0, -48($sp)
+lw $t1, -52($sp)
+slt $t2, $t0, $t1
+sw $t2, -56($sp)
+
+# br i1 %V8, label %b2, label %b4
+lw $t0, -56($sp)
+bne $t0, $zero, __my_Ha_s__hb2
+beq $t0, $zero, __my_Ha_s__hb4
+__my_Ha_s__hb2:
+
+# %V9 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -60($sp)
+
+# %V10 = add i32 %V9, 98326464
+lw $t0, -60($sp)
+li $t1, 98326464
+addu $t2, $t0, $t1
+sw $t2, -64($sp)
+
+# store i32 %V10 , i32* %V3
+lw $t0, -64($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V11 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -68($sp)
+
+# %V12 = mul i32 %V11, 20373381
+lw $t0, -68($sp)
+li $t1, 20373381
+mult $t0, $t1
+mflo $t2
+sw $t2, -72($sp)
+
+# store i32 %V12 , i32* %V3
+lw $t0, -72($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V13 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -76($sp)
+
+# %V14 = add i32 %V13, 23667832
+lw $t0, -76($sp)
+li $t1, 23667832
+addu $t2, $t0, $t1
+sw $t2, -80($sp)
+
+# store i32 %V14 , i32* %V3
+lw $t0, -80($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V15 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -84($sp)
+
+# %V16 = sdiv i32 %V15, 133
+lw $t0, -84($sp)
+li $t1, 133
+div $t0, $t1
+mflo $t2
+sw $t2, -88($sp)
+
+# store i32 %V16 , i32* %V3
+lw $t0, -88($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V17 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -92($sp)
+
+# %V18 = add i32 %V17, 1347887899
+lw $t0, -92($sp)
+li $t1, 1347887899
+addu $t2, $t0, $t1
+sw $t2, -96($sp)
+
+# store i32 %V18 , i32* %V3
+lw $t0, -96($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V19 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -100($sp)
+
+# %V20 = srem i32 %V19, 99998099
+lw $t0, -100($sp)
+li $t1, 99998099
+div $t0, $t1
+mfhi $t2
+sw $t2, -104($sp)
+
+# store i32 %V20 , i32* %V3
+lw $t0, -104($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V21 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -108($sp)
+
+# %V22 = mul i32 %V21, 123671861
+lw $t0, -108($sp)
+li $t1, 123671861
+mult $t0, $t1
+mflo $t2
+sw $t2, -112($sp)
+
+# %V23 = sub i32 %V22, 236234
+lw $t0, -112($sp)
+li $t1, 236234
+subu $t2, $t0, $t1
+sw $t2, -116($sp)
+
+# %V24 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -120($sp)
+
+# %V25 = add i32 %V24, 135632
+lw $t0, -120($sp)
+li $t1, 135632
+addu $t2, $t0, $t1
+sw $t2, -124($sp)
+
+# %V26 = mul i32 %V23, %V25
+lw $t0, -116($sp)
+lw $t1, -124($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -128($sp)
+
+# %V27 = sdiv i32 %V26, 7
+lw $t0, -128($sp)
+li $t1, 7
+div $t0, $t1
+mflo $t2
+sw $t2, -132($sp)
+
+# store i32 %V27 , i32* %V3
+lw $t0, -132($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V28 = load i32, i32* %V4
+lw $t0, -40($sp)
+lw $t0, 0($t0)
+sw $t0, -136($sp)
+
+# %V29 = sub i32 0, 0
+li $t0, 0
+li $t1, 0
+subu $t2, $t0, $t1
+sw $t2, -140($sp)
+
+# %V30 = add i32 %V29, 2
+lw $t0, -140($sp)
+li $t1, 2
+addu $t2, $t0, $t1
+sw $t2, -144($sp)
+
+# %V31 = sdiv i32 1234, 888
+li $t0, 1234
+li $t1, 888
+div $t0, $t1
+mflo $t2
+sw $t2, -148($sp)
+
+# %V32 = sub i32 %V30, %V31
+lw $t0, -144($sp)
+lw $t1, -148($sp)
+subu $t2, $t0, $t1
+sw $t2, -152($sp)
+
+# %V33 = add i32 %V28, %V32
+lw $t0, -136($sp)
+lw $t1, -152($sp)
+addu $t2, $t0, $t1
+sw $t2, -156($sp)
+
+# store i32 %V33 , i32* %V4
+lw $t0, -156($sp)
+lw $t1, -40($sp)
+sw $t0, 0($t1)
+
+# br label %b3
+j __my_Ha_s__hb3
+
+__my_Ha_s__hb3:
+
+# br label %b1
+j __my_Ha_s__hb1
+
+__my_Ha_s__hb4:
+
+# %V34 = load i32, i32* %V3
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -160($sp)
+
+# ret i32 %V34
+lw $v0, -160($sp)
+jr $ra
+
+___:
+___b0:
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 33)
+li $a0, 33
+li $v0, 11
+syscall
+
+# call void @putch(i32 33)
+li $a0, 33
+li $v0, 11
+syscall
+
+# call void @putch(i32 33)
+li $a0, 33
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 40)
+li $a0, 40
+li $v0, 11
+syscall
+
+# call void @putch(i32 41)
+li $a0, 41
+li $v0, 11
+syscall
+
+# call void @putch(i32 42)
+li $a0, 42
+li $v0, 11
+syscall
+
+# call void @putch(i32 43)
+li $a0, 43
+li $v0, 11
+syscall
+
+# call void @putch(i32 44)
+li $a0, 44
+li $v0, 11
+syscall
+
+# call void @putch(i32 45)
+li $a0, 45
+li $v0, 11
+syscall
+
+# call void @putch(i32 46)
+li $a0, 46
+li $v0, 11
+syscall
+
+# call void @putch(i32 47)
+li $a0, 47
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 59)
+li $a0, 59
+li $v0, 11
+syscall
+
+# call void @putch(i32 60)
+li $a0, 60
+li $v0, 11
+syscall
+
+# call void @putch(i32 62)
+li $a0, 62
+li $v0, 11
+syscall
+
+# call void @putch(i32 61)
+li $a0, 61
+li $v0, 11
+syscall
+
+# call void @putch(i32 64)
+li $a0, 64
+li $v0, 11
+syscall
+
+# call void @putch(i32 63)
+li $a0, 63
+li $v0, 11
+syscall
+
+# call void @putch(i32 94)
+li $a0, 94
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 96)
+li $a0, 96
+li $v0, 11
+syscall
+
+# call void @putch(i32 123)
+li $a0, 123
+li $v0, 11
+syscall
+
+# call void @putch(i32 125)
+li $a0, 125
+li $v0, 11
+syscall
+
+# call void @putch(i32 124)
+li $a0, 124
+li $v0, 11
+syscall
+
+# call void @putch(i32 126)
+li $a0, 126
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 101)
+li $a0, 101
+li $v0, 11
+syscall
+
+# call void @putch(i32 100)
+li $a0, 100
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 102)
+li $a0, 102
+li $v0, 11
+syscall
+
+# call void @putch(i32 117)
+li $a0, 117
+li $v0, 11
+syscall
+
+# call void @putch(i32 110)
+li $a0, 110
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# ret void
+jr $ra
+
+____:
+____b0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -8
+sw $t0, -12($sp)
+
+# store i32 %P_0 , i32* %V1
+lw $t0, -4($sp)
+lw $t1, -12($sp)
+sw $t0, 0($t1)
+
+# %V2 = load i32, i32* %V1
+lw $t0, -12($sp)
+lw $t0, 0($t0)
+sw $t0, -16($sp)
+
+# %V3 = mul i32 %V2, 2
+lw $t0, -16($sp)
+li $t1, 2
+mult $t0, $t1
+mflo $t2
+sw $t2, -20($sp)
+
+# %V4 = mul i32 %V3, 3
+lw $t0, -20($sp)
+li $t1, 3
+mult $t0, $t1
+mflo $t2
+sw $t2, -24($sp)
+
+# %V5 = sdiv i32 %V4, 6
+lw $t0, -24($sp)
+li $t1, 6
+div $t0, $t1
+mflo $t2
+sw $t2, -28($sp)
+
+# call void @putch(i32 47)
+li $a0, 47
+li $v0, 11
+syscall
+
+# call void @putch(i32 47)
+li $a0, 47
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 101)
+li $a0, 101
+li $v0, 11
+syscall
+
+# call void @putch(i32 100)
+li $a0, 100
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 102)
+li $a0, 102
+li $v0, 11
+syscall
+
+# call void @putch(i32 117)
+li $a0, 117
+li $v0, 11
+syscall
+
+# call void @putch(i32 110)
+li $a0, 110
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 44)
+li $a0, 44
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 103)
+li $a0, 103
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 61)
+li $a0, 61
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V5)
+lw $a0, -28($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# ret void
+jr $ra
+
+__:
+__b0:
+
+# %V1 = alloca i32*
+addi $t0, $sp, -12
+sw $t0, -16($sp)
+
+# store i32* %P_0 , i32** %V1
+lw $t0, -4($sp)
+lw $t1, -16($sp)
+sw $t0, 0($t1)
+
+# %V2 = alloca i32
+addi $t0, $sp, -20
+sw $t0, -24($sp)
+
+# store i32 %P_1 , i32* %V2
+lw $t0, -8($sp)
+lw $t1, -24($sp)
+sw $t0, 0($t1)
+
+# %V3 = load i32*, i32** %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -28($sp)
+
+# %V4 = getelementptr inbounds i32,i32* %V3, i32 0
+lw $t0, -28($sp)
+addi $t0, $t0, 0
+sw $t0, -32($sp)
+
+# %V5 = load i32, i32* %V4
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -36($sp)
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 101)
+li $a0, 101
+li $v0, 11
+syscall
+
+# call void @putch(i32 100)
+li $a0, 100
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 102)
+li $a0, 102
+li $v0, 11
+syscall
+
+# call void @putch(i32 117)
+li $a0, 117
+li $v0, 11
+syscall
+
+# call void @putch(i32 110)
+li $a0, 110
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 95)
+li $a0, 95
+li $v0, 11
+syscall
+
+# call void @putch(i32 44)
+li $a0, 44
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 121)
+li $a0, 121
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 48)
+li $a0, 48
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 61)
+li $a0, 61
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V5)
+lw $a0, -36($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# ret void
+jr $ra
+
+_Main:
+_Mainb0:
+
+# %V1 = alloca [2 x i32]*
+addi $t0, $sp, -8
+sw $t0, -12($sp)
+
+# store [2 x i32]* %P_0 , [2 x i32]** %V1
+lw $t0, -4($sp)
+lw $t1, -12($sp)
+sw $t0, 0($t1)
+
+# %V2 = load [2 x i32]*, [2 x i32]** %V1
+lw $t0, -12($sp)
+lw $t0, 0($t0)
+sw $t0, -16($sp)
+
+# %V3 = getelementptr inbounds [2 x i32],[2 x i32]* %V2, i32 0
+lw $t0, -16($sp)
+addi $t0, $t0, 0
+sw $t0, -20($sp)
+
+# %V4 = getelementptr inbounds [2 x i32], [2 x i32]* %V3,  i32 0 ,i32 0
+lw $t0, -20($sp)
+addi $t0, $t0, 0
+sw $t0, -24($sp)
+
+# %V5 = load i32, i32* %V4
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -28($sp)
+
+# %V6 = load [2 x i32]*, [2 x i32]** %V1
+lw $t0, -12($sp)
+lw $t0, 0($t0)
+sw $t0, -32($sp)
+
+# %V7 = getelementptr inbounds [2 x i32],[2 x i32]* %V6, i32 0
+lw $t0, -32($sp)
+addi $t0, $t0, 0
+sw $t0, -36($sp)
+
+# %V8 = getelementptr inbounds [2 x i32], [2 x i32]* %V7,  i32 0 ,i32 1
+lw $t0, -36($sp)
+addi $t0, $t0, 4
+sw $t0, -40($sp)
+
+# %V9 = load i32, i32* %V8
+lw $t0, -40($sp)
+lw $t0, 0($t0)
+sw $t0, -44($sp)
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 108)
+li $a0, 108
+li $v0, 11
+syscall
+
+# call void @putch(i32 101)
+li $a0, 101
+li $v0, 11
+syscall
+
+# call void @putch(i32 100)
+li $a0, 100
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 102)
+li $a0, 102
+li $v0, 11
+syscall
+
+# call void @putch(i32 117)
+li $a0, 117
+li $v0, 11
+syscall
+
+# call void @putch(i32 110)
+li $a0, 110
+li $v0, 11
+syscall
+
+# call void @putch(i32 99)
+li $a0, 99
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 77)
+li $a0, 77
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 105)
+li $a0, 105
+li $v0, 11
+syscall
+
+# call void @putch(i32 110)
+li $a0, 110
+li $v0, 11
+syscall
+
+# call void @putch(i32 44)
+li $a0, 44
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 121)
+li $a0, 121
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 48)
+li $a0, 48
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 48)
+li $a0, 48
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 61)
+li $a0, 61
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V5)
+lw $a0, -28($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 44)
+li $a0, 44
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 114)
+li $a0, 114
+li $v0, 11
+syscall
+
+# call void @putch(i32 97)
+li $a0, 97
+li $v0, 11
+syscall
+
+# call void @putch(i32 121)
+li $a0, 121
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 48)
+li $a0, 48
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 91)
+li $a0, 91
+li $v0, 11
+syscall
+
+# call void @putch(i32 49)
+li $a0, 49
+li $v0, 11
+syscall
+
+# call void @putch(i32 93)
+li $a0, 93
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putch(i32 61)
+li $a0, 61
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V9)
+lw $a0, -44($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# ret void
+jr $ra
+
+_add_fake:
+_add_fakeb0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -12
+sw $t0, -16($sp)
+
+# store i32 %P_0 , i32* %V1
+lw $t0, -4($sp)
+lw $t1, -16($sp)
+sw $t0, 0($t1)
+
+# %V2 = alloca i32
+addi $t0, $sp, -20
+sw $t0, -24($sp)
+
+# store i32 %P_1 , i32* %V2
+lw $t0, -8($sp)
+lw $t1, -24($sp)
+sw $t0, 0($t1)
+
+# %V3 = load i32, i32* %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -28($sp)
+
+# %V4 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -32($sp)
+
+# %V5 = add i32 %V3, %V4
+lw $t0, -28($sp)
+lw $t1, -32($sp)
+addu $t2, $t0, $t1
+sw $t2, -36($sp)
+
+# %V6 = add i32 100, 10086
+li $t0, 100
+li $t1, 10086
+addu $t2, $t0, $t1
+sw $t2, -40($sp)
+
+# %V7 = icmp sge i32 %V5, %V6
+lw $t0, -36($sp)
+lw $t1, -40($sp)
+sge $t2, $t0, $t1
+sw $t2, -44($sp)
+
+# br i1 %V7, label %b1, label %b2
+lw $t0, -44($sp)
+bne $t0, $zero, _add_fakeb1
+beq $t0, $zero, _add_fakeb2
+_add_fakeb1:
+
+# %V8 = load i32, i32* %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -48($sp)
+
+# %V9 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -52($sp)
+
+# %V10 = mul i32 203, %V9
+li $t0, 203
+lw $t1, -52($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -56($sp)
+
+# %V11 = sdiv i32 %V10, 201
+lw $t0, -56($sp)
+li $t1, 201
+div $t0, $t1
+mflo $t2
+sw $t2, -60($sp)
+
+# %V12 = add i32 %V8, %V11
+lw $t0, -48($sp)
+lw $t1, -60($sp)
+addu $t2, $t0, $t1
+sw $t2, -64($sp)
+
+# ret i32 %V12
+lw $v0, -64($sp)
+jr $ra
+
+
+# br label %b3
+j _add_fakeb3
+
+_add_fakeb2:
+
+# %V13 = load i32, i32* %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -68($sp)
+
+# %V14 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -72($sp)
+
+# %V15 = add i32 %V13, %V14
+lw $t0, -68($sp)
+lw $t1, -72($sp)
+addu $t2, $t0, $t1
+sw $t2, -76($sp)
+
+# %V16 = sub i32 %V15, 10086
+lw $t0, -76($sp)
+li $t1, 10086
+subu $t2, $t0, $t1
+sw $t2, -80($sp)
+
+# %V17 = icmp slt i32 %V16, 12345678
+lw $t0, -80($sp)
+li $t1, 12345678
+slt $t2, $t0, $t1
+sw $t2, -84($sp)
+
+# br i1 %V17, label %b4, label %b5
+lw $t0, -84($sp)
+bne $t0, $zero, _add_fakeb4
+beq $t0, $zero, _add_fakeb5
+_add_fakeb4:
+
+# %V18 = load i32, i32* %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -88($sp)
+
+# %V19 = mul i32 1003, %V18
+li $t0, 1003
+lw $t1, -88($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -92($sp)
+
+# %V20 = sdiv i32 %V19, 1009
+lw $t0, -92($sp)
+li $t1, 1009
+div $t0, $t1
+mflo $t2
+sw $t2, -96($sp)
+
+# %V21 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -100($sp)
+
+# %V22 = mul i32 2022, %V21
+li $t0, 2022
+lw $t1, -100($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -104($sp)
+
+# %V23 = sdiv i32 %V22, 2019
+lw $t0, -104($sp)
+li $t1, 2019
+div $t0, $t1
+mflo $t2
+sw $t2, -108($sp)
+
+# %V24 = add i32 %V20, %V23
+lw $t0, -96($sp)
+lw $t1, -108($sp)
+addu $t2, $t0, $t1
+sw $t2, -112($sp)
+
+# ret i32 %V24
+lw $v0, -112($sp)
+jr $ra
+
+
+# br label %b6
+j _add_fakeb6
+
+_add_fakeb5:
+
+# %V25 = load i32, i32* %V1
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -116($sp)
+
+# %V26 = load i32, i32* %V2
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -120($sp)
+
+# %V27 = add i32 %V25, %V26
+lw $t0, -116($sp)
+lw $t1, -120($sp)
+addu $t2, $t0, $t1
+sw $t2, -124($sp)
+
+# %V28 = sub i32 %V27, 233
+lw $t0, -124($sp)
+li $t1, 233
+subu $t2, $t0, $t1
+sw $t2, -128($sp)
+
+# ret i32 %V28
+lw $v0, -128($sp)
+jr $ra
+
+
+# br label %b6
+j _add_fakeb6
+
+_add_fakeb6:
+
+# br label %b3
+j _add_fakeb3
+
+_add_fakeb3:
+
+# %V29 = sub i32 0, 10086
+li $t0, 0
+li $t1, 10086
+subu $t2, $t0, $t1
+sw $t2, -132($sp)
+
+# ret i32 %V29
+lw $v0, -132($sp)
+jr $ra
+
+_add:
+_addb0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -16
+sw $t0, -20($sp)
+
+# store i32 %P_0 , i32* %V1
+lw $t0, -4($sp)
+lw $t1, -20($sp)
+sw $t0, 0($t1)
+
+# %V2 = alloca i32
+addi $t0, $sp, -24
+sw $t0, -28($sp)
+
+# store i32 %P_1 , i32* %V2
+lw $t0, -8($sp)
+lw $t1, -28($sp)
+sw $t0, 0($t1)
+
+# %V3 = alloca i32
+addi $t0, $sp, -32
+sw $t0, -36($sp)
+
+# store i32 %P_2 , i32* %V3
+lw $t0, -12($sp)
+lw $t1, -36($sp)
+sw $t0, 0($t1)
+
+# %V4 = load i32, i32* %V1
+lw $t0, -20($sp)
+lw $t0, 0($t0)
+sw $t0, -40($sp)
+
+# %V5 = load i32, i32* %V2
+lw $t0, -28($sp)
+lw $t0, 0($t0)
+sw $t0, -44($sp)
+
+# %V6 = add i32 %V4, %V5
+lw $t0, -40($sp)
+lw $t1, -44($sp)
+addu $t2, $t0, $t1
+sw $t2, -48($sp)
+
+# %V7 = load i32, i32* %V3
+lw $t0, -36($sp)
+lw $t0, 0($t0)
+sw $t0, -52($sp)
+
+# %V8 = add i32 %V6, %V7
+lw $t0, -48($sp)
+lw $t1, -52($sp)
+addu $t2, $t0, $t1
+sw $t2, -56($sp)
+
+# ret i32 %V8
+lw $v0, -56($sp)
+jr $ra
+
+_get_id:
+_get_idb0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -4
+sw $t0, -8($sp)
+
+# store i32 76 , i32* %V1
+li $t0, 76
+lw $t1, -8($sp)
+sw $t0, 0($t1)
+
+# %V2 = load i32, i32* %V1
+lw $t0, -8($sp)
+lw $t0, 0($t0)
+sw $t0, -12($sp)
+
+# call void @putint(i32 %V2)
+lw $a0, -12($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# store i32 10086 , i32* %V1
+li $t0, 10086
+lw $t1, -8($sp)
+sw $t0, 0($t1)
+
+# %V3 = load i32, i32* %V1
+lw $t0, -8($sp)
+lw $t0, 0($t0)
+sw $t0, -16($sp)
+
+# call void @putint(i32 %V3)
+lw $a0, -16($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# %V4 = alloca i32
+addi $t0, $sp, -20
+sw $t0, -24($sp)
+
+# %V5 = sub i32 0, 10
+li $t0, 0
+li $t1, 10
+subu $t2, $t0, $t1
+sw $t2, -28($sp)
+
+# store i32 %V5 , i32* %V4
+lw $t0, -28($sp)
+lw $t1, -24($sp)
+sw $t0, 0($t1)
+
+# %V6 = load i32, i32* %V4
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -32($sp)
+
+# call void @putint(i32 %V6)
+lw $a0, -32($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# ret i32 20373381
+li $v0, 20373381
+jr $ra
+
+_M__a_G_I___c:
+_M__a_G_I___cb0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -8
+sw $t0, -12($sp)
+
+# store i32 %P_0 , i32* %V1
+lw $t0, -4($sp)
+lw $t1, -12($sp)
+sw $t0, 0($t1)
+
+# %V2 = load i32, i32* %V1
+lw $t0, -12($sp)
+lw $t0, 0($t0)
+sw $t0, -16($sp)
+
+# %V3 = sub i32 0, 763835168
+li $t0, 0
+li $t1, 763835168
+subu $t2, $t0, $t1
+sw $t2, -20($sp)
+
+# %V4 = add i32 %V2, %V3
+lw $t0, -16($sp)
+lw $t1, -20($sp)
+addu $t2, $t0, $t1
+sw $t2, -24($sp)
+
+# %V5 = srem i32 %V4, 1996325548
+lw $t0, -24($sp)
+li $t1, 1996325548
+div $t0, $t1
+mfhi $t2
+sw $t2, -28($sp)
+
+# %V6 = mul i32 %V5, 1881457024
+lw $t0, -28($sp)
+li $t1, 1881457024
+mult $t0, $t1
+mflo $t2
+sw $t2, -32($sp)
+
+# %V7 = sdiv i32 %V6, 11
+lw $t0, -32($sp)
+li $t1, 11
+div $t0, $t1
+mflo $t2
+sw $t2, -36($sp)
+
+# %V8 = mul i32 %V7, 540488577
+lw $t0, -36($sp)
+li $t1, 540488577
+mult $t0, $t1
+mflo $t2
+sw $t2, -40($sp)
+
+# ret i32 %V8
+lw $v0, -40($sp)
+jr $ra
+
+main:
+mainb0:
+
+# %V1 = alloca i32
+addi $t0, $sp, -4
+sw $t0, -8($sp)
+
+# %V2 = alloca i32
+addi $t0, $sp, -12
+sw $t0, -16($sp)
+
+# %V3 = alloca i32
+addi $t0, $sp, -20
+sw $t0, -24($sp)
+
+# %V4 = alloca i32
+addi $t0, $sp, -28
+sw $t0, -32($sp)
+
+# %V5 = alloca i32
+addi $t0, $sp, -36
+sw $t0, -40($sp)
+
+# %V6 = alloca [2 x [4 x i32]]
+addi $t0, $sp, -72
+sw $t0, -76($sp)
+
+# %V7 = getelementptr inbounds [2 x [4 x i32]], [2 x [4 x i32]]* %V6,  i32 0 ,i32 0
+lw $t0, -76($sp)
+addi $t0, $t0, 0
+sw $t0, -80($sp)
+
+# %V8 = getelementptr inbounds [4 x i32], [4 x i32]* %V7,  i32 0 ,i32 0
+lw $t0, -80($sp)
+addi $t0, $t0, 0
+sw $t0, -84($sp)
+
+# store i32 1 , i32* %V8
+li $t0, 1
+lw $t1, -84($sp)
+sw $t0, 0($t1)
+
+# %V9 = getelementptr inbounds [4 x i32], [4 x i32]* %V7,  i32 0 ,i32 1
+lw $t0, -80($sp)
+addi $t0, $t0, 4
+sw $t0, -88($sp)
+
+# store i32 2 , i32* %V9
+li $t0, 2
+lw $t1, -88($sp)
+sw $t0, 0($t1)
+
+# %V10 = getelementptr inbounds [4 x i32], [4 x i32]* %V7,  i32 0 ,i32 2
+lw $t0, -80($sp)
+addi $t0, $t0, 8
+sw $t0, -92($sp)
+
+# store i32 3 , i32* %V10
+li $t0, 3
+lw $t1, -92($sp)
+sw $t0, 0($t1)
+
+# %V11 = getelementptr inbounds [4 x i32], [4 x i32]* %V7,  i32 0 ,i32 3
+lw $t0, -80($sp)
+addi $t0, $t0, 12
+sw $t0, -96($sp)
+
+# store i32 4 , i32* %V11
+li $t0, 4
+lw $t1, -96($sp)
+sw $t0, 0($t1)
+
+# %V12 = getelementptr inbounds [2 x [4 x i32]], [2 x [4 x i32]]* %V6,  i32 0 ,i32 1
+lw $t0, -76($sp)
+addi $t0, $t0, 16
+sw $t0, -100($sp)
+
+# %V13 = getelementptr inbounds [4 x i32], [4 x i32]* %V12,  i32 0 ,i32 0
+lw $t0, -100($sp)
+addi $t0, $t0, 0
+sw $t0, -104($sp)
+
+# store i32 5 , i32* %V13
+li $t0, 5
+lw $t1, -104($sp)
+sw $t0, 0($t1)
+
+# %V14 = getelementptr inbounds [4 x i32], [4 x i32]* %V12,  i32 0 ,i32 1
+lw $t0, -100($sp)
+addi $t0, $t0, 4
+sw $t0, -108($sp)
+
+# store i32 6 , i32* %V14
+li $t0, 6
+lw $t1, -108($sp)
+sw $t0, 0($t1)
+
+# %V15 = getelementptr inbounds [4 x i32], [4 x i32]* %V12,  i32 0 ,i32 2
+lw $t0, -100($sp)
+addi $t0, $t0, 8
+sw $t0, -112($sp)
+
+# store i32 7 , i32* %V15
+li $t0, 7
+lw $t1, -112($sp)
+sw $t0, 0($t1)
+
+# %V16 = getelementptr inbounds [4 x i32], [4 x i32]* %V12,  i32 0 ,i32 3
+lw $t0, -100($sp)
+addi $t0, $t0, 12
+sw $t0, -116($sp)
+
+# store i32 8 , i32* %V16
+li $t0, 8
+lw $t1, -116($sp)
+sw $t0, 0($t1)
+
+# %V17 = alloca i32
+addi $t0, $sp, -120
+sw $t0, -124($sp)
+
+# store i32 10 , i32* %V17
+li $t0, 10
+lw $t1, -124($sp)
+sw $t0, 0($t1)
+
+# %V18 = alloca i32
+addi $t0, $sp, -128
+sw $t0, -132($sp)
+
+# store i32 20 , i32* %V18
+li $t0, 20
+lw $t1, -132($sp)
+sw $t0, 0($t1)
+
+# %V19 = alloca i32
+addi $t0, $sp, -136
+sw $t0, -140($sp)
+
+# store i32 10 , i32* %V19
+li $t0, 10
+lw $t1, -140($sp)
+sw $t0, 0($t1)
+
+# %V20 = alloca i32
+addi $t0, $sp, -144
+sw $t0, -148($sp)
+
+# store i32 0 , i32* %V20
+li $t0, 0
+lw $t1, -148($sp)
+sw $t0, 0($t1)
+
+# %V21 = alloca i32
+addi $t0, $sp, -152
+sw $t0, -156($sp)
+
+# store i32 1 , i32* %V21
+li $t0, 1
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# %V22 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -160($sp)
+
+# store i32 %V22 , i32* %V1
+lw $t0, -160($sp)
+lw $t1, -8($sp)
+sw $t0, 0($t1)
+
+# %V23 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -164($sp)
+
+# store i32 %V23 , i32* %V2
+lw $t0, -164($sp)
+lw $t1, -16($sp)
+sw $t0, 0($t1)
+
+# %V24 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -168($sp)
+
+# store i32 %V24 , i32* %V3
+lw $t0, -168($sp)
+lw $t1, -24($sp)
+sw $t0, 0($t1)
+
+# %V25 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -172($sp)
+
+# store i32 %V25 , i32* %V4
+lw $t0, -172($sp)
+lw $t1, -32($sp)
+sw $t0, 0($t1)
+
+# %V26 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -176($sp)
+
+# store i32 %V26 , i32* %V5
+lw $t0, -176($sp)
+lw $t1, -40($sp)
+sw $t0, 0($t1)
+
+# %V27 = load i32, i32* %V1
+lw $t0, -8($sp)
+lw $t0, 0($t0)
+sw $t0, -180($sp)
+
+# %V28 = icmp eq i32 %V27, 20373381
+lw $t0, -180($sp)
+li $t1, 20373381
+seq $t2, $t0, $t1
+sw $t2, -184($sp)
+
+# br i1 %V28, label %b1, label %b2
+lw $t0, -184($sp)
+bne $t0, $zero, mainb1
+beq $t0, $zero, mainb2
+mainb1:
+
+# %V29 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -188($sp)
+
+# %V30 = add i32 %V29, 1
+lw $t0, -188($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -192($sp)
+
+# store i32 %V30 , i32* %V21
+lw $t0, -192($sp)
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# %V31 = load i32, i32* %V20
+lw $t0, -148($sp)
+lw $t0, 0($t0)
+sw $t0, -196($sp)
+
+# %V32 = add i32 %V31, 1332
+lw $t0, -196($sp)
+li $t1, 1332
+addu $t2, $t0, $t1
+sw $t2, -200($sp)
+
+# store i32 %V32 , i32* %V20
+lw $t0, -200($sp)
+lw $t1, -148($sp)
+sw $t0, 0($t1)
+
+# br label %b2
+j mainb2
+
+mainb2:
+
+# %V33 = load i32, i32* %V2
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -204($sp)
+
+# %V34 = icmp sgt i32 %V33, 200
+lw $t0, -204($sp)
+li $t1, 200
+sgt $t2, $t0, $t1
+sw $t2, -208($sp)
+
+# br i1 %V34, label %b3, label %b4
+lw $t0, -208($sp)
+bne $t0, $zero, mainb3
+beq $t0, $zero, mainb4
+mainb3:
+
+# %V35 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -212($sp)
+
+# %V36 = add i32 %V35, 1
+lw $t0, -212($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -216($sp)
+
+# store i32 %V36 , i32* %V21
+lw $t0, -216($sp)
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# br label %b4
+j mainb4
+
+mainb4:
+
+# %V37 = load i32, i32* %V3
+lw $t0, -24($sp)
+lw $t0, 0($t0)
+sw $t0, -220($sp)
+
+# %V38 = icmp sge i32 %V37, 111
+lw $t0, -220($sp)
+li $t1, 111
+sge $t2, $t0, $t1
+sw $t2, -224($sp)
+
+# br i1 %V38, label %b5, label %b6
+lw $t0, -224($sp)
+bne $t0, $zero, mainb5
+beq $t0, $zero, mainb6
+mainb5:
+
+# %V39 = load i32, i32* %V4
+lw $t0, -32($sp)
+lw $t0, 0($t0)
+sw $t0, -228($sp)
+
+# %V40 = icmp ne i32 %V39, 2234
+lw $t0, -228($sp)
+li $t1, 2234
+sne $t2, $t0, $t1
+sw $t2, -232($sp)
+
+# br i1 %V40, label %b7, label %b8
+lw $t0, -232($sp)
+bne $t0, $zero, mainb7
+beq $t0, $zero, mainb8
+mainb7:
+
+# %V41 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -236($sp)
+
+# %V42 = add i32 %V41, 1
+lw $t0, -236($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -240($sp)
+
+# store i32 %V42 , i32* %V21
+lw $t0, -240($sp)
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# br label %b9
+j mainb9
+
+mainb8:
+
+# %V43 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -244($sp)
+
+# %V44 = add i32 %V43, 2729
+lw $t0, -244($sp)
+li $t1, 2729
+addu $t2, $t0, $t1
+sw $t2, -248($sp)
+
+# store i32 %V44 , i32* %V21
+lw $t0, -248($sp)
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# br label %b9
+j mainb9
+
+mainb9:
+
+# br label %b6
+j mainb6
+
+mainb6:
+
+# %V45 = alloca i32
+addi $t0, $sp, -252
+sw $t0, -256($sp)
+
+# store i32 0 , i32* %V45
+li $t0, 0
+lw $t1, -256($sp)
+sw $t0, 0($t1)
+
+# %V46 = alloca i32
+addi $t0, $sp, -260
+sw $t0, -264($sp)
+
+# store i32 0 , i32* %V46
+li $t0, 0
+lw $t1, -264($sp)
+sw $t0, 0($t1)
+
+# br label %b10
+j mainb10
+
+mainb10:
+
+# %V47 = icmp eq i32 0, 0
+li $t0, 0
+li $t1, 0
+seq $t2, $t0, $t1
+sw $t2, -268($sp)
+
+# br i1 %V47, label %b11, label %b13
+lw $t0, -268($sp)
+bne $t0, $zero, mainb11
+beq $t0, $zero, mainb13
+mainb11:
+
+# %V48 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -272($sp)
+
+# %V49 = load i32, i32* %V45
+lw $t0, -256($sp)
+lw $t0, 0($t0)
+sw $t0, -276($sp)
+
+# %V50 = getelementptr inbounds [2 x i32], [2 x i32]* @G_aaa,  i32 0 ,i32 %V49
+la $t0, g6
+lw $t1, -276($sp)
+sll $t1, $t1, 2
+addu $t0, $t1, $t0
+sw $t0, -280($sp)
+
+# %V51 = load i32, i32* %V50
+lw $t0, -280($sp)
+lw $t0, 0($t0)
+sw $t0, -284($sp)
+
+# %V52 = add i32 %V48, %V51
+lw $t0, -272($sp)
+lw $t1, -284($sp)
+addu $t2, $t0, $t1
+sw $t2, -288($sp)
+
+# store i32 %V52 , i32* %V46
+lw $t0, -288($sp)
+lw $t1, -264($sp)
+sw $t0, 0($t1)
+
+# %V53 = load i32, i32* %V45
+lw $t0, -256($sp)
+lw $t0, 0($t0)
+sw $t0, -292($sp)
+
+# %V54 = add i32 %V53, 1
+lw $t0, -292($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -296($sp)
+
+# store i32 %V54 , i32* %V45
+lw $t0, -296($sp)
+lw $t1, -256($sp)
+sw $t0, 0($t1)
+
+# %V55 = load i32, i32* %V45
+lw $t0, -256($sp)
+lw $t0, 0($t0)
+sw $t0, -300($sp)
+
+# %V56 = load i32, i32* @G__1
+lw $t0, g1+0
+sw $t0, -304($sp)
+
+# %V57 = sdiv i32 %V56, 2
+lw $t0, -304($sp)
+li $t1, 2
+div $t0, $t1
+mflo $t2
+sw $t2, -308($sp)
+
+# %V58 = icmp sge i32 %V55, %V57
+lw $t0, -300($sp)
+lw $t1, -308($sp)
+sge $t2, $t0, $t1
+sw $t2, -312($sp)
+
+# br i1 %V58, label %b14, label %b15
+lw $t0, -312($sp)
+bne $t0, $zero, mainb14
+beq $t0, $zero, mainb15
+mainb14:
+
+# br label %b13
+j mainb13
+
+
+# br label %b15
+j mainb15
+
+mainb15:
+
+# br label %b12
+j mainb12
+
+mainb12:
+
+# br label %b10
+j mainb10
+
+mainb13:
+
+# %V59 = alloca i32
+addi $t0, $sp, -316
+sw $t0, -320($sp)
+
+# store i32 0 , i32* %V59
+li $t0, 0
+lw $t1, -320($sp)
+sw $t0, 0($t1)
+
+# %V60 = alloca [12 x i32]
+addi $t0, $sp, -368
+sw $t0, -372($sp)
+
+# br label %b16
+j mainb16
+
+mainb16:
+
+# %V61 = icmp sle i32 1, 2
+li $t0, 1
+li $t1, 2
+sle $t2, $t0, $t1
+sw $t2, -376($sp)
+
+# br i1 %V61, label %b17, label %b19
+lw $t0, -376($sp)
+bne $t0, $zero, mainb17
+beq $t0, $zero, mainb19
+mainb17:
+
+# %V62 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -380($sp)
+
+# %V63 = getelementptr inbounds [12 x i32], [12 x i32]* %V60,  i32 0 ,i32 %V62
+lw $t0, -372($sp)
+lw $t1, -380($sp)
+sll $t1, $t1, 2
+addu $t0, $t1, $t0
+sw $t0, -384($sp)
+
+# store i32 0 , i32* %V63
+li $t0, 0
+lw $t1, -384($sp)
+sw $t0, 0($t1)
+
+# %V64 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -388($sp)
+
+# %V65 = icmp eq i32 %V64, 5
+lw $t0, -388($sp)
+li $t1, 5
+seq $t2, $t0, $t1
+sw $t2, -392($sp)
+
+# br i1 %V65, label %b20, label %b21
+lw $t0, -392($sp)
+bne $t0, $zero, mainb20
+beq $t0, $zero, mainb21
+mainb20:
+
+# %V66 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -396($sp)
+
+# %V67 = add i32 %V66, 1
+lw $t0, -396($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -400($sp)
+
+# store i32 %V67 , i32* %V59
+lw $t0, -400($sp)
+lw $t1, -320($sp)
+sw $t0, 0($t1)
+
+# br label %b18
+j mainb18
+
+
+# br label %b21
+j mainb21
+
+mainb21:
+
+# %V68 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -404($sp)
+
+# %V69 = icmp sgt i32 %V68, 10
+lw $t0, -404($sp)
+li $t1, 10
+sgt $t2, $t0, $t1
+sw $t2, -408($sp)
+
+# br i1 %V69, label %b22, label %b23
+lw $t0, -408($sp)
+bne $t0, $zero, mainb22
+beq $t0, $zero, mainb23
+mainb22:
+
+# br label %b19
+j mainb19
+
+
+# br label %b23
+j mainb23
+
+mainb23:
+
+# %V70 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -412($sp)
+
+# %V71 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -416($sp)
+
+# %V72 = getelementptr inbounds [12 x i32], [12 x i32]* %V60,  i32 0 ,i32 %V71
+lw $t0, -372($sp)
+lw $t1, -416($sp)
+sll $t1, $t1, 2
+addu $t0, $t1, $t0
+sw $t0, -420($sp)
+
+# store i32 %V70 , i32* %V72
+lw $t0, -412($sp)
+lw $t1, -420($sp)
+sw $t0, 0($t1)
+
+# %V73 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -424($sp)
+
+# %V74 = add i32 %V73, 1
+lw $t0, -424($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -428($sp)
+
+# store i32 %V74 , i32* %V59
+lw $t0, -428($sp)
+lw $t1, -320($sp)
+sw $t0, 0($t1)
+
+# %V75 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -432($sp)
+
+# %V76 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -436($sp)
+
+# %V77 = load i32, i32* %V59
+lw $t0, -320($sp)
+lw $t0, 0($t0)
+sw $t0, -440($sp)
+
+# %V78 = mul i32 %V76, %V77
+lw $t0, -436($sp)
+lw $t1, -440($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -444($sp)
+
+# %V79 = add i32 %V75, %V78
+lw $t0, -432($sp)
+lw $t1, -444($sp)
+addu $t2, $t0, $t1
+sw $t2, -448($sp)
+
+# store i32 %V79 , i32* %V46
+lw $t0, -448($sp)
+lw $t1, -264($sp)
+sw $t0, 0($t1)
+
+# %V80 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -452($sp)
+
+# %V81 = add i32 %V80, 1
+lw $t0, -452($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -456($sp)
+
+# store i32 %V81 , i32* %V21
+lw $t0, -456($sp)
+lw $t1, -156($sp)
+sw $t0, 0($t1)
+
+# br label %b18
+j mainb18
+
+mainb18:
+
+# br label %b16
+j mainb16
+
+mainb19:
+
+# %V82 = alloca i32
+addi $t0, $sp, -460
+sw $t0, -464($sp)
+
+# store i32 0 , i32* %V82
+li $t0, 0
+lw $t1, -464($sp)
+sw $t0, 0($t1)
+
+# %V83 = load i32, i32* @G__1
+lw $t0, g1+0
+sw $t0, -468($sp)
+
+# %V84 = icmp slt i32 %V83, 5
+lw $t0, -468($sp)
+li $t1, 5
+slt $t2, $t0, $t1
+sw $t2, -472($sp)
+
+# br i1 %V84, label %b24, label %b26
+lw $t0, -472($sp)
+bne $t0, $zero, mainb24
+beq $t0, $zero, mainb26
+mainb26:
+
+# %V85 = getelementptr inbounds [2 x i32], [2 x i32]* @G_aaa,  i32 0 ,i32 0
+la $t0, g6
+addi $t0, $t0, 0
+sw $t0, -476($sp)
+
+# %V86 = load i32, i32* %V85
+lw $t0, -476($sp)
+lw $t0, 0($t0)
+sw $t0, -480($sp)
+
+# %V87 = icmp slt i32 %V86, 10
+lw $t0, -480($sp)
+li $t1, 10
+slt $t2, $t0, $t1
+sw $t2, -484($sp)
+
+# br i1 %V87, label %b24, label %b25
+lw $t0, -484($sp)
+bne $t0, $zero, mainb24
+beq $t0, $zero, mainb25
+mainb24:
+
+# %V88 = load i32, i32* %V82
+lw $t0, -464($sp)
+lw $t0, 0($t0)
+sw $t0, -488($sp)
+
+# %V89 = add i32 %V88, 1
+lw $t0, -488($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -492($sp)
+
+# store i32 %V89 , i32* %V82
+lw $t0, -492($sp)
+lw $t1, -464($sp)
+sw $t0, 0($t1)
+
+# br label %b25
+j mainb25
+
+mainb25:
+
+# %V90 = load i32, i32* @G__2
+lw $t0, g4+0
+sw $t0, -496($sp)
+
+# %V91 = icmp slt i32 %V90, 0
+lw $t0, -496($sp)
+li $t1, 0
+slt $t2, $t0, $t1
+sw $t2, -500($sp)
+
+# br i1 %V91, label %b29, label %b28
+lw $t0, -500($sp)
+bne $t0, $zero, mainb29
+beq $t0, $zero, mainb28
+mainb29:
+
+# %V92 = getelementptr inbounds [2 x i32], [2 x i32]* @G_aaa,  i32 0 ,i32 0
+la $t0, g6
+addi $t0, $t0, 0
+sw $t0, -504($sp)
+
+# %V93 = load i32, i32* %V92
+lw $t0, -504($sp)
+lw $t0, 0($t0)
+sw $t0, -508($sp)
+
+# %V94 = icmp sgt i32 %V93, 10
+lw $t0, -508($sp)
+li $t1, 10
+sgt $t2, $t0, $t1
+sw $t2, -512($sp)
+
+# br i1 %V94, label %b27, label %b28
+lw $t0, -512($sp)
+bne $t0, $zero, mainb27
+beq $t0, $zero, mainb28
+mainb27:
+
+# %V95 = load i32, i32* %V82
+lw $t0, -464($sp)
+lw $t0, 0($t0)
+sw $t0, -516($sp)
+
+# %V96 = add i32 %V95, 2
+lw $t0, -516($sp)
+li $t1, 2
+addu $t2, $t0, $t1
+sw $t2, -520($sp)
+
+# store i32 %V96 , i32* %V82
+lw $t0, -520($sp)
+lw $t1, -464($sp)
+sw $t0, 0($t1)
+
+# br label %b28
+j mainb28
+
+mainb28:
+
+# %V97 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -524($sp)
+
+# %V98 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 0
+la $t0, g13
+addi $t0, $t0, 0
+sw $t0, -528($sp)
+
+# %V99 = getelementptr inbounds [2 x i32], [2 x i32]* %V98,  i32 0 ,i32 0
+lw $t0, -528($sp)
+addi $t0, $t0, 0
+sw $t0, -532($sp)
+
+# store i32 %V97 , i32* %V99
+lw $t0, -524($sp)
+lw $t1, -532($sp)
+sw $t0, 0($t1)
+
+# %V100 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -536($sp)
+
+# %V101 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 1
+la $t0, g13
+addi $t0, $t0, 8
+sw $t0, -540($sp)
+
+# %V102 = getelementptr inbounds [2 x i32], [2 x i32]* %V101,  i32 0 ,i32 0
+lw $t0, -540($sp)
+addi $t0, $t0, 0
+sw $t0, -544($sp)
+
+# store i32 %V100 , i32* %V102
+lw $t0, -536($sp)
+lw $t1, -544($sp)
+sw $t0, 0($t1)
+
+# %V103 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -548($sp)
+
+# %V104 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 2
+la $t0, g13
+addi $t0, $t0, 16
+sw $t0, -552($sp)
+
+# %V105 = getelementptr inbounds [2 x i32], [2 x i32]* %V104,  i32 0 ,i32 0
+lw $t0, -552($sp)
+addi $t0, $t0, 0
+sw $t0, -556($sp)
+
+# store i32 %V103 , i32* %V105
+lw $t0, -548($sp)
+lw $t1, -556($sp)
+sw $t0, 0($t1)
+
+# %V106 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -560($sp)
+
+# %V107 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 0
+la $t0, g14
+addi $t0, $t0, 0
+sw $t0, -564($sp)
+
+# store i32 %V106 , i32* %V107
+lw $t0, -560($sp)
+lw $t1, -564($sp)
+sw $t0, 0($t1)
+
+# %V108 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -568($sp)
+
+# %V109 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 1
+la $t0, g14
+addi $t0, $t0, 4
+sw $t0, -572($sp)
+
+# store i32 %V108 , i32* %V109
+lw $t0, -568($sp)
+lw $t1, -572($sp)
+sw $t0, 0($t1)
+
+# %V110 = call i32 @getint()
+li $v0, 5
+syscall
+sw $v0, -576($sp)
+
+# store i32 %V110 , i32* @G_wuei
+lw $t0, -576($sp)
+sw $t0, g15+0
+
+# %V111 = load i32, i32* @G_wuei
+lw $t0, g15+0
+sw $t0, -580($sp)
+
+# %V112 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 0
+la $t0, g14
+addi $t0, $t0, 0
+sw $t0, -584($sp)
+
+# %V113 = load i32, i32* %V112
+lw $t0, -584($sp)
+lw $t0, 0($t0)
+sw $t0, -588($sp)
+
+# %V114 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 1
+la $t0, g14
+addi $t0, $t0, 4
+sw $t0, -592($sp)
+
+# %V115 = load i32, i32* %V114
+lw $t0, -592($sp)
+lw $t0, 0($t0)
+sw $t0, -596($sp)
+
+# %V116 = mul i32 %V113, %V115
+lw $t0, -588($sp)
+lw $t1, -596($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -600($sp)
+
+# %V117 = add i32 %V111, %V116
+lw $t0, -580($sp)
+lw $t1, -600($sp)
+addu $t2, $t0, $t1
+sw $t2, -604($sp)
+
+# %V118 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 0
+la $t0, g13
+addi $t0, $t0, 0
+sw $t0, -608($sp)
+
+# %V119 = getelementptr inbounds [2 x i32], [2 x i32]* %V118,  i32 0 ,i32 1
+lw $t0, -608($sp)
+addi $t0, $t0, 4
+sw $t0, -612($sp)
+
+# %V120 = load i32, i32* %V119
+lw $t0, -612($sp)
+lw $t0, 0($t0)
+sw $t0, -616($sp)
+
+# %V121 = mul i32 2, 1
+li $t0, 2
+li $t1, 1
+mult $t0, $t1
+mflo $t2
+sw $t2, -620($sp)
+
+# %V122 = sdiv i32 %V120, %V121
+lw $t0, -616($sp)
+lw $t1, -620($sp)
+div $t0, $t1
+mflo $t2
+sw $t2, -624($sp)
+
+# %V123 = add i32 %V117, %V122
+lw $t0, -604($sp)
+lw $t1, -624($sp)
+addu $t2, $t0, $t1
+sw $t2, -628($sp)
+
+# store i32 %V123 , i32* @G_wuei
+lw $t0, -628($sp)
+sw $t0, g15+0
+
+# %V124 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 2
+la $t0, g13
+addi $t0, $t0, 16
+sw $t0, -632($sp)
+
+# %V125 = getelementptr inbounds [2 x i32], [2 x i32]* %V124,  i32 0 ,i32 0
+lw $t0, -632($sp)
+addi $t0, $t0, 0
+sw $t0, -636($sp)
+
+# %V126 = load i32, i32* %V125
+lw $t0, -636($sp)
+lw $t0, 0($t0)
+sw $t0, -640($sp)
+
+# %V127 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 1
+la $t0, g13
+addi $t0, $t0, 8
+sw $t0, -644($sp)
+
+# %V128 = getelementptr inbounds [2 x i32], [2 x i32]* %V127,  i32 0 ,i32 0
+lw $t0, -644($sp)
+addi $t0, $t0, 0
+sw $t0, -648($sp)
+
+# %V129 = load i32, i32* %V128
+lw $t0, -648($sp)
+lw $t0, 0($t0)
+sw $t0, -652($sp)
+
+# %V130 = mul i32 %V126, %V129
+lw $t0, -640($sp)
+lw $t1, -652($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -656($sp)
+
+# %V131 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 2
+la $t0, g13
+addi $t0, $t0, 16
+sw $t0, -660($sp)
+
+# %V132 = getelementptr inbounds [2 x i32], [2 x i32]* %V131,  i32 0 ,i32 1
+lw $t0, -660($sp)
+addi $t0, $t0, 4
+sw $t0, -664($sp)
+
+# store i32 %V130 , i32* %V132
+lw $t0, -656($sp)
+lw $t1, -664($sp)
+sw $t0, 0($t1)
+
+# %V133 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -668($sp)
+
+# %V134 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -672($sp)
+
+# %V135 = mul i32 %V133, %V134
+lw $t0, -668($sp)
+lw $t1, -672($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -676($sp)
+
+# %V136 = load i32, i32* %V17
+lw $t0, -124($sp)
+lw $t0, 0($t0)
+sw $t0, -680($sp)
+
+# %V137 = load i32, i32* %V18
+lw $t0, -132($sp)
+lw $t0, 0($t0)
+sw $t0, -684($sp)
+
+# %V138 = call i32 @F__add (i32 %V136 , i32 %V137 , i32 3)
+sw $ra, -688($sp)
+lw $t0, -680($sp)
+sw $t0, -692($sp)
+lw $t0, -684($sp)
+sw $t0, -696($sp)
+li $t0, 3
+sw $t0, -700($sp)
+addi $sp, $sp, -688
+jal _add
+
+addi $sp, $sp, 688
+lw $ra, -688($sp)
+sw $v0, -704($sp)
+
+# %V139 = add i32 %V135, %V138
+lw $t0, -676($sp)
+lw $t1, -704($sp)
+addu $t2, $t0, $t1
+sw $t2, -708($sp)
+
+# store i32 %V139 , i32* @G_jdfo_
+lw $t0, -708($sp)
+sw $t0, g17+0
+
+# %V140 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -712($sp)
+
+# %V141 = call i32 @F__get_id ()
+sw $ra, -716($sp)
+addi $sp, $sp, -716
+jal _get_id
+
+addi $sp, $sp, 716
+lw $ra, -716($sp)
+sw $v0, -720($sp)
+
+# %V142 = add i32 %V140, %V141
+lw $t0, -712($sp)
+lw $t1, -720($sp)
+addu $t2, $t0, $t1
+sw $t2, -724($sp)
+
+# %V143 = load i32, i32* %V1
+lw $t0, -8($sp)
+lw $t0, 0($t0)
+sw $t0, -728($sp)
+
+# %V144 = call i32 @F__add_fake (i32 123243 , i32 %V143)
+sw $ra, -732($sp)
+li $t0, 123243
+sw $t0, -736($sp)
+lw $t0, -728($sp)
+sw $t0, -740($sp)
+addi $sp, $sp, -732
+jal _add_fake
+
+addi $sp, $sp, 732
+lw $ra, -732($sp)
+sw $v0, -744($sp)
+
+# %V145 = add i32 %V142, %V144
+lw $t0, -724($sp)
+lw $t1, -744($sp)
+addu $t2, $t0, $t1
+sw $t2, -748($sp)
+
+# store i32 %V145 , i32* %V46
+lw $t0, -748($sp)
+lw $t1, -264($sp)
+sw $t0, 0($t1)
+
+# call void @F____ ()
+sw $ra, -752($sp)
+addi $sp, $sp, -752
+jal ___
+
+addi $sp, $sp, 752
+lw $ra, -752($sp)
+
+# %V147 = getelementptr inbounds [2 x [2 x i32]], [2 x [2 x i32]]* @G__3u22,  i32 0 ,i32 0
+la $t0, g16
+addi $t0, $t0, 0
+sw $t0, -756($sp)
+
+# call void @F__Main ([2 x i32]* %V147)
+sw $ra, -760($sp)
+lw $t0, -756($sp)
+sw $t0, -764($sp)
+addi $sp, $sp, -760
+jal _Main
+
+addi $sp, $sp, 760
+lw $ra, -760($sp)
+
+# %V149 = getelementptr inbounds [4 x i32], [4 x i32]* @G__23879,  i32 0 ,i32 0
+la $t0, g12
+addi $t0, $t0, 0
+sw $t0, -768($sp)
+
+# call void @F___ (i32* %V149 , i32 3432)
+sw $ra, -772($sp)
+lw $t0, -768($sp)
+sw $t0, -776($sp)
+li $t0, 3432
+sw $t0, -780($sp)
+addi $sp, $sp, -772
+jal __
+
+addi $sp, $sp, 772
+lw $ra, -772($sp)
+
+# %V151 = load i32, i32* %V82
+lw $t0, -464($sp)
+lw $t0, 0($t0)
+sw $t0, -784($sp)
+
+# call void @putch(i32 116)
+li $a0, 116
+li $v0, 11
+syscall
+
+# call void @putch(i32 101)
+li $a0, 101
+li $v0, 11
+syscall
+
+# call void @putch(i32 109)
+li $a0, 109
+li $v0, 11
+syscall
+
+# call void @putch(i32 112)
+li $a0, 112
+li $v0, 11
+syscall
+
+# call void @putch(i32 58)
+li $a0, 58
+li $v0, 11
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V151)
+lw $a0, -784($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# %V152 = getelementptr inbounds [12 x i32], [12 x i32]* %V60,  i32 0 ,i32 0
+lw $t0, -372($sp)
+addi $t0, $t0, 0
+sw $t0, -788($sp)
+
+# %V153 = call i32 @F___my_Ha_s__h (i32* %V152 , i32 12)
+sw $ra, -792($sp)
+lw $t0, -788($sp)
+sw $t0, -796($sp)
+li $t0, 12
+sw $t0, -800($sp)
+addi $sp, $sp, -792
+jal __my_Ha_s__h
+
+addi $sp, $sp, 792
+lw $ra, -792($sp)
+sw $v0, -804($sp)
+
+# %V154 = load i32, i32* %V46
+lw $t0, -264($sp)
+lw $t0, 0($t0)
+sw $t0, -808($sp)
+
+# %V155 = load i32, i32* @G__3
+lw $t0, g2+0
+sw $t0, -812($sp)
+
+# %V156 = load i32, i32* @G__2
+lw $t0, g4+0
+sw $t0, -816($sp)
+
+# %V157 = load i32, i32* @G__10
+lw $t0, g5+0
+sw $t0, -820($sp)
+
+# %V158 = getelementptr inbounds [2 x i32], [2 x i32]* @G_aaa,  i32 0 ,i32 0
+la $t0, g6
+addi $t0, $t0, 0
+sw $t0, -824($sp)
+
+# %V159 = load i32, i32* %V158
+lw $t0, -824($sp)
+lw $t0, 0($t0)
+sw $t0, -828($sp)
+
+# %V160 = getelementptr inbounds [2 x i32], [2 x i32]* @G_aaa,  i32 0 ,i32 1
+la $t0, g6
+addi $t0, $t0, 4
+sw $t0, -832($sp)
+
+# %V161 = load i32, i32* %V160
+lw $t0, -832($sp)
+lw $t0, 0($t0)
+sw $t0, -836($sp)
+
+# %V162 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 0
+la $t0, g7
+addi $t0, $t0, 0
+sw $t0, -840($sp)
+
+# %V163 = getelementptr inbounds [3 x i32], [3 x i32]* %V162,  i32 0 ,i32 0
+lw $t0, -840($sp)
+addi $t0, $t0, 0
+sw $t0, -844($sp)
+
+# %V164 = load i32, i32* %V163
+lw $t0, -844($sp)
+lw $t0, 0($t0)
+sw $t0, -848($sp)
+
+# %V165 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 0
+la $t0, g7
+addi $t0, $t0, 0
+sw $t0, -852($sp)
+
+# %V166 = getelementptr inbounds [3 x i32], [3 x i32]* %V165,  i32 0 ,i32 1
+lw $t0, -852($sp)
+addi $t0, $t0, 4
+sw $t0, -856($sp)
+
+# %V167 = load i32, i32* %V166
+lw $t0, -856($sp)
+lw $t0, 0($t0)
+sw $t0, -860($sp)
+
+# %V168 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 0
+la $t0, g7
+addi $t0, $t0, 0
+sw $t0, -864($sp)
+
+# %V169 = getelementptr inbounds [3 x i32], [3 x i32]* %V168,  i32 0 ,i32 2
+lw $t0, -864($sp)
+addi $t0, $t0, 8
+sw $t0, -868($sp)
+
+# %V170 = load i32, i32* %V169
+lw $t0, -868($sp)
+lw $t0, 0($t0)
+sw $t0, -872($sp)
+
+# %V171 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 1
+la $t0, g7
+addi $t0, $t0, 12
+sw $t0, -876($sp)
+
+# %V172 = getelementptr inbounds [3 x i32], [3 x i32]* %V171,  i32 0 ,i32 0
+lw $t0, -876($sp)
+addi $t0, $t0, 0
+sw $t0, -880($sp)
+
+# %V173 = load i32, i32* %V172
+lw $t0, -880($sp)
+lw $t0, 0($t0)
+sw $t0, -884($sp)
+
+# %V174 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 1
+la $t0, g7
+addi $t0, $t0, 12
+sw $t0, -888($sp)
+
+# %V175 = getelementptr inbounds [3 x i32], [3 x i32]* %V174,  i32 0 ,i32 1
+lw $t0, -888($sp)
+addi $t0, $t0, 4
+sw $t0, -892($sp)
+
+# %V176 = load i32, i32* %V175
+lw $t0, -892($sp)
+lw $t0, 0($t0)
+sw $t0, -896($sp)
+
+# %V177 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 1
+la $t0, g7
+addi $t0, $t0, 12
+sw $t0, -900($sp)
+
+# %V178 = getelementptr inbounds [3 x i32], [3 x i32]* %V177,  i32 0 ,i32 2
+lw $t0, -900($sp)
+addi $t0, $t0, 8
+sw $t0, -904($sp)
+
+# %V179 = load i32, i32* %V178
+lw $t0, -904($sp)
+lw $t0, 0($t0)
+sw $t0, -908($sp)
+
+# %V180 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 2
+la $t0, g7
+addi $t0, $t0, 24
+sw $t0, -912($sp)
+
+# %V181 = getelementptr inbounds [3 x i32], [3 x i32]* %V180,  i32 0 ,i32 0
+lw $t0, -912($sp)
+addi $t0, $t0, 0
+sw $t0, -916($sp)
+
+# %V182 = load i32, i32* %V181
+lw $t0, -916($sp)
+lw $t0, 0($t0)
+sw $t0, -920($sp)
+
+# %V183 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 2
+la $t0, g7
+addi $t0, $t0, 24
+sw $t0, -924($sp)
+
+# %V184 = getelementptr inbounds [3 x i32], [3 x i32]* %V183,  i32 0 ,i32 1
+lw $t0, -924($sp)
+addi $t0, $t0, 4
+sw $t0, -928($sp)
+
+# %V185 = load i32, i32* %V184
+lw $t0, -928($sp)
+lw $t0, 0($t0)
+sw $t0, -932($sp)
+
+# %V186 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 2
+la $t0, g7
+addi $t0, $t0, 24
+sw $t0, -936($sp)
+
+# %V187 = getelementptr inbounds [3 x i32], [3 x i32]* %V186,  i32 0 ,i32 2
+lw $t0, -936($sp)
+addi $t0, $t0, 8
+sw $t0, -940($sp)
+
+# %V188 = load i32, i32* %V187
+lw $t0, -940($sp)
+lw $t0, 0($t0)
+sw $t0, -944($sp)
+
+# %V189 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 3
+la $t0, g7
+addi $t0, $t0, 36
+sw $t0, -948($sp)
+
+# %V190 = getelementptr inbounds [3 x i32], [3 x i32]* %V189,  i32 0 ,i32 0
+lw $t0, -948($sp)
+addi $t0, $t0, 0
+sw $t0, -952($sp)
+
+# %V191 = load i32, i32* %V190
+lw $t0, -952($sp)
+lw $t0, 0($t0)
+sw $t0, -956($sp)
+
+# %V192 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 3
+la $t0, g7
+addi $t0, $t0, 36
+sw $t0, -960($sp)
+
+# %V193 = getelementptr inbounds [3 x i32], [3 x i32]* %V192,  i32 0 ,i32 1
+lw $t0, -960($sp)
+addi $t0, $t0, 4
+sw $t0, -964($sp)
+
+# %V194 = load i32, i32* %V193
+lw $t0, -964($sp)
+lw $t0, 0($t0)
+sw $t0, -968($sp)
+
+# %V195 = getelementptr inbounds [4 x [3 x i32]], [4 x [3 x i32]]* @G_A,  i32 0 ,i32 3
+la $t0, g7
+addi $t0, $t0, 36
+sw $t0, -972($sp)
+
+# %V196 = getelementptr inbounds [3 x i32], [3 x i32]* %V195,  i32 0 ,i32 2
+lw $t0, -972($sp)
+addi $t0, $t0, 8
+sw $t0, -976($sp)
+
+# %V197 = load i32, i32* %V196
+lw $t0, -976($sp)
+lw $t0, 0($t0)
+sw $t0, -980($sp)
+
+# %V198 = load i32, i32* @G__3cg
+lw $t0, g8+0
+sw $t0, -984($sp)
+
+# %V199 = load i32, i32* @G_hdc33ec_dyu
+lw $t0, g9+0
+sw $t0, -988($sp)
+
+# %V200 = load i32, i32* @G_cdh3yi_23
+lw $t0, g10+0
+sw $t0, -992($sp)
+
+# %V201 = load i32, i32* @G_duhih2_23c
+lw $t0, g11+0
+sw $t0, -996($sp)
+
+# %V202 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 0
+la $t0, g13
+addi $t0, $t0, 0
+sw $t0, -1000($sp)
+
+# %V203 = getelementptr inbounds [2 x i32], [2 x i32]* %V202,  i32 0 ,i32 0
+lw $t0, -1000($sp)
+addi $t0, $t0, 0
+sw $t0, -1004($sp)
+
+# %V204 = load i32, i32* %V203
+lw $t0, -1004($sp)
+lw $t0, 0($t0)
+sw $t0, -1008($sp)
+
+# %V205 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 0
+la $t0, g13
+addi $t0, $t0, 0
+sw $t0, -1012($sp)
+
+# %V206 = getelementptr inbounds [2 x i32], [2 x i32]* %V205,  i32 0 ,i32 1
+lw $t0, -1012($sp)
+addi $t0, $t0, 4
+sw $t0, -1016($sp)
+
+# %V207 = load i32, i32* %V206
+lw $t0, -1016($sp)
+lw $t0, 0($t0)
+sw $t0, -1020($sp)
+
+# %V208 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 1
+la $t0, g13
+addi $t0, $t0, 8
+sw $t0, -1024($sp)
+
+# %V209 = getelementptr inbounds [2 x i32], [2 x i32]* %V208,  i32 0 ,i32 0
+lw $t0, -1024($sp)
+addi $t0, $t0, 0
+sw $t0, -1028($sp)
+
+# %V210 = load i32, i32* %V209
+lw $t0, -1028($sp)
+lw $t0, 0($t0)
+sw $t0, -1032($sp)
+
+# %V211 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 1
+la $t0, g13
+addi $t0, $t0, 8
+sw $t0, -1036($sp)
+
+# %V212 = getelementptr inbounds [2 x i32], [2 x i32]* %V211,  i32 0 ,i32 1
+lw $t0, -1036($sp)
+addi $t0, $t0, 4
+sw $t0, -1040($sp)
+
+# %V213 = load i32, i32* %V212
+lw $t0, -1040($sp)
+lw $t0, 0($t0)
+sw $t0, -1044($sp)
+
+# %V214 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 2
+la $t0, g13
+addi $t0, $t0, 16
+sw $t0, -1048($sp)
+
+# %V215 = getelementptr inbounds [2 x i32], [2 x i32]* %V214,  i32 0 ,i32 0
+lw $t0, -1048($sp)
+addi $t0, $t0, 0
+sw $t0, -1052($sp)
+
+# %V216 = load i32, i32* %V215
+lw $t0, -1052($sp)
+lw $t0, 0($t0)
+sw $t0, -1056($sp)
+
+# %V217 = getelementptr inbounds [3 x [2 x i32]], [3 x [2 x i32]]* @G_dijhw,  i32 0 ,i32 2
+la $t0, g13
+addi $t0, $t0, 16
+sw $t0, -1060($sp)
+
+# %V218 = getelementptr inbounds [2 x i32], [2 x i32]* %V217,  i32 0 ,i32 1
+lw $t0, -1060($sp)
+addi $t0, $t0, 4
+sw $t0, -1064($sp)
+
+# %V219 = load i32, i32* %V218
+lw $t0, -1064($sp)
+lw $t0, 0($t0)
+sw $t0, -1068($sp)
+
+# %V220 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 0
+la $t0, g14
+addi $t0, $t0, 0
+sw $t0, -1072($sp)
+
+# %V221 = load i32, i32* %V220
+lw $t0, -1072($sp)
+lw $t0, 0($t0)
+sw $t0, -1076($sp)
+
+# %V222 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 1
+la $t0, g14
+addi $t0, $t0, 4
+sw $t0, -1080($sp)
+
+# %V223 = load i32, i32* %V222
+lw $t0, -1080($sp)
+lw $t0, 0($t0)
+sw $t0, -1084($sp)
+
+# %V224 = load i32, i32* @G_wuei
+lw $t0, g15+0
+sw $t0, -1088($sp)
+
+# %V225 = load i32, i32* @G_jdfo_
+lw $t0, g17+0
+sw $t0, -1092($sp)
+
+# %V226 = getelementptr inbounds [2 x i32], [2 x i32]* @G_cdwuh,  i32 0 ,i32 0
+la $t0, g14
+addi $t0, $t0, 0
+sw $t0, -1096($sp)
+
+# %V227 = call i32 @F___my_Ha_s__h (i32* %V226 , i32 2)
+sw $ra, -1100($sp)
+lw $t0, -1096($sp)
+sw $t0, -1104($sp)
+li $t0, 2
+sw $t0, -1108($sp)
+addi $sp, $sp, -1100
+jal __my_Ha_s__h
+
+addi $sp, $sp, 1100
+lw $ra, -1100($sp)
+sw $v0, -1112($sp)
+
+# %V228 = call i32 @F__M__a_G_I___c (i32 %V227)
+sw $ra, -1116($sp)
+lw $t0, -1112($sp)
+sw $t0, -1120($sp)
+addi $sp, $sp, -1116
+jal _M__a_G_I___c
+
+addi $sp, $sp, 1116
+lw $ra, -1116($sp)
+sw $v0, -1124($sp)
+
+# %V229 = getelementptr inbounds [2 x [2 x i32]], [2 x [2 x i32]]* @G__3u22,  i32 0 ,i32 0
+la $t0, g16
+addi $t0, $t0, 0
+sw $t0, -1128($sp)
+
+# %V230 = getelementptr inbounds [2 x i32], [2 x i32]* %V229,  i32 0 ,i32 0
+lw $t0, -1128($sp)
+addi $t0, $t0, 0
+sw $t0, -1132($sp)
+
+# %V231 = call i32 @F___my_Ha_s__h (i32* %V230 , i32 2)
+sw $ra, -1136($sp)
+lw $t0, -1132($sp)
+sw $t0, -1140($sp)
+li $t0, 2
+sw $t0, -1144($sp)
+addi $sp, $sp, -1136
+jal __my_Ha_s__h
+
+addi $sp, $sp, 1136
+lw $ra, -1136($sp)
+sw $v0, -1148($sp)
+
+# %V232 = load i32, i32* %V20
+lw $t0, -148($sp)
+lw $t0, 0($t0)
+sw $t0, -1152($sp)
+
+# %V233 = load i32, i32* %V19
+lw $t0, -140($sp)
+lw $t0, 0($t0)
+sw $t0, -1156($sp)
+
+# %V234 = load i32, i32* %V5
+lw $t0, -40($sp)
+lw $t0, 0($t0)
+sw $t0, -1160($sp)
+
+# %V235 = getelementptr inbounds [2 x [4 x i32]], [2 x [4 x i32]]* %V6,  i32 0 ,i32 0
+lw $t0, -76($sp)
+addi $t0, $t0, 0
+sw $t0, -1164($sp)
+
+# %V236 = getelementptr inbounds [4 x i32], [4 x i32]* %V235,  i32 0 ,i32 2
+lw $t0, -1164($sp)
+addi $t0, $t0, 8
+sw $t0, -1168($sp)
+
+# %V237 = load i32, i32* %V236
+lw $t0, -1168($sp)
+lw $t0, 0($t0)
+sw $t0, -1172($sp)
+
+# call void @putint(i32 %V153)
+lw $a0, -804($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V154)
+lw $a0, -808($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 1)
+li $a0, 1
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V155)
+lw $a0, -812($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V156)
+lw $a0, -816($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V157)
+lw $a0, -820($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V159)
+lw $a0, -828($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V161)
+lw $a0, -836($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V164)
+lw $a0, -848($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V167)
+lw $a0, -860($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V170)
+lw $a0, -872($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V173)
+lw $a0, -884($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V176)
+lw $a0, -896($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V179)
+lw $a0, -908($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V182)
+lw $a0, -920($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V185)
+lw $a0, -932($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V188)
+lw $a0, -944($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V191)
+lw $a0, -956($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V194)
+lw $a0, -968($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V197)
+lw $a0, -980($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V198)
+lw $a0, -984($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V199)
+lw $a0, -988($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V200)
+lw $a0, -992($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V201)
+lw $a0, -996($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V204)
+lw $a0, -1008($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V207)
+lw $a0, -1020($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V210)
+lw $a0, -1032($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V213)
+lw $a0, -1044($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V216)
+lw $a0, -1056($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V219)
+lw $a0, -1068($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V221)
+lw $a0, -1076($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V223)
+lw $a0, -1084($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V224)
+lw $a0, -1088($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V225)
+lw $a0, -1092($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V228)
+lw $a0, -1124($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V231)
+lw $a0, -1148($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V232)
+lw $a0, -1152($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V233)
+lw $a0, -1156($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V234)
+lw $a0, -1160($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 32)
+li $a0, 32
+li $v0, 11
+syscall
+
+# call void @putint(i32 %V237)
+lw $a0, -1172($sp)
+li $v0, 1
+syscall
+
+# call void @putch(i32 10)
+li $a0, 10
+li $v0, 11
+syscall
+
+# %V238 = load i32, i32* %V21
+lw $t0, -156($sp)
+lw $t0, 0($t0)
+sw $t0, -1176($sp)
+
+# call void @F_____ (i32 %V238)
+sw $ra, -1180($sp)
+lw $t0, -1176($sp)
+sw $t0, -1184($sp)
+addi $sp, $sp, -1180
+jal ____
+
+addi $sp, $sp, 1180
+lw $ra, -1180($sp)
+
+# ret i32 0
+li $v0, 0
+jr $ra
+
+END:
+li $v0, 10
+syscall
+

@@ -65,7 +65,7 @@ public class ConstDef extends Node {
         if (ErrUseSymbolManager.SM.blockHasDefineVar(indent.content())) {
             errorCollector.addError(indent.getLine(), "b");
         } else if (ErrUseSymbolManager.SM.isGlobal()
-                &&ErrUseSymbolManager.SM.hasDefineFunc(indent.content())) {
+                && ErrUseSymbolManager.SM.hasDefineFunc(indent.content())) {
             // 如果是全局变量并且有同名函数，报错
             errorCollector.addError(indent.getLine(), "b");
         } else {
@@ -106,6 +106,8 @@ public class ConstDef extends Node {
         } else {
             AllocInstr allocInstr = new AllocInstr(llvmType, true);
             IRBuilder.IB.addInstrForBlock(allocInstr);
+            ((LocalVar) allocInstr.getAns()).setConstInitial(constInitVal.getInit());
+            // 给 const 赋初值,这个在编译器里用的,不体现在生成的代码里面
             VarSymbol varSymbol = new VarSymbol(indent.content(), allocInstr.getAns());
             if (getDim() == 0) {
                 Value value = constInitVal.getIRCode();

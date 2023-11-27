@@ -106,7 +106,7 @@ public class VarDef extends Node {
             VarSymbol varSymbol = new VarSymbol(indent.content(), globalVar);
             SymbolManager.SM.addVarSymbol(varSymbol);
         } else {
-            AllocInstr allocInstr = new AllocInstr(llvmType, true);
+            AllocInstr allocInstr = new AllocInstr(llvmType, false);
             IRBuilder.IB.addInstrForBlock(allocInstr);
             VarSymbol varSymbol = new VarSymbol(indent.content(), allocInstr.getAns());
             if (initVal != null) {
