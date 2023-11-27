@@ -8,7 +8,7 @@ public class IRBuilder {
     // 实际的llvm中中间代码都是 %i 形式的，而且命名都是直接@name之类的，我们为了测试方便，选择自行加一个前缀。
 
     public static final String GLOBAL_VAR_PRE = "@G_";
-    public static final String STRING_VAR_PRE = "@S_";
+    public static final String STRING_VAR_PRE = "@str_";
     public static final String LOCAL_VAR_PRE = "%V";
 
     public static final String PARAM_PRE = "%P_";
@@ -78,6 +78,10 @@ public class IRBuilder {
 
     public void moduleAddFunc(Function function) {
         module.addFunction(function);
+    }
+
+    public void moduleAddString(StringLiteral stringLiteral) {
+        module.addString(stringLiteral);
     }
 
     public void enterBlock(BasicBlock block) {

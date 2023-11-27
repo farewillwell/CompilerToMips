@@ -7,6 +7,8 @@ import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.IO.PutCh;
 import mid_end.llvm_ir.Instrs.IO.PutInt;
+import mid_end.llvm_ir.Instrs.IO.PutStr;
+import mid_end.llvm_ir.StringLiteral;
 import mid_end.llvm_ir.Value;
 
 
@@ -93,18 +95,33 @@ public class PrintStmt extends Stmt {
         String str = formatString.content();
         int cur = 0;
         // bug:没有处理换行符
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i < str.length() - 1; i++) {
             if (str.charAt(i) != '%') {
                 if (str.charAt(i) == '\\') {
-                    IRBuilder.IB.addInstrForBlock(new PutCh(new Constant('\n')));
+                    //IRBuilder.IB.addInstrForBlock(new PutCh(new Constant('\n')));
+                    sb.append("\\n");
+                    //-----------------------------------------------------------------------------//
+                    //注意，在llvm中这个不会体现\n,而是当作字符输出的，但是mips是正常的
+                    //-----------------------------------------------------------------------------//
                     i++;
                 } else {
-                    IRBuilder.IB.addInstrForBlock(new PutCh(new Constant(str.charAt(i))));
+                    //IRBuilder.IB.addInstrForBlock(new PutCh(new Constant(str.charAt(i))));
+                    sb.append(str.charAt(i));
                 }
             } else {
+                StringLiteral st = new StringLiteral(sb.length(), sb.toString());
+                IRBuilder.IB.moduleAddString(st);
+                IRBuilder.IB.addInstrForBlock(new PutStr(st));
+                sb = new StringBuilder();
                 i++;
                 IRBuilder.IB.addInstrForBlock(new PutInt(values.get(cur++)));
             }
+        }
+        if (sb.length() != 0) {
+            StringLiteral st = new StringLiteral(sb.length(), sb.toString());
+            IRBuilder.IB.moduleAddString(st);
+            IRBuilder.IB.addInstrForBlock(new PutStr(st));
         }
         return null;
     }
