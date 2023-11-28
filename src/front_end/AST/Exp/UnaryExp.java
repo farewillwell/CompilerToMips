@@ -181,21 +181,36 @@ public class UnaryExp extends Node {
             }
             /* TODO 函数有关的 */
         } else {
-            if (unaryOp.isNegative()) {
-                ALUInstr aluInstr = new ALUInstr(ALUInstr.SUB, new Constant(0), unaryExp.getIRCode());
-                Value value = aluInstr.getAns();
-                IRBuilder.IB.addInstrForBlock(aluInstr);
-                return value;
-            } else if (unaryOp.isPositive()) {
-                return unaryExp.getIRCode();
-            } else {
-                if (unaryOp.isNot()) {
-                    IcmpInstr icmpInstr = new IcmpInstr
-                            (IcmpInstr.EQ, unaryExp.getIRCode(), new Constant(0));
-                    IRBuilder.IB.addInstrForBlock(icmpInstr);
-                    return icmpInstr.getAns();
+            Value get = unaryExp.getIRCode();
+            if (get instanceof Constant) {
+                if (unaryOp.isNegative()) {
+                    return new Constant(-1 * ((Constant) get).getValue());
+                } else if (unaryOp.isPositive()) {
+                    return get;
                 } else {
-                    return unaryExp.getIRCode();
+                    if (unaryOp.isNot()) {
+                        return new Constant(((Constant) get).getValue() == 0 ? 1 : 0);
+                    } else {
+                        return get;
+                    }
+                }
+            } else {
+                if (unaryOp.isNegative()) {
+                    ALUInstr aluInstr = new ALUInstr(ALUInstr.SUB, new Constant(0), get);
+                    Value value = aluInstr.getAns();
+                    IRBuilder.IB.addInstrForBlock(aluInstr);
+                    return value;
+                } else if (unaryOp.isPositive()) {
+                    return get;
+                } else {
+                    if (unaryOp.isNot()) {
+                        IcmpInstr icmpInstr = new IcmpInstr
+                                (IcmpInstr.EQ, get, new Constant(0));
+                        IRBuilder.IB.addInstrForBlock(icmpInstr);
+                        return icmpInstr.getAns();
+                    } else {
+                        return get;
+                    }
                 }
             }
         }

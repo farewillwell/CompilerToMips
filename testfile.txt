@@ -1,5 +1,7 @@
+int b=8;
 int main()
 {
-printf("djaslkjdal\nhdskajdlsa)%d1",1);
+int a=0;
+a=6*7*9*b*8*(-8);
 return 0;
 }

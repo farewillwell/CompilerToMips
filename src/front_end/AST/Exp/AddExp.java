@@ -4,6 +4,7 @@ import front_end.AST.Node;
 import front_end.AST.TokenNode;
 import front_end.ErrorCollector;
 import front_end.RW;
+import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.ALUInstr;
 import mid_end.llvm_ir.Value;
@@ -74,15 +75,40 @@ public class AddExp extends Node {
         return sec;
     }
 
-
+    /*TODO 防止多次计算getIRCode*/
     @Override
     public Value getIRCode() {
         Value value = mulExp.getIRCode();
-        for (int i = 0; i < otherMulExps.size(); i++) {
-            String opcode = tokenNodes.get(i).type() == RW.TYPE.PLUS ? ALUInstr.ADD : ALUInstr.SUB;
-            ALUInstr aluInstr = new ALUInstr(opcode, value, otherMulExps.get(i).getIRCode());
-            IRBuilder.IB.addInstrForBlock(aluInstr);
-            value = aluInstr.getAns();
+        ArrayList<Value> otherTerm = new ArrayList<>();
+        /* a+b-c 可行 a-b+c 不可计算 */
+        /*只有前缀全为常数才可进行类似优化*/
+        for (MulExp otherMulExp : otherMulExps) {
+            otherTerm.add(otherMulExp.getIRCode());
+        }
+        for (int i = 0; i < otherTerm.size(); i++) {
+            String opcode;
+            RW.TYPE type = tokenNodes.get(i).type();
+            if (type == RW.TYPE.PLUS) {
+                opcode = ALUInstr.ADD;
+            } else {
+                opcode = ALUInstr.SUB;
+            }
+            Value term = otherTerm.get(i);
+            if (value instanceof Constant && term instanceof Constant) {
+                int ans;
+                int left = ((Constant) value).getValue();
+                int right = ((Constant) term).getValue();
+                if (opcode.equals(ALUInstr.ADD)) {
+                    ans = left + right;
+                } else {
+                    ans = left - right;
+                }
+                value = new Constant(ans);
+            } else {
+                ALUInstr aluInstr = new ALUInstr(opcode, value, otherTerm.get(i));
+                IRBuilder.IB.addInstrForBlock(aluInstr);
+                value = aluInstr.getAns();
+            }
         }
         return value;
     }

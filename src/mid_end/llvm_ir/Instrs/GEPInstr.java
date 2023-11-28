@@ -129,6 +129,7 @@ public class GEPInstr extends Instr {
             // 获取这个偏移元素的数目
             new MemAsm(MemAsm.LW, Register.T1, Register.SP, MipsBuilder.MB.queryOffset(numberOffset));
             // 把元素的长度存起来
+            // 长度不会是负数，因此没问题
             if ((objSize & (objSize - 1)) == 0) {
                 int shift = Integer.toBinaryString(objSize).length() - 1;
                 new AluR2IAsm(AluR2IAsm.SLL, Register.T1, Register.T1, shift);

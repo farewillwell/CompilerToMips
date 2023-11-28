@@ -4,6 +4,7 @@ import front_end.AST.Node;
 import front_end.AST.TokenNode;
 import front_end.ErrorCollector;
 import front_end.RW;
+import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.ALUInstr;
 import mid_end.llvm_ir.Value;
@@ -80,7 +81,21 @@ public class MulExp extends Node {
     @Override
     public Value getIRCode() {
         Value value = unaryExp.getIRCode();
-        for (int i = 0; i < otherUnaryExps.size(); i++) {
+        if (value instanceof Constant && ((Constant) value).getValue() == 0) {
+            return new Constant(0);
+        }
+        ArrayList<Value> otherFactors = new ArrayList<>();
+        /* a*b*c 可行 a/b*c 不可计算 b*c,因此如果有a/b*c而bc为常数,无法进行常数优化*/
+        /*只有前缀全为常数才可进行类似优化*/
+        for (UnaryExp otherUnaryExp : otherUnaryExps) {
+            otherFactors.add(otherUnaryExp.getIRCode());
+        }
+        for (Value factor : otherFactors) {
+            if (factor instanceof Constant && ((Constant) factor).getValue() == 0) {
+                return new Constant(0);
+            }
+        }
+        for (int i = 0; i < otherFactors.size(); i++) {
             String opcode;
             RW.TYPE type = tokenNodes.get(i).type();
             if (type == RW.TYPE.MULT) {
@@ -90,9 +105,24 @@ public class MulExp extends Node {
             } else {
                 opcode = ALUInstr.SREM;
             }
-            ALUInstr aluInstr = new ALUInstr(opcode, value, otherUnaryExps.get(i).getIRCode());
-            IRBuilder.IB.addInstrForBlock(aluInstr);
-            value = aluInstr.getAns();
+            Value factor = otherFactors.get(i);
+            if (value instanceof Constant && factor instanceof Constant) {
+                int ans;
+                int left = ((Constant) value).getValue();
+                int right = ((Constant) factor).getValue();
+                if (opcode.equals(ALUInstr.MUL)) {
+                    ans = left * right;
+                } else if (opcode.equals(ALUInstr.DIV)) {
+                    ans = left / right;
+                } else {
+                    ans = left % right;
+                }
+                value = new Constant(ans);
+            } else {
+                ALUInstr aluInstr = new ALUInstr(opcode, value, otherFactors.get(i));
+                IRBuilder.IB.addInstrForBlock(aluInstr);
+                value = aluInstr.getAns();
+            }
         }
         return value;
     }

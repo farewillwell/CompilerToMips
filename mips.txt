@@ -1,6 +1,5 @@
 .data
-str_0: .asciiz "djaslkjdal\nhdskajdlsa)"
-str_1: .asciiz "1"
+g1 : .word 8
 
 .text
 
@@ -14,20 +13,41 @@ j END
 main:
 mainb0:
 
-# call void @putstr(i8* getelementptr inbounds ([24 x i8], [24 x i8]* @str_0, i32 0, i32 0))
-la $a0, str_0
-li $v0, 4
-syscall
+# %V1 = alloca i32
+addi $t0, $sp, -4
+sw $t0, -8($sp)
 
-# call void @putint(i32 1)
-li $a0, 1
-li $v0, 1
-syscall
+# store i32 0 , i32* %V1
+li $t0, 0
+lw $t1, -8($sp)
+sw $t0, 0($t1)
 
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-la $a0, str_1
-li $v0, 4
-syscall
+# %V2 = load i32, i32* @G_b
+lw $t0, g1+0
+sw $t0, -12($sp)
+
+# %V3 = mul i32 378, %V2
+li $t0, 378
+lw $t1, -12($sp)
+mult $t0, $t1
+mflo $t2
+sw $t2, -16($sp)
+
+# %V4 = mul i32 %V3, 8
+lw $t0, -16($sp)
+sll $t2, $t0, 3
+sw $t2, -20($sp)
+
+# %V5 = mul i32 %V4, -8
+lw $t0, -20($sp)
+sll $t2, $t0, 3
+subu $t2, $zero, $t2
+sw $t2, -24($sp)
+
+# store i32 %V5 , i32* %V1
+lw $t0, -24($sp)
+lw $t1, -8($sp)
+sw $t0, 0($t1)
 
 # ret i32 0
 li $v0, 0
