@@ -47,6 +47,12 @@ public class Function extends User {
         }
     }
 
+    public void cleanInstrAfterOutForBlock() {
+        for (BasicBlock block : basicBlocks) {
+            block.cleanInstrAfterOut();
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -88,5 +94,69 @@ public class Function extends User {
             block.genMipsCode();
         }
         MipsBuilder.MB.exitFunc();
+    }
+
+    //------------------------------------------------------------------------------------
+    public void refillFlowChart() {
+        for (BasicBlock block : basicBlocks) {
+            block.refillFlowChart();
+        }
+    }
+
+    public void queryDom() {
+        showPrev();
+        boolean ok = false;
+        int count = 0;
+        // out[entry]=v_entry,  out == dominates
+        basicBlocks.get(0).whoDomMe.add(basicBlocks.get(0));
+        // for (Entry外的每个基本块) out[B] = T ,这里 T = N
+        for (int i = 1; i < basicBlocks.size(); i++) {
+            basicBlocks.get(i).whoDomMe.addAll(basicBlocks);
+        }
+        // while 某个out值发生变化
+        while (!ok) {
+            ok = true;
+            System.out.println("pass" + ++count);
+            for (int i = 0; i < basicBlocks.size(); i++) {
+                if (i == 0) {
+                    basicBlocks.get(i).printContainBlocks(basicBlocks.get(i).whoDomMe);
+                } // 除了entry外的每个基本块B
+                else if (!basicBlocks.get(i).queryWhoDomMe(basicBlocks)) {
+                    ok = false;// 这里如果用&&莫名其妙会优化?
+                }
+            }
+        }
+        for (BasicBlock block : basicBlocks) {
+            block.refillMeDomWho();
+        }
+        for (BasicBlock block : basicBlocks) {
+            block.printMeDomWho();
+        }
+    }
+
+    public void queryImmDomTree() {
+        for (BasicBlock block : basicBlocks) {
+            block.queryImmDomer();
+            block.printImmDomMess();
+        }
+    }
+
+    public void queryDf() {
+        for (BasicBlock block : basicBlocks) {
+            block.queryDf();
+        }
+        for (BasicBlock block : basicBlocks) {
+            block.printDF();
+        }
+    }
+
+    private void showPrev() {
+        for (BasicBlock basicBlock : basicBlocks) {
+            System.out.print(basicBlock.name + ":");
+            for (BasicBlock block : basicBlock.prev) {
+                System.out.print(block.name + " ");
+            }
+            System.out.println("  ");
+        }
     }
 }

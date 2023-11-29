@@ -38,7 +38,7 @@ public class VarManager {
         regUsed = new HashSet<>();
         usableRegs = new LinkedList<>();
         memMap = new HashMap<>();
-        for (int i = 11; i <= 28; i++) {
+        for (int i = 11; i <= 27; i++) {
             usableRegs.add(Register.getWithIndex(i));
         }
     }

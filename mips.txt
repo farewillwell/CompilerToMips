@@ -1,5 +1,4 @@
 .data
-g1 : .word 8
 
 .text
 
@@ -11,46 +10,62 @@ jal main
 j END
 
 main:
-mainb0:
+mainb1:
 
 # %V1 = alloca i32
 addi $t0, $sp, -4
 sw $t0, -8($sp)
 
-# store i32 0 , i32* %V1
-li $t0, 0
+# store i32 1 , i32* %V1
+li $t0, 1
 lw $t1, -8($sp)
 sw $t0, 0($t1)
 
-# %V2 = load i32, i32* @G_b
-lw $t0, g1+0
-sw $t0, -12($sp)
+# %V2 = alloca i32
+addi $t0, $sp, -12
+sw $t0, -16($sp)
 
-# %V3 = mul i32 378, %V2
-li $t0, 378
-lw $t1, -12($sp)
-mult $t0, $t1
-mflo $t2
-sw $t2, -16($sp)
+# store i32 2 , i32* %V2
+li $t0, 2
+lw $t1, -16($sp)
+sw $t0, 0($t1)
 
-# %V4 = mul i32 %V3, 8
-lw $t0, -16($sp)
-sll $t2, $t0, 3
-sw $t2, -20($sp)
+# %V3 = load i32, i32* %V1
+lw $t0, -8($sp)
+lw $t0, 0($t0)
+sw $t0, -20($sp)
 
-# %V5 = mul i32 %V4, -8
+# %V4 = icmp sgt i32 %V3, 1
 lw $t0, -20($sp)
-sll $t2, $t0, 3
-subu $t2, $zero, $t2
+li $t1, 1
+sgt $t2, $t0, $t1
 sw $t2, -24($sp)
 
-# store i32 %V5 , i32* %V1
+# br i1 %V4, label %b2, label %b3
 lw $t0, -24($sp)
-lw $t1, -8($sp)
-sw $t0, 0($t1)
+bne $t0, $zero, mainb2
+beq $t0, $zero, mainb3
+mainb2:
 
-# ret i32 0
-li $v0, 0
+# ret i32 1
+li $v0, 1
+jr $ra
+
+mainb3:
+
+# ret i32 2
+li $v0, 2
+jr $ra
+
+mainb4:
+
+# %V5 = load i32, i32* %V2
+lw $t0, -16($sp)
+lw $t0, 0($t0)
+sw $t0, -28($sp)
+
+# ret i32 %V5
+lw $v0, -28($sp)
 jr $ra
 
 END:

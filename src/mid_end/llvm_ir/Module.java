@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Module extends Value {
     private final ArrayList<StringLiteral> stringLiterals;
-    private final ArrayList<Function> functions;
+    public final ArrayList<Function> functions;
     private final ArrayList<GlobalVar> globalVars;
 
 
@@ -23,6 +23,7 @@ public class Module extends Value {
     public void finish() {
         for (Function function : functions) {
             function.ensureReturnExist();
+            function.cleanInstrAfterOutForBlock();
         }
     }
 
@@ -40,7 +41,6 @@ public class Module extends Value {
 
     @Override
     public String toString() {
-        finish();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(GetInt.defineHead);
         stringBuilder.append(PutCh.defineHead);
@@ -76,4 +76,44 @@ public class Module extends Value {
         }
         MipsBuilder.MB.textFinish();
     }
+
+    //----------------------------------------------------------------CFG
+
+    public void doCFG() {
+        refillFlowChart();
+        queryDominates();
+        queryImmDomTree();
+        queryDf();
+    }
+
+    private void refillFlowChart() {
+        for (Function function : functions) {
+            function.refillFlowChart();
+        }
+    }
+
+    private void queryDominates() {
+        System.out.println("--------------dominates------------------");
+        for (Function function : functions) {
+            System.out.println(function.name);
+            function.queryDom();
+        }
+    }
+
+    public void queryImmDomTree() {
+        System.out.println("--------------immDomTree------------------");
+        for (Function function : functions) {
+            System.out.println(function.name);
+            function.queryImmDomTree();
+        }
+    }
+
+    public void queryDf() {
+        System.out.println("-------------------df-------------------------");
+        for (Function function : functions) {
+            System.out.println(function.name);
+            function.queryDf();
+        }
+    }
+
 }

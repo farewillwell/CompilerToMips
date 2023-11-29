@@ -12,8 +12,8 @@ public enum Register {
     //-----------------------------------------------------------中转寄存器
     T0("$t0"),// 一般用t0作为指令的参数,不存东西
     T1("$t1"),// 一般用t1作为指令的参数,不存东西
+    T2("$t2"),// 一般用t2作为指令的参数，不存东西
     // -----------------------------------------------------------
-    T2("$t2"),
     T3("$t3"),
     T4("$t4"),
     T5("$t5"),
@@ -42,9 +42,9 @@ public enum Register {
     }
 
     // k0k1按理来说是不该被使用的，但是考虑到并没有和操作系统进行交互，所以这俩是没用的
-    // 自主可用的寄存器, t0-gp , 共22个(谨记zero不能用来load,所以只能在特殊用途)
-    // 而且基础的两个操作数是t0,t1因此不用这两个来存变量.
-    // fp 不知道能干啥用，但是似乎能追踪什么的，还留着不用了。
+    // 自主可用的寄存器, t3-k1 , 共个(谨记zero不能用来load,所以只能在特殊用途)
+    // 而且基础的两个操作数是t0,t1,t2因此不用这两个来存变量.
+    // gp,fp 不知道能干啥用，但是似乎能追踪什么的，还留着不用了。
     // 结果值怎么办?首先肯定会存到寄存器里，然后立即放到地址空间里比较合适。
     @Override
     public String toString() {
@@ -54,11 +54,11 @@ public enum Register {
     // 比如就用fp来存这个就是不错的行为
 
     public static Register getWithIndex(int index) {
-        //if (index >= 11 && index <= 28) {
-        return values()[index];
-        //}
-        // 不能用的,zero,at,v0,v1,a0-a3,sp,ra
-        //throw new RuntimeException("use which shall never be used by index " + index);
+        if (index >= 11 && index <= 27) {
+            return values()[index];
+        }
+        // 不能用的,zero,at,v0,v1,a0-a3,sp,fp,gp,ra
+        throw new RuntimeException("use which shall never be used by index " + index);
     }
 
 

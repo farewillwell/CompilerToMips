@@ -26,4 +26,8 @@ public class JumpInstr extends Instr {
         super.genMipsCode();
         new JumpAsm(JumpAsm.J, ((BasicBlock) paras.get(0)).nameInMips);
     }
+
+    public BasicBlock getTargetBlock() {
+        return (BasicBlock) (paras.get(0));
+    }
 }

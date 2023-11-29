@@ -4,7 +4,8 @@ import front_end.ErrorCollector;
 import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
-import mid_end.llvm_ir.Value;
+import mid_end.llvm_ir.Function;
+import mid_end.llvm_ir.Module;
 
 import java.io.*;
 
@@ -13,9 +14,11 @@ public class Compiler {
     // 是否进行代码检查
     private static final boolean CHECK_ERROR = false;
     // 是否开优化
-    private static final boolean DO_OPTIMIZE = false;
+    private static final boolean DO_OPTIMIZE = true;
 
-    private static final boolean MAKE_MIPS = true;
+    private static final boolean MAKE_MIPS = false;
+
+    private static final PrintStream stdout= System.out;
 
     public static void main(String[] args) {
         //-----------------------------------------------------------------------------------------
@@ -53,13 +56,14 @@ public class Compiler {
         }
         //---------------------------------------------------------------------------------------
         // llvm make
-        Value irUnit = null;
+        Module irUnit = null;
         if (!CHECK_ERROR || errorCollector.noError()) {
             try {
                 PrintStream printStream = new PrintStream("llvm_ir.txt");
-                irUnit = compUnit.getIRCode();
-                System.setOut(printStream);
-                System.out.println(irUnit.toString());
+                //irUnit = (Module) compUnit.getIRCode();
+                //irUnit.finish();
+                //System.setOut(printStream);
+                //System.out.println(irUnit);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -67,6 +71,9 @@ public class Compiler {
         //-------------------------------------------------------------------------------------------
         // optimize
         /*TODO 优化待施工*/
+        if (DO_OPTIMIZE) {
+            System.setOut(stdout);
+        }
         //--------------------------------------------------------------------------------------------
         // mips make
         if (irUnit != null && MAKE_MIPS) {
