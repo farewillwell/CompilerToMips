@@ -3,13 +3,14 @@ package mid_end.llvm_ir;
 import back_end.Mips.AsmInstrs.BlockSignAsm;
 import mid_end.llvm_ir.Instrs.BranchInstr;
 import mid_end.llvm_ir.Instrs.JumpInstr;
+import mid_end.llvm_ir.Instrs.PhiInstr;
 import mid_end.llvm_ir.Instrs.ReturnInstr;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BasicBlock extends Value {
-    private final ArrayList<Instr> instrList = new ArrayList<>();
+    public final ArrayList<Instr> instrList = new ArrayList<>();
     public final String name;
     public final String nameInMips;
     public final HashSet<BasicBlock> prev = new HashSet<>();
@@ -125,8 +126,12 @@ public class BasicBlock extends Value {
     public boolean queryWhoDomMe(ArrayList<BasicBlock> allNodes) {
         // 由于是求所有集合的交集，因此直接先将全集放进来即可
         HashSet<BasicBlock> hashSet = new HashSet<>(allNodes);
+        // 如果一个集合前驱也没有？那么自然是空的了,不能保留!!!
         for (BasicBlock block : prev) {
             hashSet.retainAll(block.whoDomMe);
+        }
+        if (prev.size() == 0) {
+            hashSet.clear();
         }
         hashSet.add(this);
         printContainBlocks(hashSet);

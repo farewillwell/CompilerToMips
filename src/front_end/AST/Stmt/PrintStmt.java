@@ -99,14 +99,9 @@ public class PrintStmt extends Stmt {
         for (int i = 1; i < str.length() - 1; i++) {
             if (str.charAt(i) != '%') {
                 if (str.charAt(i) == '\\') {
-                    //IRBuilder.IB.addInstrForBlock(new PutCh(new Constant('\n')));
-                    sb.append("\\n");
-                    //-----------------------------------------------------------------------------//
-                    //注意，在llvm中这个不会体现\n,而是当作字符输出的，但是mips是正常的
-                    //-----------------------------------------------------------------------------//
+                    sb.append("\n");
                     i++;
                 } else {
-                    //IRBuilder.IB.addInstrForBlock(new PutCh(new Constant(str.charAt(i))));
                     sb.append(str.charAt(i));
                 }
             } else {

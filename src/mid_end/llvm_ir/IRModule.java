@@ -8,13 +8,13 @@ import mid_end.llvm_ir.Instrs.IO.PutStr;
 
 import java.util.ArrayList;
 
-public class Module extends Value {
+public class IRModule extends Value {
     private final ArrayList<StringLiteral> stringLiterals;
     public final ArrayList<Function> functions;
     private final ArrayList<GlobalVar> globalVars;
 
 
-    public Module() {
+    public IRModule() {
         functions = new ArrayList<>();
         globalVars = new ArrayList<>();
         stringLiterals = new ArrayList<>();
@@ -81,6 +81,7 @@ public class Module extends Value {
 
     public void doCFG() {
         refillFlowChart();
+        cleanUnReachableBlock();
         queryDominates();
         queryImmDomTree();
         queryDf();
@@ -113,6 +114,12 @@ public class Module extends Value {
         for (Function function : functions) {
             System.out.println(function.name);
             function.queryDf();
+        }
+    }
+
+    public void cleanUnReachableBlock() {
+        for (Function function : functions) {
+            function.cleanUnReachableBlock();
         }
     }
 

@@ -19,6 +19,14 @@ public class LoadInstr extends Instr {
         setAns(new LocalVar(((PointerType) pointer.type).objType, false));
     }
 
+    public boolean hasUse(Value pointer) {
+        return paras.get(0) == pointer;
+    }
+
+    public Value getFromPointer() {
+        return paras.get(0);
+    }
+
 
     @Override
     public String toString() {

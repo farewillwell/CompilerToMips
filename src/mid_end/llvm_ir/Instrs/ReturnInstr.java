@@ -14,25 +14,25 @@ import mid_end.llvm_ir.type.BaseType;
 public class ReturnInstr extends Instr {
     private final BaseType retType;
 
-    private final Value retValue;
+    private Value getRetValue() {
+        return paras.get(0);
+    }
 
     public ReturnInstr(Value value) {
         super();
         retType = BaseType.I32;
-        retValue = value;
+        addValue(value);
     }
 
     public ReturnInstr() {
         retType = BaseType.Void;
-        retValue = null;
     }
 
     @Override
     public String toString() {
         // StringBuilder builder =new StringBuilder();
         if (retType.equals(BaseType.I32)) {
-            assert retValue != null;
-            return "ret i32 " + retValue;
+            return "ret i32 " + getRetValue();
         } else {
             return "ret void";
         }
@@ -42,12 +42,12 @@ public class ReturnInstr extends Instr {
     public void genMipsCode() {
         super.genMipsCode();
         if (retType.equals(BaseType.I32)) {
-            if (retValue instanceof Constant) {
-                new LiAsm(((Constant) retValue).getValue(), Register.V0);
-            } else if (retValue instanceof GlobalVar) {
-                new MemAsm(MemAsm.LW, Register.V0, ((GlobalVar) retValue).nameInMips(), 0);
+            if (getRetValue() instanceof Constant) {
+                new LiAsm(((Constant) getRetValue()).getValue(), Register.V0);
+            } else if (getRetValue() instanceof GlobalVar) {
+                new MemAsm(MemAsm.LW, Register.V0, ((GlobalVar) getRetValue()).nameInMips(), 0);
             } else {
-                int offset = MipsBuilder.MB.queryOffset(retValue);
+                int offset = MipsBuilder.MB.queryOffset(getRetValue());
                 new MemAsm(MemAsm.LW, Register.V0, Register.SP, offset);
             }
         }

@@ -17,6 +17,18 @@ public class StoreInstr extends Instr {
         addValue(inTo);
     }
 
+    public boolean hasDef(Value value) {
+        return paras.get(1) == value;
+    }
+
+    public Value getDstPointer() {
+        return paras.get(1);
+    }
+
+    public Value getStoreInValue() {
+        return paras.get(0);
+    }
+
     @Override
     public String toString() {
         return "store " + paras.get(0).type + " " + paras.get(0) +

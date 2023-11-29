@@ -25,17 +25,16 @@ public class IRBuilder {
         bbCnt = 0;
         paraCnt = 0;
         stringCnt = 0;
-        localCnt = 1;
-        module = new Module();
+        IRModule = new IRModule();
         loopStack = new Stack<>();
     }
 
     // 保证只在compUnit处获得
-    public Module getModule() {
-        return this.module;
+    public IRModule getModule() {
+        return this.IRModule;
     }
 
-    private final Module module;
+    private final IRModule IRModule;
 
     private int bbCnt;
 
@@ -43,7 +42,6 @@ public class IRBuilder {
 
     private int stringCnt;
 
-    private int localCnt;
 
     public int globalCnt;
 
@@ -61,7 +59,7 @@ public class IRBuilder {
     }
 
     public String getLocalVarName() {
-        return LOCAL_VAR_PRE + localCnt++;
+        return LOCAL_VAR_PRE + nowFunc.localCnt++;
     }
 
     private BasicBlock nowBlock;
@@ -73,15 +71,15 @@ public class IRBuilder {
     }
 
     public void moduleAddGlobal(GlobalVar globalVar) {
-        module.addGlobalVar(globalVar);
+        IRModule.addGlobalVar(globalVar);
     }
 
     public void moduleAddFunc(Function function) {
-        module.addFunction(function);
+        IRModule.addFunction(function);
     }
 
     public void moduleAddString(StringLiteral stringLiteral) {
-        module.addString(stringLiteral);
+        IRModule.addString(stringLiteral);
     }
 
     public void enterBlock(BasicBlock block) {
@@ -92,7 +90,6 @@ public class IRBuilder {
     public void enterFunc(Function function) {
         bbCnt = 0;
         paraCnt = 0;
-        localCnt = 1;
         this.nowFunc = function;
     }
 

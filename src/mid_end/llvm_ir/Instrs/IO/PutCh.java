@@ -12,7 +12,7 @@ public class PutCh extends IOInstr {
 
     public PutCh(Value value) {
         super();
-        paras.add(value);
+        addValue(value);
     }
 
     public static final String defineHead = "declare void @putch(i32)\n";

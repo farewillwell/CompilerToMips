@@ -4,8 +4,8 @@ import front_end.ErrorCollector;
 import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
-import mid_end.llvm_ir.Function;
-import mid_end.llvm_ir.Module;
+import mid_end.llvm_ir.IRModule;
+import optimization.Mem2Reg;
 
 import java.io.*;
 
@@ -16,9 +16,9 @@ public class Compiler {
     // 是否开优化
     private static final boolean DO_OPTIMIZE = true;
 
-    private static final boolean MAKE_MIPS = true;
+    private static final boolean MAKE_MIPS = false;
 
-    private static final PrintStream stdout= System.out;
+    private static final PrintStream stdout = System.out;
 
     public static void main(String[] args) {
         //-----------------------------------------------------------------------------------------
@@ -56,11 +56,11 @@ public class Compiler {
         }
         //---------------------------------------------------------------------------------------
         // llvm make
-        Module irUnit = null;
+        IRModule irUnit = null;
         if (!CHECK_ERROR || errorCollector.noError()) {
             try {
-                PrintStream printStream = new PrintStream("llvm_ir.txt");
-                irUnit = (Module) compUnit.getIRCode();
+                PrintStream printStream = new PrintStream("llvm_op.txt");
+                irUnit = (IRModule) compUnit.getIRCode();
                 irUnit.finish();
                 System.setOut(printStream);
                 System.out.println(irUnit);
@@ -71,8 +71,17 @@ public class Compiler {
         //-------------------------------------------------------------------------------------------
         // optimize
         /*TODO 优化待施工*/
-        if (DO_OPTIMIZE) {
+        if (irUnit != null && DO_OPTIMIZE) {
             System.setOut(stdout);
+            irUnit.doCFG();
+            new Mem2Reg().solve(irUnit);
+            try {
+                PrintStream printStream = new PrintStream("llvm_ir.txt");
+                System.setOut(printStream);
+                System.out.println(irUnit);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
         //--------------------------------------------------------------------------------------------
         // mips make

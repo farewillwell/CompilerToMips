@@ -35,10 +35,13 @@ public class Instr extends User {
     // 将第x个参数换成value
     // 例如value = add 1+2 可以把这个参数删掉.
 
-    public void replace(Value toReplace, Value value) {
+    public void replace(Value oldOne, Value newOne) {
         this.paras.replaceAll(para -> {
-            if (para == toReplace) return value;
-            else return para;
+            if (para == oldOne) {
+                oldOne.removeUser(this);
+                newOne.addUser(this);
+                return newOne;
+            } else return para;
         });
     }
 }

@@ -12,7 +12,7 @@ public class PutStr extends IOInstr {
 
     public PutStr(Value value) {
         super();
-        paras.add(value);
+        addValue(value);
         size = ((StringLiteral) value).size;
     }
 

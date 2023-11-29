@@ -19,6 +19,9 @@ public class User extends Value {
 
     public void addValue(Value value) {
         this.paras.add(value);
+        if (this instanceof Instr) {
+            value.addUser((Instr) this);
+        }
     }
 
 

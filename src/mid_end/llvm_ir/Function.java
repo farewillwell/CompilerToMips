@@ -7,6 +7,8 @@ import mid_end.llvm_ir.Instrs.ReturnInstr;
 import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class Function extends User {
 
@@ -15,6 +17,7 @@ public class Function extends User {
         basicBlocks = new ArrayList<>();
         params = new ArrayList<>();
         this.name = name;
+        this.localCnt = 1;
     }
 
     public final ArrayList<Param> params;
@@ -22,6 +25,8 @@ public class Function extends User {
     public final ArrayList<BasicBlock> basicBlocks;
 
     public final String name;
+
+    public int localCnt;
 
     public void addPara(Param param) {
         this.params.add(param);
@@ -157,6 +162,31 @@ public class Function extends User {
                 System.out.print(block.name + " ");
             }
             System.out.println("  ");
+        }
+    }
+
+    // 定理,不与以entry为根的支配树联通的block不可达
+    // 这是因为dom为直接支配，因此每个父节点都支配子节点，因此entry支配树上所有节点
+    // 若不支配，则不连通，从entry无法到block,也就可以删除了
+    // 事实上,考虑到算法需要每个节点都有且只有一个直接支配节点的性质
+    // 因此我们应当在开始的时候删除不可达的而不是在dom阶段删除
+    public void cleanUnReachableBlock() {
+        HashSet<BasicBlock> unReach = new HashSet<>(basicBlocks);
+        dfsDomTreeCheckReach(basicBlocks.get(0), unReach);
+        basicBlocks.removeIf(unReach::contains);
+        // 别忘了删除他们的使用前后节点关系，不然始终藕断丝连!!!
+        for (BasicBlock block : basicBlocks) {
+            block.next.removeAll(unReach);
+            block.prev.removeAll(unReach);
+        }
+    }
+
+    private void dfsDomTreeCheckReach(BasicBlock entry, HashSet<BasicBlock> unReachable) {
+        unReachable.remove(entry);
+        for (BasicBlock block : entry.next) {
+            if (unReachable.contains(block)) {
+                dfsDomTreeCheckReach(block, unReachable);
+            }
         }
     }
 }
