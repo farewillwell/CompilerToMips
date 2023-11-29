@@ -32,7 +32,7 @@ public class GEPInstr extends Instr {
             isInitMemberPointer = false;
             addValue(tempPoint);
             addValue(offset);
-            addValue(new LocalVar(new PointerType(((ArrayType) objType).memberType), false));
+            setAns(new LocalVar(new PointerType(((ArrayType) objType).memberType), false));
         }
         // 如果指针指的对象是指针，那么就是 只有一个i32的偏移方式。
         // 先取出来这个对象指针，例如 int a[],那么传进来的就是这个指针的指针(a是一个地址，这个地址所代表的内存空间
@@ -46,7 +46,7 @@ public class GEPInstr extends Instr {
             IRBuilder.IB.addInstrForBlock(loadInstr);
             addValue(loadInstr.getAns());
             addValue(offset);
-            addValue(new LocalVar(loadInstr.getAns().type, false));
+            setAns(new LocalVar(loadInstr.getAns().type, false));
         }
     }
 

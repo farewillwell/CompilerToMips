@@ -51,7 +51,7 @@ public class IcmpInstr extends Instr {
         this.opcode = op;
         addValue(para1);
         addValue(para2);
-        addValue(new LocalVar(BaseType.I1, false));
+        setAns(new LocalVar(BaseType.I1, false));
     }
 
     @Override

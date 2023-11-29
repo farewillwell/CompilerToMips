@@ -19,7 +19,7 @@ public class CallInstr extends Instr {
         for (Value value : rps) {
             addValue(value);
         }
-        addValue(new LocalVar(function.type, false));
+        setAns(new LocalVar(function.type, false));
     }
 
     @Override
@@ -34,11 +34,11 @@ public class CallInstr extends Instr {
         stringBuilder.append(" @F_");
         stringBuilder.append(function.name);
         stringBuilder.append(" (");
-        for (int i = 0; i < paras.size() - 1; i++) {
+        for (int i = 0; i < paras.size(); i++) {
             stringBuilder.append(paras.get(i).type.toString());
             stringBuilder.append(" ");
             stringBuilder.append(paras.get(i).toString());
-            if (i != paras.size() - 2) {
+            if (i != paras.size() - 1) {
                 stringBuilder.append(" , ");
             }
         }
@@ -66,15 +66,15 @@ public class CallInstr extends Instr {
         // 但是，如果存到新的函数栈的话，我们在移动栈指针的时候该把这些数据都存在哪里呢？
         // 这里需要的是，在移动栈指针的时候，不一次性移动到未赋值的头，而是要移动到下一个函数的参数开始前
         int nowCur = MipsBuilder.MB.getVir();
-        for (int i = 0; i < paras.size() - 1; i++) {
+        for (Value para : paras) {
             //new AnnotationAsm("存即将跳转到的函数的参数");
-            if (paras.get(i) instanceof Constant) {
-                new LiAsm(((Constant) paras.get(i)).getValue(), Register.T0);
-            } else if (paras.get(i) instanceof LocalVar) {
-                int offset = MipsBuilder.MB.queryOffset(paras.get(i));
+            if (para instanceof Constant) {
+                new LiAsm(((Constant) para).getValue(), Register.T0);
+            } else if (para instanceof LocalVar) {
+                int offset = MipsBuilder.MB.queryOffset(para);
                 new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
             } else {
-                new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) paras.get(i)).name, 0);
+                new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) para).name, 0);
             }
             int paraOff = MipsBuilder.MB.allocOnStack(4);
             // 所有参数都必然是i32

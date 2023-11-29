@@ -13,11 +13,17 @@ public class Instr extends User {
         super();
     }
 
+    private Value ans = null;
+
+    public void setAns(Value value) {
+        ans = value;
+    }
+
     public Value getAns() {
-        if (paras.size() == 0) {
+        if (ans == null) {
             throw new RuntimeException("got a none value in user");
         }
-        return paras.get(paras.size() - 1);
+        return ans;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Compiler {
     // 是否开优化
     private static final boolean DO_OPTIMIZE = true;
 
-    private static final boolean MAKE_MIPS = false;
+    private static final boolean MAKE_MIPS = true;
 
     private static final PrintStream stdout= System.out;
 
@@ -60,10 +60,10 @@ public class Compiler {
         if (!CHECK_ERROR || errorCollector.noError()) {
             try {
                 PrintStream printStream = new PrintStream("llvm_ir.txt");
-                //irUnit = (Module) compUnit.getIRCode();
-                //irUnit.finish();
-                //System.setOut(printStream);
-                //System.out.println(irUnit);
+                irUnit = (Module) compUnit.getIRCode();
+                irUnit.finish();
+                System.setOut(printStream);
+                System.out.println(irUnit);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }

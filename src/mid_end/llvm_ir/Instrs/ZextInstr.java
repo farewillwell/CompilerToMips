@@ -12,7 +12,7 @@ public class ZextInstr extends Instr {
 
     public ZextInstr(BaseType targetType, Value beChangedValue) {
         addValue(beChangedValue);
-        addValue(new LocalVar(targetType, false));
+        setAns(new LocalVar(targetType, false));
     }
 
     @Override

@@ -26,7 +26,7 @@ public class ALUInstr extends Instr {
         this.opcode = op;
         this.addValue(para1);
         this.addValue(para2);
-        this.addValue(new LocalVar(BaseType.I32, false));
+        setAns(new LocalVar(BaseType.I32, false));
     }
 
     @Override

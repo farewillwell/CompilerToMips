@@ -12,7 +12,7 @@ import mid_end.llvm_ir.type.BaseType;
 public class GetInt extends IOInstr {
 
     public GetInt() {
-        paras.add(new LocalVar(BaseType.I32, false));
+        setAns(new LocalVar(BaseType.I32, false));
     }
 
     public static final String defineHead = "declare i32 @getint()\n";

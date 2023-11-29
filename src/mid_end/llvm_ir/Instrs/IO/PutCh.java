@@ -19,7 +19,7 @@ public class PutCh extends IOInstr {
 
     @Override
     public String toString() {
-        return "call void @putch(" + getAns().type + " " + getAns() + ")";
+        return "call void @putch(" + paras.get(0).type + " " + paras.get(0) + ")";
     }
 
     @Override

@@ -16,12 +16,12 @@ public class AllocInstr extends Instr {
 
     public AllocInstr(LLVMType type, boolean isConst) {
         super(type);
-        this.addValue(new LocalVar(new PointerType(type), isConst));
+        setAns(new LocalVar(new PointerType(type), isConst));
     }
 
     @Override
     public String toString() {
-        return paras.get(0).toString() + " = alloca " + type.toString();
+        return getAns().toString() + " = alloca " + type.toString();
     }
 
     @Override

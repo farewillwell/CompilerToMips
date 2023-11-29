@@ -16,7 +16,7 @@ public class LoadInstr extends Instr {
         super(((PointerType) pointer.type).objType);
         addValue(pointer);
         // 其获取的值类型是这个变量指针所指的值类型
-        addValue(new LocalVar(((PointerType) pointer.type).objType, false));
+        setAns(new LocalVar(((PointerType) pointer.type).objType, false));
     }
 
 

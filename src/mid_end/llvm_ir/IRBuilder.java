@@ -97,7 +97,7 @@ public class IRBuilder {
     }
 
     public String getBasicBlockName() {
-        return BLOCK_PRE + ++bbCnt;
+        return BLOCK_PRE + bbCnt++;
     }
 
     public String getNowFuncName() {

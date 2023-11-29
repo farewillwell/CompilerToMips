@@ -28,7 +28,7 @@ public class BasicBlock extends Value {
     public BasicBlock() {
         super();
         this.name = IRBuilder.IB.getBasicBlockName();
-        this.nameInMips = /*IRBuilder.IB.getNowFuncName() + */name;
+        this.nameInMips = IRBuilder.IB.getNowFuncName() + name;
     }
 
     public void addInstr(Instr instr) {

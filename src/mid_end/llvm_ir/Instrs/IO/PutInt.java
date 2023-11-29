@@ -19,7 +19,7 @@ public class PutInt extends IOInstr {
 
     @Override
     public String toString() {
-        return "call void @putint(" + getAns().type + " " + getAns().toString() + ")";
+        return "call void @putint(" + paras.get(0).type + " " + paras.get(0).toString() + ")";
     }
 
     @Override
