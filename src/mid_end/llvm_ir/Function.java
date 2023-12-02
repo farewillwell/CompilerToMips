@@ -8,7 +8,6 @@ import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class Function extends User {
 
@@ -18,6 +17,7 @@ public class Function extends User {
         params = new ArrayList<>();
         this.name = name;
         this.localCnt = 1;
+        this.bbCnt = 0;
     }
 
     public final ArrayList<Param> params;
@@ -27,6 +27,8 @@ public class Function extends User {
     public final String name;
 
     public int localCnt;
+
+    public int bbCnt;
 
     public void addPara(Param param) {
         this.params.add(param);
@@ -94,6 +96,11 @@ public class Function extends User {
             int offset = MipsBuilder.MB.allocOnStack(4);
             MipsSymbol mipsSymbol = new MipsSymbol(param, offset);
             MipsBuilder.MB.addVarSymbol(mipsSymbol);
+        }
+        for (BasicBlock block : basicBlocks) {
+            for (Instr instr : block.instrList) {
+                instr.allocSelf();
+            }
         }
         for (BasicBlock block : basicBlocks) {
             block.genMipsCode();

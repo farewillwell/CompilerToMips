@@ -29,6 +29,7 @@ public class Value {
     private final ArrayList<Instr> userInstr = new ArrayList<>();
 
     public void addUser(Instr instr) {
+        //System.out.println(instr);
         userInstr.add(instr);
     }
 

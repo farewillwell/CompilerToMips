@@ -28,4 +28,14 @@ public class ZextInstr extends Instr {
         MipsSymbol mipsSymbol = new MipsSymbol(getAns(), offset);
         MipsBuilder.MB.addVarSymbol(mipsSymbol);
     }
+
+    public boolean foldSelf() {
+        if (paras.get(0).type == BaseType.I32) {
+            getAns().userReplaceMeWith(paras.get(0));
+            return true;
+        }
+        return false;
+    }
+
+
 }

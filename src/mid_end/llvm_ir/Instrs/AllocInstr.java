@@ -32,12 +32,9 @@ public class AllocInstr extends Instr {
         // 在内存上分配一个这个空间
         new AluR2IAsm(AluR2IAsm.ADDI,Register.T0,Register.SP,offset);
         // 计算这个地址值
-        int pointOffset =MipsBuilder.MB.allocOnStack(4);
+        int pointOffset =MipsBuilder.MB.queryOffset(getAns());
         // 开一个指针存大小
         new MemAsm(MemAsm.SW,Register.T0,Register.SP,pointOffset);
         // 把指针值存到那个地址里面
-        MipsSymbol mipsSymbol = new MipsSymbol(getAns(), pointOffset);
-        // 绑定指针名和在栈上的位置
-        MipsBuilder.MB.addVarSymbol(mipsSymbol);
     }
 }

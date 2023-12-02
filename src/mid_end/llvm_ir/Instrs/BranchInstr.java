@@ -5,6 +5,7 @@ import back_end.Mips.AsmInstrs.MemAsm;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.BasicBlock;
+import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
@@ -23,7 +24,7 @@ public class BranchInstr extends Instr {
 
     @Override
     public Value getAns() {
-        throw new RuntimeException("use ans of a branch instr");
+        return null;
     }
 
     public BranchInstr(Value cond, Value thenBlock, Value elseBlock) {
@@ -43,9 +44,29 @@ public class BranchInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        int offset =MipsBuilder.MB.queryOffset(paras.get(0));
-        new MemAsm(MemAsm.LW,Register.T0,Register.SP,offset);
+        int offset = MipsBuilder.MB.queryOffset(paras.get(0));
+        new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
         new BranchAsm(BranchAsm.BNE, Register.T0, Register.ZERO, getThenBlock().nameInMips);
         new BranchAsm(BranchAsm.BEQ, Register.T0, Register.ZERO, getElseBlock().nameInMips);
+    }
+
+    public void changeThen(BasicBlock newThen) {
+        paras.set(1, newThen);
+    }
+
+    public void changeElse(BasicBlock newElse) {
+        paras.set(2, newElse);
+    }
+
+    public boolean condConst() {
+        return getCond() instanceof Constant;
+    }
+
+    public JumpInstr makeEqualJump() {
+        if (((Constant) paras.get(0)).getValue() != 0) {
+            return new JumpInstr(getThenBlock());
+        } else {
+            return new JumpInstr(getElseBlock());
+        }
     }
 }

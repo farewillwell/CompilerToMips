@@ -123,7 +123,7 @@ public class Mem2Reg {
                 // 不一定,那怎么办?这个时候是未定义的?
                 // 未定义的统统赋值为0，如果因为这个错了的话那就见鬼了.
                 if (reachDefs.get(((LoadInstr) instr).getFromPointer()).empty()) {
-                    instr.getAns().userReplaceMeWith(new Constant(0));
+                    instr.getAns().userReplaceMeWith(new Constant());
                 } else {
                     Value newValue = reachDefs.get(((LoadInstr) instr).getFromPointer()).peek();
                     instr.getAns().userReplaceMeWith(newValue);
@@ -137,13 +137,13 @@ public class Mem2Reg {
                 if (instr instanceof PhiInstr) {
                     // 为什么会遇到前两种这样的情况呢?显然因为一开始的块携带的东西太少了，但是也被算做前驱了
                     if (!reachDefs.containsKey(((PhiInstr) instr).tieValue)) {
-                        // 如果是不存在这个,代表未定义，这里暂时赋值成0
-                        ((PhiInstr) instr).refill(new Constant(0), block);
+                        // 如果是不存在这个,代表未定义，这里暂时赋值成0,constant 默认是undefine
+                        ((PhiInstr) instr).refill(new Constant(), block);
                         continue;
                     }
                     if (reachDefs.get(((PhiInstr) instr).tieValue).empty()) {
                         // 如果是empty,代表未定义，这里暂时赋值成0
-                        ((PhiInstr) instr).refill(new Constant(0), block);
+                        ((PhiInstr) instr).refill(new Constant(), block);
                         continue;
                     }
                     Value newValue = reachDefs.get(((PhiInstr) instr).tieValue).peek();

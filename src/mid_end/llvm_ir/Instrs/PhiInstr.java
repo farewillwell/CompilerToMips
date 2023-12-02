@@ -20,6 +20,10 @@ public class PhiInstr extends Instr {
         setAns(new LocalVar(BaseType.I32, false));
     }
 
+    public Value getValueByBlock(BasicBlock block) {
+        return paras.get(from.indexOf(block));
+    }
+
     public void refill(Value reachValue, BasicBlock fromBlock) {
         addValue(reachValue);
         from.add(fromBlock);

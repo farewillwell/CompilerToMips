@@ -1,10 +1,7 @@
 package mid_end.llvm_ir;
 
 import back_end.Mips.AsmInstrs.BlockSignAsm;
-import mid_end.llvm_ir.Instrs.BranchInstr;
-import mid_end.llvm_ir.Instrs.JumpInstr;
-import mid_end.llvm_ir.Instrs.PhiInstr;
-import mid_end.llvm_ir.Instrs.ReturnInstr;
+import mid_end.llvm_ir.Instrs.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -193,5 +190,32 @@ public class BasicBlock extends Value {
                 x = x.immDomer;
             }
         }
+    }
+
+    public Instr lastInstr() {
+        return instrList.get(instrList.size() - 1);
+    }
+
+    public void removePhi() {
+        instrList.removeIf(i -> i instanceof PhiInstr);
+    }
+
+    public boolean hasPhi() {
+        return instrList.get(0) instanceof PhiInstr;
+    }
+
+    public void insertAtLast(Instr instr) {
+        // add index 可以达到插入的功效,index是之后需要这个指令在的位置
+        int index = instrList.size() - 1;
+        instrList.add(index, instr);
+    }
+
+    public void insertBlock(BasicBlock origin, BasicBlock inserter) {
+        next.remove(origin);
+        next.add(inserter);
+        origin.prev.remove(this);
+        origin.prev.add(inserter);
+        inserter.prev.add(this);
+        inserter.next.add(origin);
     }
 }

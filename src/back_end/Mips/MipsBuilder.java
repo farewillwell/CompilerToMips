@@ -86,4 +86,8 @@ public class MipsBuilder {
     public int getVir() {
         return managerStack.peek().getVir();
     }
+
+    public boolean hasDefile(Value value) {
+        return managerStack.peek().hasDefine(value);
+    }
 }

@@ -5,7 +5,9 @@ import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
 import mid_end.llvm_ir.IRModule;
+import optimization.GVN;
 import optimization.Mem2Reg;
+import optimization.PhiRemove;
 
 import java.io.*;
 
@@ -16,7 +18,7 @@ public class Compiler {
     // 是否开优化
     private static final boolean DO_OPTIMIZE = true;
 
-    private static final boolean MAKE_MIPS = false;
+    private static final boolean MAKE_MIPS = true;
 
     private static final PrintStream stdout = System.out;
 
@@ -25,7 +27,7 @@ public class Compiler {
         // read in
         File file = new File("testfile.txt");
         long fileLengthLong = file.length();
-        byte[] fileContent = new byte[(int) fileLengthLong];
+        byte[] fileContent = new byte[(int) fileLengthLong + 100];
         try {
             FileInputStream inputStream = new FileInputStream("testfile.txt");
             int length = inputStream.read(fileContent);
@@ -59,7 +61,7 @@ public class Compiler {
         IRModule irUnit = null;
         if (!CHECK_ERROR || errorCollector.noError()) {
             try {
-                PrintStream printStream = new PrintStream("llvm_op.txt");
+                PrintStream printStream = new PrintStream("llvm_origin.txt");
                 irUnit = (IRModule) compUnit.getIRCode();
                 irUnit.finish();
                 System.setOut(printStream);
@@ -75,8 +77,10 @@ public class Compiler {
             System.setOut(stdout);
             irUnit.doCFG();
             new Mem2Reg().solve(irUnit);
+            new PhiRemove().solve(irUnit);
+            new GVN().solve(irUnit);
             try {
-                PrintStream printStream = new PrintStream("llvm_ir.txt");
+                PrintStream printStream = new PrintStream("llvm_GVN.txt");
                 System.setOut(printStream);
                 System.out.println(irUnit);
             } catch (FileNotFoundException e) {

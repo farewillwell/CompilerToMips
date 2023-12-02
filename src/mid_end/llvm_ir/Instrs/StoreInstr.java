@@ -37,7 +37,7 @@ public class StoreInstr extends Instr {
 
     @Override
     public Value getAns() {
-        throw new RuntimeException("get ans of a store instr");
+        return null;
     }
 
     @Override

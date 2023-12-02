@@ -1,10 +1,8 @@
 package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.CmpAsm;
-import back_end.Mips.AsmInstrs.LiAsm;
 import back_end.Mips.AsmInstrs.MemAsm;
 import back_end.Mips.MipsBuilder;
-import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import front_end.AST.TokenNode;
 import front_end.RW;
@@ -42,6 +40,47 @@ public class IcmpInstr extends Instr {
         }
     }
 
+    public boolean foldConst() {
+        if (paras.get(0) instanceof Constant && paras.get(1) instanceof Constant) {
+            int p0 = ((Constant) paras.get(0)).getValue();
+            int p1 = ((Constant) paras.get(1)).getValue();
+            Constant ans;
+            switch (opcode) {
+                case EQ: {
+                    ans = new Constant(p0 == p1 ? 1 : 0);
+                    break;
+                }
+                case SGT: {
+                    ans = new Constant(p0 > p1 ? 1 : 0);
+                    break;
+                }
+                case SGE: {
+                    ans = new Constant(p0 >= p1 ? 1 : 0);
+                    break;
+                }
+                case SLT: {
+                    ans = new Constant(p0 < p1 ? 1 : 0);
+                    break;
+                }
+                case SLE: {
+                    ans = new Constant(p0 <= p1 ? 1 : 0);
+                    break;
+                }
+                case NE: {
+                    ans = new Constant(p0 != p1 ? 1 : 0);
+                    break;
+                }
+                default:
+                    throw new RuntimeException("wrong op!");
+            }
+            getAns().userReplaceMeWith(ans);
+            // 这样生成出来结果不是i1的,怎么办?可以直接跳!
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private final String opcode;
 
     public IcmpInstr(String op, Value para1, Value para2) {
@@ -70,29 +109,11 @@ public class IcmpInstr extends Instr {
         super.genMipsCode();
         Value p0 = paras.get(0);
         Value p1 = paras.get(1);
-        int newOffset = MipsBuilder.MB.allocOnStack(getAns().type.getSize());
-        MipsSymbol mipsSymbol = new MipsSymbol(getAns(), newOffset);
-        MipsBuilder.MB.addVarSymbol(mipsSymbol);
-        if (p0 instanceof Constant) {
-            new LiAsm(((Constant) p0).getValue(), Register.T0);
-        } else if (p0 instanceof LocalVar) {
-            int offset = MipsBuilder.MB.queryOffset(p0);
-            new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-        } else {
-            new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) p0).name, 0);
-        }
-        if (p1 instanceof Constant) {
-            new LiAsm(((Constant) p1).getValue(), Register.T1);
-        } else if (p1 instanceof LocalVar) {
-            int offset = MipsBuilder.MB.queryOffset(p1);
-            new MemAsm(MemAsm.LW, Register.T1, Register.SP, offset);
-        } else {
-            new MemAsm(MemAsm.LW, Register.T1, ((GlobalVar) p1).name, 0);
-        }
+        Instr.getValueInReg(Register.T0, p0);
+        Instr.getValueInReg(Register.T1, p1);
         new CmpAsm(llOpToMipsOp(), Register.T2, Register.T0, Register.T1);
         // 注意,这个得到的值需要存起来,因为你根本不知道比较完的值会不会拿去做计算，而不是用到br去跳转
-        int offset = MipsBuilder.MB.allocOnStack(4);
-        MipsBuilder.MB.addVarSymbol(new MipsSymbol(getAns(), offset));
+        int offset = MipsBuilder.MB.queryOffset(getAns());
         new MemAsm(MemAsm.SW, Register.T2, Register.SP, offset);
     }
 }

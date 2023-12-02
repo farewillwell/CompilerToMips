@@ -2,7 +2,6 @@ package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.*;
 import back_end.Mips.MipsBuilder;
-import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.type.BaseType;
@@ -59,6 +58,42 @@ public class ALUInstr extends Instr {
         return null;
     }
 
+    public boolean foldConst() {
+        if (paras.get(0) instanceof Constant && paras.get(1) instanceof Constant) {
+            int p0 = ((Constant) paras.get(0)).getValue();
+            int p1 = ((Constant) paras.get(1)).getValue();
+            Constant ans;
+            switch (opcode) {
+                case ADD: {
+                    ans = new Constant(p0 + p1);
+                    break;
+                }
+                case SUB: {
+                    ans = new Constant(p0 - p1);
+                    break;
+                }
+                case MUL: {
+                    ans = new Constant(p0 * p1);
+                    break;
+                }
+                case DIV: {
+                    ans = new Constant(p0 / p1);
+                    break;
+                }
+                case SREM: {
+                    ans = new Constant(p0 % p1);
+                    break;
+                }
+                default:
+                    throw new RuntimeException("wrong op!");
+            }
+            getAns().userReplaceMeWith(ans);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*TODO 除法优化*/
 
     @Override
@@ -66,9 +101,7 @@ public class ALUInstr extends Instr {
         super.genMipsCode();
         Value p0 = paras.get(0);
         Value p1 = paras.get(1);
-        int newOffset = MipsBuilder.MB.allocOnStack(getAns().type.getSize());
-        MipsSymbol mipsSymbol = new MipsSymbol(getAns(), newOffset);
-        MipsBuilder.MB.addVarSymbol(mipsSymbol);
+        int newOffset = MipsBuilder.MB.queryOffset(getAns());
         // 如果两边都是常数,已经在前面处理过了，因此不用理会.
         //----------------------------------------------------//
         // 如果乘法有一个为常数
@@ -90,12 +123,7 @@ public class ALUInstr extends Instr {
                 if (shifts.size() == 0) {
                     throw new RuntimeException();
                 }
-                if (var instanceof LocalVar) {
-                    int offset = MipsBuilder.MB.queryOffset(var);
-                    new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-                } else {
-                    new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) var).nameInMips(), 0);
-                }
+                Instr.getValueInReg(Register.T0, var);
                 if (shifts.size() == 1) {
                     new AluR2IAsm(AluR2IAsm.SLL, Register.T2, Register.T0, shifts.get(0));
                     if (isNegative) {
@@ -122,22 +150,8 @@ public class ALUInstr extends Instr {
             }
         }
         //-----------------------------------------------------//
-        if (p0 instanceof Constant) {
-            new LiAsm(((Constant) p0).getValue(), Register.T0);
-        } else if (p0 instanceof LocalVar) {
-            int offset = MipsBuilder.MB.queryOffset(p0);
-            new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-        } else {
-            new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) p0).nameInMips(), 0);
-        }
-        if (p1 instanceof Constant) {
-            new LiAsm(((Constant) p1).getValue(), Register.T1);
-        } else if (p1 instanceof LocalVar) {
-            int offset = MipsBuilder.MB.queryOffset(p1);
-            new MemAsm(MemAsm.LW, Register.T1, Register.SP, offset);
-        } else {
-            new MemAsm(MemAsm.LW, Register.T1, ((GlobalVar) p1).nameInMips(), 0);
-        }
+        Instr.getValueInReg(Register.T0, p0);
+        Instr.getValueInReg(Register.T1, p1);
         if (opcode.equals(ADD)) {
             new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, Register.T0, Register.T1);
         } else if (opcode.equals(SUB)) {

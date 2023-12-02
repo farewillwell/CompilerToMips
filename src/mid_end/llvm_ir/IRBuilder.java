@@ -22,7 +22,6 @@ public class IRBuilder {
     private final Stack<Loop> loopStack;
 
     public IRBuilder() {
-        bbCnt = 0;
         paraCnt = 0;
         stringCnt = 0;
         IRModule = new IRModule();
@@ -36,12 +35,8 @@ public class IRBuilder {
 
     private final IRModule IRModule;
 
-    private int bbCnt;
-
     private int paraCnt;
-
     private int stringCnt;
-
 
     public int globalCnt;
 
@@ -88,13 +83,12 @@ public class IRBuilder {
     }
 
     public void enterFunc(Function function) {
-        bbCnt = 0;
         paraCnt = 0;
         this.nowFunc = function;
     }
 
     public String getBasicBlockName() {
-        return BLOCK_PRE + bbCnt++;
+        return BLOCK_PRE + nowFunc.bbCnt++;
     }
 
     public String getNowFuncName() {

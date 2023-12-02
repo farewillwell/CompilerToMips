@@ -1,7 +1,6 @@
 package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.JumpAsm;
-import back_end.Mips.MipsBuilder;
 import mid_end.llvm_ir.BasicBlock;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
@@ -18,7 +17,7 @@ public class JumpInstr extends Instr {
 
     @Override
     public Value getAns() {
-        throw new RuntimeException("use ans of a jump instr");
+        return null;
     }
 
     @Override

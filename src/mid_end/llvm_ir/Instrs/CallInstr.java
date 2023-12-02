@@ -2,7 +2,6 @@ package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.*;
 import back_end.Mips.MipsBuilder;
-import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.type.BaseType;
@@ -68,14 +67,7 @@ public class CallInstr extends Instr {
         int nowCur = MipsBuilder.MB.getVir();
         for (Value para : paras) {
             //new AnnotationAsm("存即将跳转到的函数的参数");
-            if (para instanceof Constant) {
-                new LiAsm(((Constant) para).getValue(), Register.T0);
-            } else if (para instanceof LocalVar) {
-                int offset = MipsBuilder.MB.queryOffset(para);
-                new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-            } else {
-                new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) para).name, 0);
-            }
+            Instr.getValueInReg(Register.T0, para);
             int paraOff = MipsBuilder.MB.allocOnStack(4);
             // 所有参数都必然是i32
             new MemAsm(MemAsm.SW, Register.T0, Register.SP, paraOff);
@@ -94,9 +86,7 @@ public class CallInstr extends Instr {
         new MemAsm(MemAsm.LW, Register.RA, Register.SP, raOff);
         if (function.type == BaseType.I32) {
             //new AnnotationAsm("获取返回值");
-            int off = MipsBuilder.MB.allocOnStack(4);
-            MipsSymbol mipsSymbol = new MipsSymbol(getAns(), off);
-            MipsBuilder.MB.addVarSymbol(mipsSymbol);
+            int off = MipsBuilder.MB.queryOffset(getAns());
             new MemAsm(MemAsm.SW, Register.V0, Register.SP, off);
         }
     }

@@ -52,6 +52,9 @@ public class VarManager {
     }
 
     public int queryOffset(Value value) {
+        if (!memMap.containsKey(value)) {
+            System.out.println(value);
+        }
         return memMap.get(value).offset;
     }
 
@@ -63,5 +66,9 @@ public class VarManager {
 
     public int getVir() {
         return virtualSpOffsetFromRealSp;
+    }
+
+    public boolean hasDefine(Value value) {
+        return memMap.containsKey(value);
     }
 }

@@ -8,7 +8,6 @@ import mid_end.llvm_ir.GlobalVar;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.LocalVar;
 import mid_end.llvm_ir.Value;
-import mid_end.llvm_ir.type.BaseType;
 import mid_end.llvm_ir.type.PointerType;
 
 public class LoadInstr extends Instr {
