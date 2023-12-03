@@ -218,4 +218,19 @@ public class BasicBlock extends Value {
         inserter.prev.add(this);
         inserter.next.add(origin);
     }
+
+    public void constBranchTpJump() {
+        Instr i = lastInstr();
+        if (i instanceof BranchInstr && ((BranchInstr) i).condConst()) {
+            BranchInstr bi = (BranchInstr) i;
+            instrList.set(instrList.size() - 1, bi.makeEqualJump());
+            // 修改 变量关系.支配关系还要改吗?
+            //TODO 这里支配关系没有被修改!
+            BasicBlock abandon = bi.abandonTarget();
+            // 删除下一个块的前驱
+            abandon.prev.remove(this);
+            // 删除本块的后继
+            this.next.remove(abandon);
+        }
+    }
 }

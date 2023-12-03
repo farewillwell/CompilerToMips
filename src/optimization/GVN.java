@@ -5,7 +5,6 @@ import mid_end.llvm_ir.Function;
 import mid_end.llvm_ir.IRModule;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Instrs.ALUInstr;
-import mid_end.llvm_ir.Instrs.BranchInstr;
 import mid_end.llvm_ir.Instrs.IcmpInstr;
 import mid_end.llvm_ir.Instrs.ZextInstr;
 
@@ -39,12 +38,9 @@ public class GVN {
 
     private void jumpChange(Function function) {
         for (BasicBlock block : function.basicBlocks) {
-            for (int i = 0; i < block.instrList.size(); i++) {
-                if (block.instrList.get(i) instanceof BranchInstr
-                        && ((BranchInstr) block.instrList.get(i)).condConst()) {
-                    block.instrList.set(i, ((BranchInstr) block.instrList.get(i)).makeEqualJump());
-                }
-            }
+            block.constBranchTpJump();
+            // 仅有这里会影响jump的范围,会影响支配和前后驱
+            // TODO 仅仅修改了前后驱,支配关系还未修改!!!但是支配关系的话,已经完成消phi了，应当不再需要用这个了
         }
     }
 }

@@ -1,25 +1,5 @@
 .data
-g1 : .word 1
-g2 : .word 2
-g3 : .word 0
-g4 : .word 0, 1, 2
-g5 : .word 0, 1, 2, 4, 5, 6
-g6 : .word 1
-g7 : .word 1
-g8 : .word 1
-g9: .space 12
-g10: .space 24
-g11 : .word 0, 1, 2
-g12 : .word 0, 1, 2, 3, 4, 5
-str_0: .asciiz "1"
-str_1: .asciiz ""
-str_2: .asciiz "1"
-str_3: .asciiz "1"
-str_4: .asciiz "1"
-str_5: .asciiz "1"
-str_6: .asciiz "1"
-str_7: .asciiz "1"
-str_8: .asciiz "1"
+str_0: .asciiz "21371295\n"
 
 .text
 
@@ -30,471 +10,238 @@ jal main
 # leave main
 j END
 
-func01:
-func01b0:
-
-# ret void
-jr $ra
-
-func02:
-func02b0:
-
-# ret i32 1
-li $v0, 1
-jr $ra
-
-func03:
-func03b0:
-
-# ret i32 1
-li $v0, 1
-jr $ra
-
-func04:
-func04b0:
-
-# ret i32 1
-li $v0, 1
-jr $ra
-
 main:
 mainb0:
 
-# %V5 = alloca [3 x i32]
-addi $t0, $sp, -148
-sw $t0, -4($sp)
-
-# %V6 = alloca [2 x [3 x i32]]
-addi $t0, $sp, -172
-sw $t0, -8($sp)
-
-# %V7 = alloca [3 x i32]
-addi $t0, $sp, -184
-sw $t0, -12($sp)
-
-# %V8 = getelementptr inbounds [3 x i32], [3 x i32]* %V7,  i32 0 ,i32 0
-lw $t0, -12($sp)
-addi $t0, $t0, 0
-sw $t0, -188($sp)
-
-# store i32 0 , i32* %V8
-li $t0, 0
-lw $t1, -188($sp)
-sw $t0, 0($t1)
-
-# %V9 = getelementptr inbounds [3 x i32], [3 x i32]* %V7,  i32 0 ,i32 1
-lw $t0, -12($sp)
-addi $t0, $t0, 4
-sw $t0, -192($sp)
-
-# store i32 1 , i32* %V9
-li $t0, 1
-lw $t1, -192($sp)
-sw $t0, 0($t1)
-
-# %V10 = getelementptr inbounds [3 x i32], [3 x i32]* %V7,  i32 0 ,i32 2
-lw $t0, -12($sp)
-addi $t0, $t0, 8
-sw $t0, -196($sp)
-
-# store i32 2 , i32* %V10
-li $t0, 2
-lw $t1, -196($sp)
-sw $t0, 0($t1)
-
-# %V11 = alloca [2 x [3 x i32]]
-addi $t0, $sp, -220
-sw $t0, -28($sp)
-
-# %V12 = getelementptr inbounds [2 x [3 x i32]], [2 x [3 x i32]]* %V11,  i32 0 ,i32 0
-lw $t0, -28($sp)
-addi $t0, $t0, 0
-sw $t0, -224($sp)
-
-# %V13 = getelementptr inbounds [3 x i32], [3 x i32]* %V12,  i32 0 ,i32 0
-lw $t0, -224($sp)
-addi $t0, $t0, 0
-sw $t0, -228($sp)
-
-# store i32 0 , i32* %V13
-li $t0, 0
-lw $t1, -228($sp)
-sw $t0, 0($t1)
-
-# %V14 = getelementptr inbounds [3 x i32], [3 x i32]* %V12,  i32 0 ,i32 1
-lw $t0, -224($sp)
-addi $t0, $t0, 4
-sw $t0, -232($sp)
-
-# store i32 1 , i32* %V14
-li $t0, 1
-lw $t1, -232($sp)
-sw $t0, 0($t1)
-
-# %V15 = getelementptr inbounds [3 x i32], [3 x i32]* %V12,  i32 0 ,i32 2
-lw $t0, -224($sp)
-addi $t0, $t0, 8
-sw $t0, -236($sp)
-
-# store i32 2 , i32* %V15
-li $t0, 2
-lw $t1, -236($sp)
-sw $t0, 0($t1)
-
-# %V16 = getelementptr inbounds [2 x [3 x i32]], [2 x [3 x i32]]* %V11,  i32 0 ,i32 1
-lw $t0, -28($sp)
-addi $t0, $t0, 12
-sw $t0, -240($sp)
-
-# %V17 = getelementptr inbounds [3 x i32], [3 x i32]* %V16,  i32 0 ,i32 0
-lw $t0, -240($sp)
-addi $t0, $t0, 0
-sw $t0, -244($sp)
-
-# store i32 3 , i32* %V17
-li $t0, 3
-lw $t1, -244($sp)
-sw $t0, 0($t1)
-
-# %V18 = getelementptr inbounds [3 x i32], [3 x i32]* %V16,  i32 0 ,i32 1
-lw $t0, -240($sp)
-addi $t0, $t0, 4
-sw $t0, -248($sp)
-
-# store i32 4 , i32* %V18
-li $t0, 4
-lw $t1, -248($sp)
-sw $t0, 0($t1)
-
-# %V19 = getelementptr inbounds [3 x i32], [3 x i32]* %V16,  i32 0 ,i32 2
-lw $t0, -240($sp)
-addi $t0, $t0, 8
-sw $t0, -252($sp)
-
-# store i32 5 , i32* %V19
-li $t0, 5
-lw $t1, -252($sp)
-sw $t0, 0($t1)
-
-# %V23 = call i32 @F_func02 ()
-sw $ra, -256($sp)
-addi $sp, $sp, -256
-jal func02
-
-addi $sp, $sp, 256
-lw $ra, -256($sp)
-sw $v0, -64($sp)
-
-# %V24 = sdiv i32 1, %V23
-li $t0, 1
-lw $t1, -64($sp)
-div $t0, $t1
-mflo $t2
-sw $t2, -68($sp)
-
-# %V26 = call i32 @F_func03 (i32 1)
-sw $ra, -260($sp)
-li $t0, 1
-sw $t0, -264($sp)
-addi $sp, $sp, -260
-jal func03
-
-addi $sp, $sp, 260
-lw $ra, -260($sp)
-sw $v0, -72($sp)
-
-# %V27 = srem i32 1, %V26
-li $t0, 1
-lw $t1, -72($sp)
-div $t0, $t1
-mfhi $t2
-sw $t2, -76($sp)
-
-# %V28 = getelementptr inbounds [3 x i32], [3 x i32]* %V5,  i32 0 ,i32 0
-lw $t0, -4($sp)
-addi $t0, $t0, 0
-sw $t0, -268($sp)
-
-# %V29 = getelementptr inbounds [2 x [3 x i32]], [2 x [3 x i32]]* %V11,  i32 0 ,i32 0
-lw $t0, -28($sp)
-addi $t0, $t0, 0
-sw $t0, -272($sp)
-
-# %V30 = call i32 @F_func04 (i32* %V28 , [3 x i32]* %V29)
-sw $ra, -276($sp)
-lw $t0, -268($sp)
-sw $t0, -280($sp)
-lw $t0, -272($sp)
-sw $t0, -284($sp)
-addi $sp, $sp, -276
-jal func04
-
-addi $sp, $sp, 276
-lw $ra, -276($sp)
-sw $v0, -88($sp)
-
-# %V31 = srem i32 1, %V30
-li $t0, 1
-lw $t1, -88($sp)
-div $t0, $t1
-mfhi $t2
-sw $t2, -92($sp)
-
-# %V32 = getelementptr inbounds [3 x i32], [3 x i32]* %V5,  i32 0 ,i32 0
-lw $t0, -4($sp)
-addi $t0, $t0, 0
-sw $t0, -288($sp)
-
-# %V33 = load i32, i32* %V32
-lw $t0, -288($sp)
-lw $t0, 0($t0)
-sw $t0, -292($sp)
-
-# %V34 = call i32 @F_func03 (i32 %V33)
-sw $ra, -296($sp)
-lw $t0, -292($sp)
-sw $t0, -300($sp)
-addi $sp, $sp, -296
-jal func03
-
-addi $sp, $sp, 296
-lw $ra, -296($sp)
-sw $v0, -104($sp)
-
-# br label %b1
-j mainb1
-
-mainb1:
-
-# move %V61, 1
-li $t0, 1
-sw $t0, -136($sp)
+# call void @putstr(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @str_0, i32 0, i32 0))
+la $a0, str_0
+li $v0, 4
+syscall
 
 # br label %b2
 j mainb2
 
 mainb2:
 
+# move %V36, 0
+li $t0, 0
+sw $t0, -4($sp)
+
 # br label %b4
 j mainb4
 
-mainb3:
-
-# move %V60, 1
-li $t0, 1
-sw $t0, -116($sp)
-
-# br label %b5
-j mainb5
-
 mainb4:
 
-# move %V60, 1
+# move %V38, 1
 li $t0, 1
-sw $t0, -116($sp)
+sw $t0, -8($sp)
 
 # br label %b5
 j mainb5
 
 mainb5:
 
-# br label %b7
-j mainb7
+# %V9 = icmp sge i32 %V38, 0
+lw $t0, -8($sp)
+li $t1, 0
+sge $t2, $t0, $t1
+sw $t2, -12($sp)
 
-mainb6:
-
-# br label %b7
-j mainb7
-
+# br i1 %V9, label %b7, label %b7
+lw $t0, -12($sp)
+bne $t0, $zero, mainb7
+beq $t0, $zero, mainb7
 mainb7:
 
-# br label %b9
-j mainb9
+# %V11 = icmp eq i32 %V38, 0
+lw $t0, -8($sp)
+li $t1, 0
+seq $t2, $t0, $t1
+sw $t2, -16($sp)
 
-mainb8:
-
-# br label %b9
-j mainb9
-
-mainb9:
-
-# br label %b11
-j mainb11
-
-mainb10:
-
-# br label %b11
-j mainb11
-
-mainb11:
-
-# br label %b13
-j mainb13
-
+# br i1 %V11, label %b24, label %b24
+lw $t0, -16($sp)
+bne $t0, $zero, mainb24
+beq $t0, $zero, mainb24
 mainb12:
 
-# br label %b13
-j mainb13
+# %V16 = icmp eq i32 %V38, %V39
+lw $t0, -8($sp)
+lw $t1, -68($sp)
+seq $t2, $t0, $t1
+sw $t2, -20($sp)
 
+# br i1 %V16, label %b13, label %b25
+lw $t0, -20($sp)
+bne $t0, $zero, mainb13
+beq $t0, $zero, mainb25
 mainb13:
 
-# br label %b16
-j mainb16
-
-mainb16:
+# move %V35, 1
+li $t0, 1
+sw $t0, -72($sp)
 
 # br label %b14
 j mainb14
 
 mainb14:
 
-# br label %b15
-j mainb15
+# %V19 = icmp ne i32 %V38, %V39
+lw $t0, -8($sp)
+lw $t1, -68($sp)
+sne $t2, $t0, $t1
+sw $t2, -28($sp)
 
+# br i1 %V19, label %b15, label %b26
+lw $t0, -28($sp)
+bne $t0, $zero, mainb15
+beq $t0, $zero, mainb26
 mainb15:
 
-# br label %b17
-j mainb17
+# move %V33, 0
+li $t0, 0
+sw $t0, -76($sp)
 
+# br label %b16
+j mainb16
+
+mainb16:
+
+# %V22 = icmp ne i32 %V38, %V39
+lw $t0, -8($sp)
+lw $t1, -68($sp)
+sne $t2, $t0, $t1
+sw $t2, -36($sp)
+
+# br i1 %V22, label %b19, label %b27
+lw $t0, -36($sp)
+bne $t0, $zero, mainb19
+beq $t0, $zero, mainb27
 mainb19:
 
-# br label %b17
-j mainb17
+# %V24 = icmp sgt i32 %V38, 0
+lw $t0, -8($sp)
+li $t1, 0
+sgt $t2, $t0, $t1
+sw $t2, -40($sp)
 
+# br i1 %V24, label %b17, label %b28
+lw $t0, -40($sp)
+bne $t0, $zero, mainb17
+beq $t0, $zero, mainb28
 mainb17:
+
+# move %V34, 1
+li $t0, 1
+sw $t0, -84($sp)
 
 # br label %b18
 j mainb18
 
 mainb18:
 
-# br label %b20
-j mainb20
+# %V27 = icmp ne i32 %V38, %V39
+lw $t0, -8($sp)
+lw $t1, -68($sp)
+sne $t2, $t0, $t1
+sw $t2, -48($sp)
 
+# br i1 %V27, label %b20, label %b22
+lw $t0, -48($sp)
+bne $t0, $zero, mainb20
+beq $t0, $zero, mainb22
+mainb22:
+
+# %V29 = icmp sgt i32 %V38, 0
+lw $t0, -8($sp)
+li $t1, 0
+sgt $t2, $t0, $t1
+sw $t2, -52($sp)
+
+# br i1 %V29, label %b20, label %b29
+lw $t0, -52($sp)
+bne $t0, $zero, mainb20
+beq $t0, $zero, mainb29
 mainb20:
 
-# br label %b23
-j mainb23
+# move %V37, 2
+li $t0, 2
+sw $t0, -88($sp)
+
+# br label %b21
+j mainb21
 
 mainb21:
 
-# br label %b23
-j mainb23
-
-mainb23:
-
-# br label %b24
-j mainb24
-
-mainb24:
-
-# br label %b27
-j mainb27
-
-mainb25:
-
-# br label %b26
-j mainb26
-
-mainb26:
-
-# br label %b24
-j mainb24
-
-mainb27:
-
-# %V55 = call i32 @getint()
-li $v0, 5
-syscall
-sw $v0, -304($sp)
-
-# %V56 = getelementptr inbounds [3 x i32], [3 x i32]* %V5,  i32 0 ,i32 0
-lw $t0, -4($sp)
-addi $t0, $t0, 0
-sw $t0, -308($sp)
-
-# store i32 0 , i32* %V56
-li $t0, 0
-lw $t1, -308($sp)
-sw $t0, 0($t1)
-
-# %V57 = getelementptr inbounds [2 x [3 x i32]], [2 x [3 x i32]]* %V6,  i32 0 ,i32 0
+# %V31 = add i32 %V38, 1
 lw $t0, -8($sp)
-addi $t0, $t0, 0
-sw $t0, -312($sp)
+li $t1, 1
+addu $t2, $t0, $t1
+sw $t2, -60($sp)
 
-# %V58 = getelementptr inbounds [3 x i32], [3 x i32]* %V57,  i32 0 ,i32 0
-lw $t0, -312($sp)
-addi $t0, $t0, 0
-sw $t0, -316($sp)
-
-# store i32 0 , i32* %V58
-li $t0, 0
-lw $t1, -316($sp)
-sw $t0, 0($t1)
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
-la $a0, str_0
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([1 x i8], [1 x i8]* @str_1, i32 0, i32 0))
-la $a0, str_1
-li $v0, 4
-syscall
-
-# call void @putint(i32 %V55)
-lw $a0, -304($sp)
-li $v0, 1
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_2, i32 0, i32 0))
-la $a0, str_2
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_3, i32 0, i32 0))
-la $a0, str_3
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_4, i32 0, i32 0))
-la $a0, str_4
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_5, i32 0, i32 0))
-la $a0, str_5
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_6, i32 0, i32 0))
-la $a0, str_6
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_7, i32 0, i32 0))
-la $a0, str_7
-li $v0, 4
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_8, i32 0, i32 0))
-la $a0, str_8
-li $v0, 4
-syscall
+# %V32 = sub i32 %V31, 0
+lw $t0, -60($sp)
+li $t1, 0
+subu $t2, $t0, $t1
+sw $t2, -64($sp)
 
 # ret i32 0
 li $v0, 0
 jr $ra
 
+mainb24:
+
+# move %V39, 2
+li $t0, 2
+sw $t0, -68($sp)
+
+# br label %b12
+j mainb12
+
+mainb25:
+
+# move %V35, %V36
+lw $t0, -4($sp)
+sw $t0, -72($sp)
+
+# br label %b14
+j mainb14
+
+mainb26:
+
+# move %V33, %V35
+lw $t0, -72($sp)
+sw $t0, -76($sp)
+
+# br label %b16
+j mainb16
+
+mainb27:
+
+# move %V34, %V33
+lw $t0, -76($sp)
+sw $t0, -84($sp)
+
+# br label %b18
+j mainb18
+
 mainb28:
 
-# move %V61, %V34
-lw $t0, -104($sp)
-sw $t0, -136($sp)
+# move %V34, %V33
+lw $t0, -76($sp)
+sw $t0, -84($sp)
 
-# br label %b2
-j mainb2
+# br label %b18
+j mainb18
+
+mainb29:
+
+# move %V37, %V34
+lw $t0, -84($sp)
+sw $t0, -88($sp)
+
+# br label %b21
+j mainb21
 
 END:
 li $v0, 10

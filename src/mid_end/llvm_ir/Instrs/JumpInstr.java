@@ -6,13 +6,16 @@ import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
 public class JumpInstr extends Instr {
+
+    private BasicBlock dstBlock;
+
     public JumpInstr(BasicBlock dstBlock) {
-        addValue(dstBlock);
+        this.dstBlock = dstBlock;
     }
 
     @Override
     public String toString() {
-        return "br label %" + ((BasicBlock) paras.get(0)).name;
+        return "br label %" + dstBlock.name;
     }
 
     @Override
@@ -23,10 +26,14 @@ public class JumpInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        new JumpAsm(JumpAsm.J, ((BasicBlock) paras.get(0)).nameInMips);
+        new JumpAsm(JumpAsm.J, dstBlock.nameInMips);
     }
 
     public BasicBlock getTargetBlock() {
-        return (BasicBlock) (paras.get(0));
+        return dstBlock;
+    }
+
+    public void setDstBlock(BasicBlock dstBlock) {
+        this.dstBlock = dstBlock;
     }
 }

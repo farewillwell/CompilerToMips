@@ -69,6 +69,7 @@ public class PhiRemove {
                     BasicBlock midForElse = new BasicBlock();
                     function.basicBlocks.add(midForElse);
                     block.insertBlock(elseBlock, midForElse);
+                    // 该insert处实现了修改前后块的功能，因此不用担心光改指令
                     branchInstr.changeElse(midForElse);
                     midForElse.addInstr(new JumpInstr(elseBlock));
                     for (Instr instr : elseBlock.instrList) {

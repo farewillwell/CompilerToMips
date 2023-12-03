@@ -8,6 +8,8 @@ import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.type.LLVMType;
 
+import java.util.HashSet;
+
 public class Instr extends User {
 
     public Instr(LLVMType type) {

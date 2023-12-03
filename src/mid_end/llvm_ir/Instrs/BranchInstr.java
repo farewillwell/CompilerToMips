@@ -10,16 +10,19 @@ import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
 public class BranchInstr extends Instr {
+    private BasicBlock thenBlock;
+    private BasicBlock elseBlock;
+
     public Value getCond() {
         return paras.get(0);
     }
 
     public BasicBlock getThenBlock() {
-        return (BasicBlock) paras.get(1);
+        return thenBlock;
     }
 
     public BasicBlock getElseBlock() {
-        return (BasicBlock) paras.get(2);
+        return elseBlock;
     }
 
     @Override
@@ -27,10 +30,10 @@ public class BranchInstr extends Instr {
         return null;
     }
 
-    public BranchInstr(Value cond, Value thenBlock, Value elseBlock) {
+    public BranchInstr(Value cond, BasicBlock thenBlock, BasicBlock elseBlock) {
         addValue(cond);
-        addValue(thenBlock);
-        addValue(elseBlock);
+        this.thenBlock = thenBlock;
+        this.elseBlock = elseBlock;
     }
 
     // 由于cond都是一位数，所以可以直接和0判断
@@ -51,11 +54,11 @@ public class BranchInstr extends Instr {
     }
 
     public void changeThen(BasicBlock newThen) {
-        paras.set(1, newThen);
+        this.thenBlock = newThen;
     }
 
     public void changeElse(BasicBlock newElse) {
-        paras.set(2, newElse);
+        this.elseBlock = newElse;
     }
 
     public boolean condConst() {
@@ -67,6 +70,15 @@ public class BranchInstr extends Instr {
             return new JumpInstr(getThenBlock());
         } else {
             return new JumpInstr(getElseBlock());
+        }
+    }
+
+    // 计算在常数化后被舍弃的块
+    public BasicBlock abandonTarget() {
+        if (((Constant) paras.get(0)).getValue() == 0) {
+            return getThenBlock();
+        } else {
+            return getElseBlock();
         }
     }
 }

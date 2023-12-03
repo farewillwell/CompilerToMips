@@ -4,7 +4,10 @@ import back_end.Mips.AsmInstrs.MemAsm;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
+import mid_end.llvm_ir.LocalVar;
 import mid_end.llvm_ir.Value;
+
+import java.util.HashSet;
 
 public class MoveInstr extends Instr {
 
@@ -34,5 +37,12 @@ public class MoveInstr extends Instr {
         int offset = MipsBuilder.MB.queryOffset(target());
         Instr.getValueInReg(Register.T0, moveIn());
         new MemAsm(MemAsm.SW, Register.T0, Register.SP, offset);
+    }
+
+    public boolean useUndefine(HashSet<Value> define) {
+        if (moveIn() instanceof LocalVar) {
+            return !define.contains(moveIn());
+        }
+        return false;
     }
 }

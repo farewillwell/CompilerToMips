@@ -9,34 +9,18 @@ define dso_local i32 @main() {
 b0:
   call void @putstr(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @str_0, i32 0, i32 0))
   br label %b2
-b1:
-  move %V36, 1
-  br label %b3
 b2:
   move %V36, 0
-  br label %b3
-b3:
   br label %b4
 b4:
   move %V38, 1
   br label %b5
 b5:
   %V9 = icmp sge i32 %V38, 0
-  br i1 %V9, label %b6, label %b7
-b6:
-  br label %b7
+  br i1 %V9, label %b7, label %b7
 b7:
   %V11 = icmp eq i32 %V38, 0
-  br i1 %V11, label %b8, label %b9
-b8:
-  br label %b10
-b9:
-  br label %b10
-b10:
-  br label %b24
-b11:
-  move %V39, 2
-  br label %b12
+  br i1 %V11, label %b24, label %b24
 b12:
   %V16 = icmp eq i32 %V38, %V39
   br i1 %V16, label %b13, label %b25
@@ -71,9 +55,6 @@ b21:
   %V31 = add i32 %V38, 1
   %V32 = sub i32 %V31, 0
   ret i32 0
-b23:
-  move %V38, 1
-  br label %b5
 b24:
   move %V39, 2
   br label %b12

@@ -5,6 +5,7 @@ import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
 import mid_end.llvm_ir.IRModule;
+import optimization.DeadCodeRemove;
 import optimization.GVN;
 import optimization.Mem2Reg;
 import optimization.PhiRemove;
@@ -81,6 +82,14 @@ public class Compiler {
             new GVN().solve(irUnit);
             try {
                 PrintStream printStream = new PrintStream("llvm_GVN.txt");
+                System.setOut(printStream);
+                System.out.println(irUnit);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            new DeadCodeRemove().solve(irUnit);
+            try {
+                PrintStream printStream = new PrintStream("llvm_dcm.txt");
                 System.setOut(printStream);
                 System.out.println(irUnit);
             } catch (FileNotFoundException e) {
