@@ -2,7 +2,6 @@ package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.*;
 import back_end.Mips.MipsBuilder;
-import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.type.ArrayType;
@@ -102,51 +101,55 @@ public class GEPInstr extends Instr {
         LLVMType targetType = ((PointerType) pointer.type).objType;
         // 变量地址指针的类型，是指针确定了
         int objSize = isInitMemberPointer ? targetType.getSize() : ((ArrayType) targetType).memberType.getSize();
-        // 求出指针的位置
+        // 求出指针的位置,注意这里要分为两种,局部变量alloca的话可以直接从reg里面拿指针,否则是全局,则需要la
+        Register op0;
         if (getPointer() instanceof GlobalVar) {
             new LaAsm(((GlobalVar) getPointer()).nameInMips(), Register.T0);
+            op0 = Register.T0;
         } else {
-            int pointerOffset = MipsBuilder.MB.queryOffset(getPointer());
-            // 求出指针的值，就是元素列的首地址
-            new MemAsm(MemAsm.LW, Register.T0, Register.SP, pointerOffset);
+            op0 = Instr.moveValueIntoReg(Register.T0, getPointer());
         }
+        // 求出最后ans放的地方的位置
+        Register register = Instr.targetSRegorNull(getAns());
         if (numberOffset instanceof Constant) {
             // 假如这个位置是a[10]的起始点？
             // 获取需要偏移的位数
             int length = ((Constant) numberOffset).getValue();
             // 获得需要的指针位置
-            new AluR2IAsm(AluR2IAsm.ADDI, Register.T0, Register.T0, length * objSize);
-            // 新开一个存这个得到的指针
-            int ansOffset = MipsBuilder.MB.allocOnStack(4);
-            // 把这个地址存到符号表里面
-            MipsBuilder.MB.addVarSymbol(new MipsSymbol(getAns(), ansOffset));
-            // 把得到的结果指针存到地址中
-            new MemAsm(MemAsm.SW, Register.T0, Register.SP, ansOffset);
+            if (register != null) {
+                new AluR2IAsm(AluR2IAsm.ADDI, register, op0, length * objSize);
+                MipsBuilder.MB.storeInReg(getAns(), register);
+            } else {
+                // 新开一个存这个得到的指针
+                new AluR2IAsm(AluR2IAsm.ADDI, Register.T0, op0, length * objSize);
+                Instr.storeMemFromReg(Register.T0, getAns());
+            }
         } else {
             // 另一种很困难了，因为你根本不知道这个地址是多少
-            // a[i][10] ? => 又nm要用到乘了，对性能影响大啊，很大啊
-            // 先不管乘了，这个可以考虑在代码优化里面解决
             // 获取这个偏移元素的数目
-            new MemAsm(MemAsm.LW, Register.T1, Register.SP, MipsBuilder.MB.queryOffset(numberOffset));
+            Register op1 = Instr.moveValueIntoReg(Register.T1, numberOffset);
             // 把元素的长度存起来
             // 长度不会是负数，因此没问题
             if ((objSize & (objSize - 1)) == 0) {
                 int shift = Integer.toBinaryString(objSize).length() - 1;
-                new AluR2IAsm(AluR2IAsm.SLL, Register.T1, Register.T1, shift);
+                new AluR2IAsm(AluR2IAsm.SLL, Register.T1, op1, shift);
             } else {
                 new LiAsm(objSize, Register.T2);
                 // 相乘计算大小
-                new MulDivAsm(MulDivAsm.MUL, Register.T2, Register.T1);
+                new MulDivAsm(MulDivAsm.MUL, Register.T2, op1);
                 // 获取最后的偏移值,存到t1里面
                 new HiLoGetterAsm(HiLoGetterAsm.MFLO, Register.T1);
             }
             // 计算得到ans指针变量的值
-            new AluR2RAsm(AluR2RAsm.ADDU, Register.T0, Register.T1, Register.T0);
-            // 新开一个存指针变量值的空间
-            int ansOffset = MipsBuilder.MB.allocOnStack(4);
-            MipsBuilder.MB.addVarSymbol(new MipsSymbol(getAns(), ansOffset));
-            // 把得到的指针变量值存进去
-            new MemAsm(MemAsm.SW, Register.T0, Register.SP, ansOffset);
+            if (register != null) {
+                new AluR2RAsm(AluR2RAsm.ADDU, register, Register.T1, op0);
+                MipsBuilder.MB.storeInReg(getAns(), register);
+            }
+            // 把指针变量值存进去
+            else {
+                new AluR2RAsm(AluR2RAsm.ADDU, Register.T0, Register.T1, op0);
+                Instr.storeMemFromReg(Register.T0, getAns());
+            }
         }
     }
 }

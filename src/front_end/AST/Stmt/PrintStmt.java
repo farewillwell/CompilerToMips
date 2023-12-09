@@ -94,7 +94,6 @@ public class PrintStmt extends Stmt {
         }
         String str = formatString.content();
         int cur = 0;
-        // bug:没有处理换行符
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < str.length() - 1; i++) {
             if (str.charAt(i) != '%') {
@@ -105,9 +104,11 @@ public class PrintStmt extends Stmt {
                     sb.append(str.charAt(i));
                 }
             } else {
-                StringLiteral st = new StringLiteral(sb.length(), sb.toString());
-                IRBuilder.IB.moduleAddString(st);
-                IRBuilder.IB.addInstrForBlock(new PutStr(st));
+                if (sb.length() != 0) {
+                    StringLiteral st = new StringLiteral(sb.length(), sb.toString());
+                    IRBuilder.IB.moduleAddString(st);
+                    IRBuilder.IB.addInstrForBlock(new PutStr(st));
+                }
                 sb = new StringBuilder();
                 i++;
                 IRBuilder.IB.addInstrForBlock(new PutInt(values.get(cur++)));

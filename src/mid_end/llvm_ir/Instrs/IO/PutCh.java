@@ -15,6 +15,11 @@ public class PutCh extends IOInstr {
         addValue(value);
     }
 
+    @Override
+    public Value getAns() {
+        return null;
+    }
+
     public static final String defineHead = "declare void @putch(i32)\n";
 
     @Override

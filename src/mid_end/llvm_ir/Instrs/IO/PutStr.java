@@ -34,4 +34,9 @@ public class PutStr extends IOInstr {
         new LiAsm(4, Register.V0);
         new Syscall();
     }
+
+    @Override
+    public Value getAns() {
+        return null;
+    }
 }

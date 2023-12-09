@@ -1,14 +1,11 @@
 package mid_end.llvm_ir;
 
-import back_end.Mips.AsmInstrs.AnnotationAsm;
-import back_end.Mips.AsmInstrs.LiAsm;
-import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.AsmInstrs.*;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.type.LLVMType;
 
-import java.util.HashSet;
 
 public class Instr extends User {
 
@@ -48,15 +45,44 @@ public class Instr extends User {
             } else return para;
         });
     }
+    // 如果是需要传值,那么也许直接把参数换掉是一个好文明
+    // 就是,如果值在寄存器里面,那么就直接用寄存器,否则就用传进来的需要存的
 
-    public static void getValueInReg(Register dst, Value value) {
+    public static Register moveValueIntoReg(Register dst, Value value) {
+        // 注意,如果已经在寄存器里了，返回的不是传入的寄存器而是已经在的寄存器
         if (value instanceof Constant) {
             new LiAsm(((Constant) value).getValue(), dst);
+            return dst;
         } else if (value instanceof GlobalVar) {
             new MemAsm(MemAsm.LW, dst, ((GlobalVar) value).nameInMips(), 0);
+            return dst;
         } else {
-            int inOffset = MipsBuilder.MB.queryOffset(value);
-            new MemAsm(MemAsm.LW, dst, Register.SP, inOffset);
+            if (MipsBuilder.MB.hasRegFor(value)) {
+                return MipsBuilder.MB.queryReg(value);
+            } else {
+                int inOffset = MipsBuilder.MB.queryOffset(value);
+                new MemAsm(MemAsm.LW, dst, Register.SP, inOffset);
+                return dst;
+            }
+        }
+    }
+
+    // 这个是如果需要存的value已经被分配寄存器的更好用的方法
+    // 不应当增添更多功能
+    public static Register targetSRegorNull(Value value) {
+        if (MipsBuilder.MB.hasRegFor(value)) {
+            return MipsBuilder.MB.queryReg(value);
+        }
+        return null;
+    }
+
+    // 强调,该方法一定要是目标不被分配寄存器,否则可以更节约的使用
+    public static void storeMemFromReg(Register src, Value value) {
+        if (value instanceof GlobalVar) {
+            new MemAsm(MemAsm.SW, src, ((GlobalVar) value).nameInMips(), 0);
+        } else {
+            int offset = MipsBuilder.MB.queryOffset(value);
+            new MemAsm(MemAsm.SW, src, Register.SP, offset);
         }
     }
 

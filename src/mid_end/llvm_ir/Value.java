@@ -33,6 +33,9 @@ public class Value {
         userInstr.add(instr);
     }
 
+    public boolean userEmpty() {
+        return userInstr.size() == 0;
+    }
     public void removeUser(Instr instr) {
         userInstr.remove(instr);
     }
@@ -40,7 +43,7 @@ public class Value {
     // 这里应当无论在哪个块，都狠狠标记上，这样可以跨块搜索
     public void userReplaceMeWith(Value newValue) {
         // 防止删除的时候爆concurrent？赋值一份再删即可
-        ArrayList<Instr>copy = new ArrayList<>(userInstr);
+        ArrayList<Instr> copy = new ArrayList<>(userInstr);
         for (Instr instr : copy) {
             instr.replace(this, newValue);
         }

@@ -5,10 +5,7 @@ import front_end.Lexer;
 import front_end.Parser;
 import front_end.TokenStream;
 import mid_end.llvm_ir.IRModule;
-import optimization.DeadCodeRemove;
-import optimization.GVN;
-import optimization.Mem2Reg;
-import optimization.PhiRemove;
+import optimization.*;
 
 import java.io.*;
 
@@ -22,6 +19,15 @@ public class Compiler {
     private static final boolean MAKE_MIPS = true;
 
     private static final PrintStream stdout = System.out;
+
+    private static void setOut(String file) {
+        try {
+            PrintStream printStream = new PrintStream(file);
+            System.setOut(printStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String[] args) {
         //-----------------------------------------------------------------------------------------
@@ -61,15 +67,8 @@ public class Compiler {
         // llvm make
         IRModule irUnit = null;
         if (!CHECK_ERROR || errorCollector.noError()) {
-            try {
-                PrintStream printStream = new PrintStream("llvm_origin.txt");
-                irUnit = (IRModule) compUnit.getIRCode();
-                irUnit.finish();
-                System.setOut(printStream);
-                System.out.println(irUnit);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            irUnit = (IRModule) compUnit.getIRCode();
+            irUnit.finish();
         }
         //-------------------------------------------------------------------------------------------
         // optimize
@@ -80,33 +79,17 @@ public class Compiler {
             new Mem2Reg().solve(irUnit);
             new PhiRemove().solve(irUnit);
             new GVN().solve(irUnit);
-            try {
-                PrintStream printStream = new PrintStream("llvm_GVN.txt");
-                System.setOut(printStream);
-                System.out.println(irUnit);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
             new DeadCodeRemove().solve(irUnit);
-            try {
-                PrintStream printStream = new PrintStream("llvm_dcm.txt");
-                System.setOut(printStream);
-                System.out.println(irUnit);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            setOut("set.txt");
+            new ActiveAnalysis().solve(irUnit);
+            new RegAlloc().solve(irUnit);
         }
         //--------------------------------------------------------------------------------------------
         // mips make
         if (irUnit != null && MAKE_MIPS) {
-            try {
-                PrintStream printStream = new PrintStream("mips.txt");
-                System.setOut(printStream);
-                irUnit.genMipsCode();
-                System.out.println(MipsBuilder.MB.mips());
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            setOut("mips.txt");
+            irUnit.genMipsCode();
+            System.out.println(MipsBuilder.MB.mips());
         }
     }
 }

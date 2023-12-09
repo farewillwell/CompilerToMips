@@ -13,4 +13,5 @@ public class IOInstr extends Instr {
     public void genMipsCode() {
         super.genMipsCode();
     }
+    // 事实上,不用在乎putCh和putStr,因为并不是真的用了
 }

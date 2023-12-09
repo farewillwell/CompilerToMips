@@ -101,7 +101,7 @@ public class ALUInstr extends Instr {
         super.genMipsCode();
         Value p0 = paras.get(0);
         Value p1 = paras.get(1);
-        int newOffset = MipsBuilder.MB.queryOffset(getAns());
+        Register register = targetSRegorNull(getAns());
         // 如果两边都是常数,已经在前面处理过了，因此不用理会.
         //----------------------------------------------------//
         // 如果乘法有一个为常数
@@ -123,51 +123,66 @@ public class ALUInstr extends Instr {
                 if (shifts.size() == 0) {
                     throw new RuntimeException();
                 }
-                Instr.getValueInReg(Register.T0, var);
+                Register op = Instr.moveValueIntoReg(Register.T0, var);
                 if (shifts.size() == 1) {
-                    new AluR2IAsm(AluR2IAsm.SLL, Register.T2, Register.T0, shifts.get(0));
+                    new AluR2IAsm(AluR2IAsm.SLL, Register.T2, op, shifts.get(0));
                     if (isNegative) {
                         new AluR2RAsm(AluR2RAsm.SUBU, Register.T2, Register.ZERO, Register.T2);
                     }
-                    new MemAsm(MemAsm.SW, Register.T2, Register.SP, newOffset);
+                    if (register != null) {
+                        new MoveAsm(register, Register.T2);
+                        MipsBuilder.MB.storeInReg(getAns(), register);
+                    } else {
+                        Instr.storeMemFromReg(Register.T2, getAns());
+                    }
                     return;
                 }
                 // 清0 T2
                 new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, Register.ZERO, Register.ZERO);
                 for (Integer integer : shifts) {
                     if (integer != 0) {
-                        new AluR2IAsm(AluR2IAsm.SLL, Register.T1, Register.T0, integer);
+                        new AluR2IAsm(AluR2IAsm.SLL, Register.T1, op, integer);
                         new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, Register.T1, Register.T2);
                     } else {
-                        new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, Register.T0, Register.T2);
+                        new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, op, Register.T2);
                     }
                 }
                 if (isNegative) {
                     new AluR2RAsm(AluR2RAsm.SUBU, Register.T2, Register.ZERO, Register.T2);
                 }
-                new MemAsm(MemAsm.SW, Register.T2, Register.SP, newOffset);
+                if (register != null) {
+                    new MoveAsm(register, Register.T2);
+                    MipsBuilder.MB.storeInReg(getAns(), register);
+                } else {
+                    Instr.storeMemFromReg(Register.T2, getAns());
+                }
                 return;
             }
         }
         //-----------------------------------------------------//
-        Instr.getValueInReg(Register.T0, p0);
-        Instr.getValueInReg(Register.T1, p1);
+        Register op0 = Instr.moveValueIntoReg(Register.T0, p0);
+        Register op1 = Instr.moveValueIntoReg(Register.T1, p1);
+        Register ans = register == null ? Register.T2 : register;
         if (opcode.equals(ADD)) {
-            new AluR2RAsm(AluR2RAsm.ADDU, Register.T2, Register.T0, Register.T1);
+            new AluR2RAsm(AluR2RAsm.ADDU, ans, op0, op1);
         } else if (opcode.equals(SUB)) {
-            new AluR2RAsm(AluR2RAsm.SUBU, Register.T2, Register.T0, Register.T1);
+            new AluR2RAsm(AluR2RAsm.SUBU, ans, op0, op1);
         } else {
             if (opcode.equals(MUL)) {
-                new MulDivAsm(MulDivAsm.MUL, Register.T0, Register.T1);
-                new HiLoGetterAsm(HiLoGetterAsm.MFLO, Register.T2);
+                new MulDivAsm(MulDivAsm.MUL, op0, op1);
+                new HiLoGetterAsm(HiLoGetterAsm.MFLO, ans);
             } else if (opcode.equals(DIV)) {
-                new MulDivAsm(MulDivAsm.DIV, Register.T0, Register.T1);
-                new HiLoGetterAsm(HiLoGetterAsm.MFLO, Register.T2);
+                new MulDivAsm(MulDivAsm.DIV, op0, op1);
+                new HiLoGetterAsm(HiLoGetterAsm.MFLO, ans);
             } else {
-                new MulDivAsm(MulDivAsm.DIV, Register.T0, Register.T1);
-                new HiLoGetterAsm(HiLoGetterAsm.MFHI, Register.T2);
+                new MulDivAsm(MulDivAsm.DIV, op0, op1);
+                new HiLoGetterAsm(HiLoGetterAsm.MFHI, ans);
             }
         }
-        new MemAsm(MemAsm.SW, Register.T2, Register.SP, newOffset);
+        if (register == null) {
+            Instr.storeMemFromReg(Register.T2, getAns());
+        } else {
+            MipsBuilder.MB.storeInReg(getAns(), register);
+        }
     }
 }

@@ -7,6 +7,7 @@ import mid_end.llvm_ir.Instrs.IO.PutInt;
 import mid_end.llvm_ir.Instrs.IO.PutStr;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class IRModule extends Value {
     private final ArrayList<StringLiteral> stringLiterals;
@@ -82,6 +83,23 @@ public class IRModule extends Value {
     public void doCFG() {
         refillFlowChart();
         cleanUnReachableBlock();
+        queryDominates();
+        queryImmDomTree();
+        queryDf();
+    }
+
+    public void reQueryDom() {
+        // 清空计算的dom
+        for (Function function : functions) {
+            for (BasicBlock block : function.basicBlocks) {
+                block.whoDomMe.clear();
+                block.meDomWho.clear();
+                block.immDomer = null;
+                block.beImmDom.clear();
+                block.df.clear();
+            }
+        }
+        // 用新的前后关系计算一遍
         queryDominates();
         queryImmDomTree();
         queryDf();

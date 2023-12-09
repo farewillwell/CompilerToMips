@@ -43,21 +43,14 @@ public class StoreInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        if (paras.get(0) instanceof Constant) {
-            new LiAsm(((Constant) paras.get(0)).getValue(), Register.T0);
-        } else {
-            int offset = MipsBuilder.MB.queryOffset(paras.get(0));
-            new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-        }
+        Register store = Instr.moveValueIntoReg(Register.T0, getStoreInValue());
         // 找到指针的位置
         if (paras.get(1) instanceof GlobalVar) {
-            new MemAsm(MemAsm.SW, Register.T0, ((GlobalVar) paras.get(1)).nameInMips(), 0);
+            new MemAsm(MemAsm.SW, store, ((GlobalVar) paras.get(1)).nameInMips(), 0);
         } else {
-            int offset = MipsBuilder.MB.queryOffset(paras.get(1));
-            // 获取指针存的值，就是变量的实际地址
-            new MemAsm(MemAsm.LW, Register.T1, Register.SP, offset);
+            Register point = Instr.moveValueIntoReg(Register.T1, paras.get(1));
             // 把值存到实际地址里面
-            new MemAsm(MemAsm.SW, Register.T0, Register.T1, 0);
+            new MemAsm(MemAsm.SW, store, point, 0);
         }
     }
 }

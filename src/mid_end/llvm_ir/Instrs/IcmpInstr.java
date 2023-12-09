@@ -1,7 +1,6 @@
 package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.CmpAsm;
-import back_end.Mips.AsmInstrs.MemAsm;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import front_end.AST.TokenNode;
@@ -109,11 +108,17 @@ public class IcmpInstr extends Instr {
         super.genMipsCode();
         Value p0 = paras.get(0);
         Value p1 = paras.get(1);
-        Instr.getValueInReg(Register.T0, p0);
-        Instr.getValueInReg(Register.T1, p1);
-        new CmpAsm(llOpToMipsOp(), Register.T2, Register.T0, Register.T1);
+        Register op0 = Instr.moveValueIntoReg(Register.T0, p0);
+        Register op1 = Instr.moveValueIntoReg(Register.T1, p1);
+        Register register = targetSRegorNull(getAns());
+        if (register != null) {
+            new CmpAsm(llOpToMipsOp(), register, op0, op1);
+            MipsBuilder.MB.storeInReg(getAns(), register);
+        }
         // 注意,这个得到的值需要存起来,因为你根本不知道比较完的值会不会拿去做计算，而不是用到br去跳转
-        int offset = MipsBuilder.MB.queryOffset(getAns());
-        new MemAsm(MemAsm.SW, Register.T2, Register.SP, offset);
+        else {
+            new CmpAsm(llOpToMipsOp(), Register.T2, op0, op1);
+            Instr.storeMemFromReg(Register.T2, getAns());
+        }
     }
 }

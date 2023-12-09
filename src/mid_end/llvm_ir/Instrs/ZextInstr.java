@@ -1,7 +1,10 @@
 package mid_end.llvm_ir.Instrs;
 
+import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.AsmInstrs.MoveAsm;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.MipsSymbol;
+import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.LocalVar;
 import mid_end.llvm_ir.Value;
@@ -23,10 +26,15 @@ public class ZextInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        // mips里面没有1位的，只需要把这个指令得到的offset赋值给新的到的value就好了
-        int offset = MipsBuilder.MB.queryOffset(paras.get(0));
-        MipsSymbol mipsSymbol = new MipsSymbol(getAns(), offset);
-        MipsBuilder.MB.addVarSymbol(mipsSymbol);
+        // 考虑到mips中没有i1,因此该指令就相当于move
+        Register reg1 = Instr.moveValueIntoReg(Register.T0, paras.get(0));
+        Register register = targetSRegorNull(getAns());
+        if (register != null) {
+            new MoveAsm(register, reg1);
+            MipsBuilder.MB.storeInReg(getAns(), register);
+        } else {
+            Instr.storeMemFromReg(reg1, getAns());
+        }
     }
 
     public boolean foldSelf() {

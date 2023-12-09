@@ -1,5 +1,5 @@
 .data
-str_0: .asciiz "21371295\n"
+str_0: .asciiz "\n"
 
 .text
 
@@ -10,238 +10,224 @@ jal main
 # leave main
 j END
 
-main:
-mainb0:
+getDif3N:
+getDif3Nb0:
 
-# call void @putstr(i8* getelementptr inbounds ([10 x i8], [10 x i8]* @str_0, i32 0, i32 0))
+# move %V39, 0
+li $t0, 0
+move $t3, $t0
+
+# move %V30, 1
+li $t0, 1
+move $t4, $t0
+
+# br label %b1
+j getDif3Nb1
+
+getDif3Nb1:
+
+# %V6 = icmp sle i32 %V30, 3
+li $t1, 3
+sle $t5, $t4, $t1
+
+# br i1 %V6, label %b2, label %b4
+bne $t5, $zero, getDif3Nb2
+beq $t5, $zero, getDif3Nb4
+getDif3Nb2:
+
+# move %V38, %V39
+# same reg $t3
+
+# move %V34, %V35
+move $t5, $t3
+
+# move %V32, 1
+li $t0, 1
+move $t6, $t0
+
+# br label %b5
+j getDif3Nb5
+
+getDif3Nb5:
+
+# %V8 = icmp sle i32 %V32, 3
+li $t1, 3
+sle $t7, $t6, $t1
+
+# br i1 %V8, label %b6, label %b3
+bne $t7, $zero, getDif3Nb6
+beq $t7, $zero, getDif3Nb3
+getDif3Nb6:
+
+# move %V37, %V38
+# same reg $t3
+
+# move %V33, 1
+li $t0, 1
+move $t5, $t0
+
+# br label %b9
+j getDif3Nb9
+
+getDif3Nb9:
+
+# %V10 = icmp sle i32 %V33, 3
+li $t1, 3
+sle $t7, $t5, $t1
+
+# br i1 %V10, label %b10, label %b7
+bne $t7, $zero, getDif3Nb10
+beq $t7, $zero, getDif3Nb7
+getDif3Nb10:
+
+# %V13 = icmp ne i32 %V30, %V32
+sne $t7, $t4, $t6
+
+# br i1 %V13, label %b15, label %b17
+bne $t7, $zero, getDif3Nb15
+beq $t7, $zero, getDif3Nb17
+getDif3Nb15:
+
+# %V16 = icmp ne i32 %V30, %V33
+sne $t7, $t4, $t5
+
+# br i1 %V16, label %b16, label %b18
+bne $t7, $zero, getDif3Nb16
+beq $t7, $zero, getDif3Nb18
+getDif3Nb16:
+
+# %V19 = icmp ne i32 %V32, %V33
+sne $t7, $t6, $t5
+
+# br i1 %V19, label %b13, label %b19
+bne $t7, $zero, getDif3Nb13
+beq $t7, $zero, getDif3Nb19
+getDif3Nb13:
+
+# %V21 = add i32 %V37, 1
+li $t1, 1
+addu $t3, $t3, $t1
+
+# call void @putint(i32 %V21)
+move $a0, $t3
+li $v0, 1
+syscall
+
+# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
 la $a0, str_0
 li $v0, 4
 syscall
 
-# br label %b2
-j mainb2
+# move %V36, %V21
+# same reg $t3
 
-mainb2:
+# br label %b11
+j getDif3Nb11
 
-# move %V36, 0
-li $t0, 0
-sw $t0, -4($sp)
+getDif3Nb11:
 
-# br label %b4
-j mainb4
+# %V24 = add i32 %V33, 1
+li $t1, 1
+addu $t7, $t5, $t1
 
-mainb4:
+# move %V37, %V36
+# same reg $t3
 
-# move %V38, 1
-li $t0, 1
-sw $t0, -8($sp)
+# move %V33, %V24
+move $t5, $t7
+
+# br label %b9
+j getDif3Nb9
+
+getDif3Nb7:
+
+# %V26 = add i32 %V32, 1
+li $t1, 1
+addu $t7, $t6, $t1
+
+# move %V38, %V37
+# same reg $t3
+
+# move %V34, %V33
+# same reg $t5
+
+# move %V32, %V26
+move $t6, $t7
 
 # br label %b5
-j mainb5
+j getDif3Nb5
 
-mainb5:
+getDif3Nb3:
 
-# %V9 = icmp sge i32 %V38, 0
-lw $t0, -8($sp)
-li $t1, 0
-sge $t2, $t0, $t1
-sw $t2, -12($sp)
-
-# br i1 %V9, label %b7, label %b7
-lw $t0, -12($sp)
-bne $t0, $zero, mainb7
-beq $t0, $zero, mainb7
-mainb7:
-
-# %V11 = icmp eq i32 %V38, 0
-lw $t0, -8($sp)
-li $t1, 0
-seq $t2, $t0, $t1
-sw $t2, -16($sp)
-
-# br i1 %V11, label %b24, label %b24
-lw $t0, -16($sp)
-bne $t0, $zero, mainb24
-beq $t0, $zero, mainb24
-mainb12:
-
-# %V16 = icmp eq i32 %V38, %V39
-lw $t0, -8($sp)
-lw $t1, -68($sp)
-seq $t2, $t0, $t1
-sw $t2, -20($sp)
-
-# br i1 %V16, label %b13, label %b25
-lw $t0, -20($sp)
-bne $t0, $zero, mainb13
-beq $t0, $zero, mainb25
-mainb13:
-
-# move %V35, 1
-li $t0, 1
-sw $t0, -72($sp)
-
-# br label %b14
-j mainb14
-
-mainb14:
-
-# %V19 = icmp ne i32 %V38, %V39
-lw $t0, -8($sp)
-lw $t1, -68($sp)
-sne $t2, $t0, $t1
-sw $t2, -28($sp)
-
-# br i1 %V19, label %b15, label %b26
-lw $t0, -28($sp)
-bne $t0, $zero, mainb15
-beq $t0, $zero, mainb26
-mainb15:
-
-# move %V33, 0
-li $t0, 0
-sw $t0, -76($sp)
-
-# br label %b16
-j mainb16
-
-mainb16:
-
-# %V22 = icmp ne i32 %V38, %V39
-lw $t0, -8($sp)
-lw $t1, -68($sp)
-sne $t2, $t0, $t1
-sw $t2, -36($sp)
-
-# br i1 %V22, label %b19, label %b27
-lw $t0, -36($sp)
-bne $t0, $zero, mainb19
-beq $t0, $zero, mainb27
-mainb19:
-
-# %V24 = icmp sgt i32 %V38, 0
-lw $t0, -8($sp)
-li $t1, 0
-sgt $t2, $t0, $t1
-sw $t2, -40($sp)
-
-# br i1 %V24, label %b17, label %b28
-lw $t0, -40($sp)
-bne $t0, $zero, mainb17
-beq $t0, $zero, mainb28
-mainb17:
-
-# move %V34, 1
-li $t0, 1
-sw $t0, -84($sp)
-
-# br label %b18
-j mainb18
-
-mainb18:
-
-# %V27 = icmp ne i32 %V38, %V39
-lw $t0, -8($sp)
-lw $t1, -68($sp)
-sne $t2, $t0, $t1
-sw $t2, -48($sp)
-
-# br i1 %V27, label %b20, label %b22
-lw $t0, -48($sp)
-bne $t0, $zero, mainb20
-beq $t0, $zero, mainb22
-mainb22:
-
-# %V29 = icmp sgt i32 %V38, 0
-lw $t0, -8($sp)
-li $t1, 0
-sgt $t2, $t0, $t1
-sw $t2, -52($sp)
-
-# br i1 %V29, label %b20, label %b29
-lw $t0, -52($sp)
-bne $t0, $zero, mainb20
-beq $t0, $zero, mainb29
-mainb20:
-
-# move %V37, 2
-li $t0, 2
-sw $t0, -88($sp)
-
-# br label %b21
-j mainb21
-
-mainb21:
-
-# %V31 = add i32 %V38, 1
-lw $t0, -8($sp)
+# %V28 = add i32 %V30, 1
 li $t1, 1
-addu $t2, $t0, $t1
-sw $t2, -60($sp)
+addu $t7, $t4, $t1
 
-# %V32 = sub i32 %V31, 0
-lw $t0, -60($sp)
-li $t1, 0
-subu $t2, $t0, $t1
-sw $t2, -64($sp)
+# move %V39, %V38
+# same reg $t3
+
+# move %V35, %V34
+move $t3, $t5
+
+# move %V31, %V32
+move $t5, $t6
+
+# move %V30, %V28
+move $t4, $t7
+
+# br label %b1
+j getDif3Nb1
+
+getDif3Nb4:
+
+# ret i32 %V39
+move $v0, $t3
+jr $ra
+
+getDif3Nb17:
+
+# move %V36, %V37
+# same reg $t3
+
+# br label %b11
+j getDif3Nb11
+
+getDif3Nb18:
+
+# move %V36, %V37
+# same reg $t3
+
+# br label %b11
+j getDif3Nb11
+
+getDif3Nb19:
+
+# move %V36, %V37
+# same reg $t3
+
+# br label %b11
+j getDif3Nb11
+
+main:
+mainb0:
+
+# %V1 = call i32 @F_getDif3N ()
+sw $ra, -8($sp)
+addi $sp, $sp, -8
+jal getDif3N
+
+addi $sp, $sp, 8
+lw $ra, -8($sp)
+move $t3, $v0
+
+# call void @putint(i32 %V1)
+move $a0, $t3
+li $v0, 1
+syscall
 
 # ret i32 0
 li $v0, 0
 jr $ra
-
-mainb24:
-
-# move %V39, 2
-li $t0, 2
-sw $t0, -68($sp)
-
-# br label %b12
-j mainb12
-
-mainb25:
-
-# move %V35, %V36
-lw $t0, -4($sp)
-sw $t0, -72($sp)
-
-# br label %b14
-j mainb14
-
-mainb26:
-
-# move %V33, %V35
-lw $t0, -72($sp)
-sw $t0, -76($sp)
-
-# br label %b16
-j mainb16
-
-mainb27:
-
-# move %V34, %V33
-lw $t0, -76($sp)
-sw $t0, -84($sp)
-
-# br label %b18
-j mainb18
-
-mainb28:
-
-# move %V34, %V33
-lw $t0, -76($sp)
-sw $t0, -84($sp)
-
-# br label %b18
-j mainb18
-
-mainb29:
-
-# move %V37, %V34
-lw $t0, -84($sp)
-sw $t0, -88($sp)
-
-# br label %b21
-j mainb21
 
 END:
 li $v0, 10

@@ -10,8 +10,8 @@ public class BasicBlock extends Value {
     public final ArrayList<Instr> instrList = new ArrayList<>();
     public final String name;
     public final String nameInMips;
-    public final HashSet<BasicBlock> prev = new HashSet<>();
-    public final HashSet<BasicBlock> next = new HashSet<>();
+    public final ArrayList<BasicBlock> prev = new ArrayList<>();
+    public final ArrayList<BasicBlock> next = new ArrayList<>();
     // dominates:谁支配了该基本块?
     public final HashSet<BasicBlock> whoDomMe = new HashSet<>();
     // 这个基本块支配了谁?
@@ -233,4 +233,10 @@ public class BasicBlock extends Value {
             this.next.remove(abandon);
         }
     }
+
+    // --------------------------活跃变量分析,防止block块内容过多,需要进行疏解-----------------------------------
+    public final HashSet<Value> def = new HashSet<>();
+    public final HashSet<Value> use = new HashSet<>();
+    public final HashSet<Value> in = new HashSet<>();
+    public final HashSet<Value> out = new HashSet<>();
 }

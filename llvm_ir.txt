@@ -1,0 +1,72 @@
+declare i32 @getint()
+declare void @putch(i32)
+declare void @putint(i32)
+declare void @putstr(i8*)
+
+@str_0 = constant [2 x i8] c"
+\00"
+define dso_local i32 @F_getDif3N (){
+b0:
+  br label %b1
+b1:
+  %V39 = phi i32 [0,%b0], [%V38,%b3]
+  %V35 = phi i32 [0,%b0], [%V34,%b3]
+  %V31 = phi i32 [0,%b0], [%V32,%b3]
+  %V30 = phi i32 [1,%b0], [%V28,%b3]
+  %V6 = icmp sle i32 %V30, 3
+  br i1 %V6, label %b2, label %b4
+b2:
+  br label %b5
+b5:
+  %V38 = phi i32 [%V39,%b2], [%V37,%b7]
+  %V34 = phi i32 [%V35,%b2], [%V33,%b7]
+  %V32 = phi i32 [1,%b2], [%V26,%b7]
+  %V8 = icmp sle i32 %V32, 3
+  br i1 %V8, label %b6, label %b8
+b6:
+  br label %b9
+b9:
+  %V37 = phi i32 [%V38,%b6], [%V36,%b11]
+  %V33 = phi i32 [1,%b6], [%V24,%b11]
+  %V10 = icmp sle i32 %V33, 3
+  br i1 %V10, label %b10, label %b12
+b10:
+  %V13 = icmp ne i32 %V30, %V32
+  br i1 %V13, label %b15, label %b14
+b15:
+  %V16 = icmp ne i32 %V30, %V33
+  br i1 %V16, label %b16, label %b14
+b16:
+  %V19 = icmp ne i32 %V32, %V33
+  br i1 %V19, label %b13, label %b14
+b13:
+  %V21 = add i32 %V37, 1
+  call void @putint(i32 %V21)
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
+  br label %b14
+b14:
+  %V36 = phi i32 [%V37,%b10], [%V37,%b15], [%V37,%b16], [%V21,%b13]
+  br label %b11
+b11:
+  %V24 = add i32 %V33, 1
+  br label %b9
+b12:
+  br label %b7
+b7:
+  %V26 = add i32 %V32, 1
+  br label %b5
+b8:
+  br label %b3
+b3:
+  %V28 = add i32 %V30, 1
+  br label %b1
+b4:
+  ret i32 %V39
+}
+define dso_local i32 @main() {
+b0:
+  %V1 = call i32 @F_getDif3N ()
+  call void @putint(i32 %V1)
+  ret i32 0
+}
+

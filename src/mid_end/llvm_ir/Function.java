@@ -1,8 +1,12 @@
 package mid_end.llvm_ir;
 
 import back_end.Mips.AsmInstrs.BlockSignAsm;
+import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.AsmInstrs.MoveAsm;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.MipsSymbol;
+import back_end.Mips.Register;
+import back_end.Mips.VarManager;
 import mid_end.llvm_ir.Instrs.ReturnInstr;
 import mid_end.llvm_ir.type.BaseType;
 
@@ -11,16 +15,18 @@ import java.util.HashSet;
 
 public class Function extends User {
 
+    public VarManager varManager = new VarManager();
+
     public Function(BaseType type, String name) {
         super(type);
         basicBlocks = new ArrayList<>();
-        params = new ArrayList<>();
+        funcParams = new ArrayList<>();
         this.name = name;
         this.localCnt = 1;
         this.bbCnt = 0;
     }
 
-    public final ArrayList<Param> params;
+    public final ArrayList<Param> funcParams;
 
     public final ArrayList<BasicBlock> basicBlocks;
 
@@ -31,7 +37,7 @@ public class Function extends User {
     public int bbCnt;
 
     public void addPara(Param param) {
-        this.params.add(param);
+        this.funcParams.add(param);
     }
 
     public void addBasicBlock(BasicBlock block) {
@@ -68,11 +74,11 @@ public class Function extends User {
         stringBuilder.append(" ");
         stringBuilder.append("@F_").append(name);
         stringBuilder.append(" (");
-        for (int i = 0; i < params.size(); i++) {
-            stringBuilder.append(params.get(i).type);
+        for (int i = 0; i < funcParams.size(); i++) {
+            stringBuilder.append(funcParams.get(i).type);
             stringBuilder.append(" ");
-            stringBuilder.append(params.get(i));
-            if (i < params.size() - 1) {
+            stringBuilder.append(funcParams.get(i));
+            if (i < funcParams.size() - 1) {
                 stringBuilder.append(",");
             }
         }
@@ -87,18 +93,29 @@ public class Function extends User {
     @Override
     public void genMipsCode() {
         new BlockSignAsm(name);
-        MipsBuilder.MB.enterNewFunc();
+        MipsBuilder.MB.enterNewFunc(this);
         // para实际上已经存好了,无论如何都是从sp开始的，只需要在这里建上符号表就可以了
-        // | a0,a1,a2,a3,a4......|
-        // sp ----- 低地址,和数组存起来是相反的。虽然已经在mips实现里面存好了，
-        // 但是实际上在这个符号表里面是不知道的，因此要当场alloc
-        for (Param param : params) {
+        // -----------------------参数问题------------------------- //
+        // 事实上,我们已经在call的时候将栈底移动到这里的栈底了,所以默认前置条件满足已经设定好各个元素的位置了
+        // 同时,已经分配好了寄存器的参数需要在这里装进去
+        for (int i = 0; i < funcParams.size(); i++) {
             int offset = MipsBuilder.MB.allocOnStack(4);
-            MipsSymbol mipsSymbol = new MipsSymbol(param, offset);
+            MipsSymbol mipsSymbol = new MipsSymbol(funcParams.get(i), offset);
             MipsBuilder.MB.addVarSymbol(mipsSymbol);
+            // 如果已经分配了寄存器,那么就把东西都存到寄存器里面
+            if (MipsBuilder.MB.hasRegFor(funcParams.get(i))) {
+                Register register = MipsBuilder.MB.queryReg(funcParams.get(i));
+                if (i < 3) {
+                    new MoveAsm(register, Register.getWithIndex(5 + i));
+                } else {
+                    new MemAsm(MemAsm.LW, register, Register.SP, offset);
+                }
+                MipsBuilder.MB.storeInReg(funcParams.get(i), register);
+            }
         }
         for (BasicBlock block : basicBlocks) {
             for (Instr instr : block.instrList) {
+                // 仅仅分配好地址,装东西的时候需要在具体执行的时候装
                 instr.allocSelf();
             }
         }
@@ -117,6 +134,7 @@ public class Function extends User {
 
     public void queryDom() {
         showPrev();
+        showNext();
         boolean ok = false;
         int count = 0;
         // out[entry]=v_entry,  out == dominates
@@ -163,9 +181,21 @@ public class Function extends User {
     }
 
     private void showPrev() {
+        System.out.println("------------show prev------------");
         for (BasicBlock basicBlock : basicBlocks) {
             System.out.print(basicBlock.name + ":");
             for (BasicBlock block : basicBlock.prev) {
+                System.out.print(block.name + " ");
+            }
+            System.out.println("  ");
+        }
+    }
+
+    private void showNext() {
+        System.out.println("-----------show Next --------------");
+        for (BasicBlock basicBlock : basicBlocks) {
+            System.out.print(basicBlock.name + ":");
+            for (BasicBlock block : basicBlock.next) {
                 System.out.print(block.name + " ");
             }
             System.out.println("  ");

@@ -1,6 +1,7 @@
 package mid_end.llvm_ir.Instrs;
 
 import back_end.Mips.AsmInstrs.JumpAsm;
+import back_end.Mips.AsmInstrs.MoveAsm;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
@@ -37,8 +38,16 @@ public class ReturnInstr extends Instr {
     public void genMipsCode() {
         super.genMipsCode();
         if (retType.equals(BaseType.I32)) {
-            Instr.getValueInReg(Register.V0, getRetValue());
+            Register get = Instr.moveValueIntoReg(Register.V0, getRetValue());
+            if (get != Register.V0) {
+                new MoveAsm(Register.V0, get);
+            }
         }
         new JumpAsm(JumpAsm.JR, Register.RA);
+    }
+
+    @Override
+    public Value getAns() {
+        return null;
     }
 }

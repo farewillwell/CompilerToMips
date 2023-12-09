@@ -2,8 +2,10 @@ package back_end.Mips;
 
 import back_end.Mips.AsmInstrs.*;
 import back_end.Mips.MipsHead.Header;
+import mid_end.llvm_ir.Function;
 import mid_end.llvm_ir.Value;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 public class MipsBuilder {
@@ -47,36 +49,53 @@ public class MipsBuilder {
 
     private final Stack<VarManager> managerStack;
 
-    public void enterNewFunc() {
-        managerStack.push(new VarManager());
+    public void enterNewFunc(Function function) {
+        managerStack.push(function.varManager);
     }
 
     public void exitFunc() {
         managerStack.pop();
     }
 
-    public boolean hasUsableReg() {
-        return managerStack.peek().hasUsableReg();
-    }
 
     public int allocOnStack(int byteSize) {
         return managerStack.peek().allocOnStack(byteSize);
     }
 
-    public Register allocOnReg() {
-        return managerStack.peek().allocOnReg();
+    public void backCur(int cur) {
+        managerStack.peek().setVir(cur);
     }
 
-    public boolean valueInReg(Value value) {
-        return managerStack.peek().valueInReg(value);
-    }
 
     public int queryOffset(Value value) {
         return managerStack.peek().queryOffset(value);
     }
 
     public Register queryReg(Value value) {
-        return managerStack.peek().queryReg(value);
+        return managerStack.peek().varSReg.get(value);
+    }
+
+    public boolean hasRegFor(Value value) {
+        return managerStack.peek().varSReg.containsKey(value);
+    }
+
+    public boolean nowInReg(Value value) {
+        return managerStack.peek().memMap.get(value).register != null;
+    }
+
+    public void storeInReg(Value value, Register register) {
+        HashMap<Value, MipsSymbol> map = managerStack.peek().memMap;
+        for (Value valueX : map.keySet()) {
+            // 将原本的那个换出,并存到它的内存中
+            if (map.get(valueX).register == register) {
+                //int offset = MB.queryOffset(valueX);
+                //new MemAsm(MemAsm.SW, register, Register.SP, offset);
+                map.get(valueX).register = null;
+            }
+        }
+        // 先换出再放入
+        map.get(value).register = register;
+
     }
 
     public void addVarSymbol(MipsSymbol varSymbol) {
@@ -87,7 +106,11 @@ public class MipsBuilder {
         return managerStack.peek().getVir();
     }
 
-    public boolean hasDefile(Value value) {
-        return managerStack.peek().hasDefine(value);
+    public void regStoreBack() {
+        managerStack.peek().regBackToMem();
+    }
+
+    public void memStoreBack() {
+        managerStack.peek().memBackToReg();
     }
 }

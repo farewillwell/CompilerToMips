@@ -16,6 +16,10 @@ public class MoveAsm extends AsmInstr {
 
     @Override
     public String toString() {
-        return opcode + " " + dstReg + ", " + srcReg;
+        if (dstReg != srcReg) {
+            return opcode + " " + dstReg + ", " + srcReg;
+        } else {
+            return "# same reg " + dstReg;
+        }
     }
 }

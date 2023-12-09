@@ -54,10 +54,11 @@ public enum Register {
     // 比如就用fp来存这个就是不错的行为
 
     public static Register getWithIndex(int index) {
-        if (index >= 11 && index <= 27) {
+        if ((index >= 5 && index <= 7) || (index >= 11 && index <= 28)) {
             return values()[index];
         }
-        // 不能用的,zero,at,v0,v1,a0-a3,sp,fp,gp,ra
+        // 不能用的,zero,at,v0,v1,a0-a3,sp,fp,ra
+        // a1,a2,a3这几个专门用来存传递时候的参数就好了，不用来常驻
         throw new RuntimeException("use which shall never be used by index " + index);
     }
 

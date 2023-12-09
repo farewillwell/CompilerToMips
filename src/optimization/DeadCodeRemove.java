@@ -2,10 +2,13 @@ package optimization;
 
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.Instrs.BranchInstr;
+import mid_end.llvm_ir.Instrs.CallInstr;
+import mid_end.llvm_ir.Instrs.IO.IOInstr;
 import mid_end.llvm_ir.Instrs.JumpInstr;
 import mid_end.llvm_ir.Instrs.MoveInstr;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class DeadCodeRemove {
     public void solve(IRModule irModule) {
@@ -16,15 +19,20 @@ public class DeadCodeRemove {
             // 如果已经确定到不了的块，但是其他instr什么的用了其中的变量,怎么办?
             // 这个凭空多出来的变量,也有可能对以后的分析造成影响
             // 尝试:把发现用了没有定义的全删了!!!
+            // 如果怕有错把剩下这俩ban了就行
             function.cleanUnReachableBlock();
             removeNoDefineUser(function);
+            boolean ans = true;
+            while (ans) {
+                ans = removeUnUsedInstr(function);
+            }
         }
     }
 
     // 通过语句,先扫描全部块，找到所有定义的,这样可以把使用不被定义的变量的move删除,这里我们默认只删move
     private void removeNoDefineUser(Function function) {
         // 注意，参数当然也是必须定义的!!!
-        HashSet<Value> definedValue = new HashSet<>(function.params);
+        HashSet<Value> definedValue = new HashSet<>(function.funcParams);
         for (BasicBlock block : function.basicBlocks) {
             for (Instr instr : block.instrList) {
                 if (instr.getAns() != null) {
@@ -33,7 +41,7 @@ public class DeadCodeRemove {
             }
         }
         for (BasicBlock block : function.basicBlocks) {
-            block.instrList.removeIf(instr -> instr instanceof MoveInstr&&((MoveInstr)instr).useUndefine(definedValue));
+            block.instrList.removeIf(instr -> instr instanceof MoveInstr && ((MoveInstr) instr).useUndefine(definedValue));
         }
     }
 
@@ -82,6 +90,24 @@ public class DeadCodeRemove {
             entry.next.clear();
             // 为彻底删掉做准备
         }
+    }
+
+    private boolean removeUnUsedInstr(Function function) {
+        boolean ans = false;
+        for (BasicBlock block : function.basicBlocks) {
+            Iterator<Instr> iterator = block.instrList.iterator();
+            while (iterator.hasNext()) {
+                Instr instr = iterator.next();
+                // 函数的过程和IOI的过程都是必须的,可以试试函数展开
+                if (instr.getAns() != null && !(instr instanceof CallInstr || instr instanceof IOInstr)) {
+                    if (instr.getAns().userEmpty()) {
+                        iterator.remove();
+                        ans = true;
+                    }
+                }
+            }
+        }
+        return ans;
     }
 
 }

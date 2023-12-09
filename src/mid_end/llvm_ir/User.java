@@ -5,7 +5,7 @@ import mid_end.llvm_ir.type.LLVMType;
 import java.util.ArrayList;
 
 public class User extends Value {
-    protected ArrayList<Value> paras;
+    public ArrayList<Value> paras;
 
     public User() {
         super();

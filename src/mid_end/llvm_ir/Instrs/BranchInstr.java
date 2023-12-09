@@ -47,10 +47,9 @@ public class BranchInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        int offset = MipsBuilder.MB.queryOffset(paras.get(0));
-        new MemAsm(MemAsm.LW, Register.T0, Register.SP, offset);
-        new BranchAsm(BranchAsm.BNE, Register.T0, Register.ZERO, getThenBlock().nameInMips);
-        new BranchAsm(BranchAsm.BEQ, Register.T0, Register.ZERO, getElseBlock().nameInMips);
+        Register cond= Instr.moveValueIntoReg(Register.T0, getCond());
+        new BranchAsm(BranchAsm.BNE, cond, Register.ZERO, getThenBlock().nameInMips);
+        new BranchAsm(BranchAsm.BEQ, cond, Register.ZERO, getElseBlock().nameInMips);
     }
 
     public void changeThen(BasicBlock newThen) {
