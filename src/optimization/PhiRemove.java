@@ -103,6 +103,7 @@ public class PhiRemove {
                 Instr instr = iterator.next();
                 if (instr instanceof PcopyInstr) {
                     edges.add((PcopyInstr) instr);
+                    instr.isDeleted = true;
                     iterator.remove();
                 }
             }

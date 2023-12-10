@@ -14,7 +14,11 @@ public class VarManager {
     // 这个一旦加上就不修改了
     public final HashMap<Value, Register> varSReg;
     // 当前已经使用的reg的使用方式,注意,这个只是用来在进入函数之后的时候回归位置使用的
-    public final HashMap<Register, Value> regUsed;
+    // 为了防止在一个多次赋值的地方使用寄存器
+    public final HashSet<Value> notHasReg = new HashSet<>();
+
+
+    public final HashSet<Register> regUsed;
     public final LinkedList<Register> usableRegs;
 
     public final HashMap<Value, MipsSymbol> memMap;
@@ -37,20 +41,27 @@ public class VarManager {
     public void allocOnReg(Value value) {
         // 任意选取一个可用的
         LinkedList<Register> canBeUsed = new LinkedList<>(usableRegs);
-        canBeUsed.removeAll(regUsed.keySet());
+        canBeUsed.removeAll(regUsed);
         Register register = canBeUsed.getFirst();
-        regUsed.put(register, value);
+        regUsed.add(register);
         varSReg.put(value, register);
-        System.out.println(value + " -> " + register);
+        System.out.println("alloc : " + value + " -> " + register);
+    }
+
+    // 在之前已经给分配过的,不过这里又需要存储了,因此就要放回到寄存器use处
+    public void refillAllocReg(Value value) {
+        System.out.println("refill : " + value + " -> " + varSReg.get(value));
+        regUsed.add(varSReg.get(value));
     }
 
     // 每次进入到一个新函数都要初始化usableReg
     public VarManager() {
-        regUsed = new HashMap<>();
+        regUsed = new HashSet<>();
         usableRegs = new LinkedList<>();
         varSReg = new HashMap<>();
         memMap = new HashMap<>();
-        for (int i = 11; i <= 28; i++) {
+        // 参数是很重要的东西
+        for (int i = 11; i <= 18; i++) {
             usableRegs.add(Register.getWithIndex(i));
         }
     }
@@ -82,7 +93,7 @@ public class VarManager {
             System.out.println((Object) null);
             return;
         }
-        System.out.println("remove " + register + " <--> " + regUsed.get(register));
+        System.out.println("remove " + register);
         regUsed.remove(register);
         // 不可以重复添加,因此要检查一下里面是不是已经有了,就是重复释放了
     }

@@ -102,6 +102,7 @@ public class Mem2Reg {
                     continue;
                 }
                 reachDefs.put(instr.getAns(), new Stack<>());
+                instr.isDeleted=true;
                 iterator.remove();
             } else if (instr instanceof StoreInstr) {
                 if (!reachDefs.containsKey(((StoreInstr) instr).getDstPointer())) {
@@ -109,6 +110,7 @@ public class Mem2Reg {
                 }
                 reachDefs.get(((StoreInstr) instr).getDstPointer()).push(((StoreInstr) instr).getStoreInValue());
                 iterator.remove();
+                instr.isDeleted=true;
             } else if (instr instanceof PhiInstr) {
                 if (!reachDefs.containsKey(((PhiInstr) instr).tieValue)) {
                     continue;
@@ -128,6 +130,7 @@ public class Mem2Reg {
                     Value newValue = reachDefs.get(((LoadInstr) instr).getFromPointer()).peek();
                     instr.getAns().userReplaceMeWith(newValue);
                 }
+                instr.isDeleted=true;
                 iterator.remove();
             }
         }

@@ -34,8 +34,14 @@ public class Value {
     }
 
     public boolean userEmpty() {
-        return userInstr.size() == 0;
+        for (Instr instr : userInstr) {
+            if (!instr.isDeleted) {
+                return false;
+            }
+        }
+        return true;
     }
+
     public void removeUser(Instr instr) {
         userInstr.remove(instr);
     }

@@ -19,6 +19,8 @@ public class Instr extends User {
 
     private Value ans = null;
 
+    public boolean isDeleted = false;
+
     public void setAns(Value value) {
         ans = value;
     }

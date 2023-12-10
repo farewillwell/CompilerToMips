@@ -102,6 +102,7 @@ public class DeadCodeRemove {
                 if (instr.getAns() != null && !(instr instanceof CallInstr || instr instanceof IOInstr)) {
                     if (instr.getAns().userEmpty()) {
                         iterator.remove();
+                        instr.isDeleted = true;
                         ans = true;
                     }
                 }

@@ -3,70 +3,88 @@ declare void @putch(i32)
 declare void @putint(i32)
 declare void @putstr(i8*)
 
-@str_0 = constant [2 x i8] c"
+@str_0 = constant [13 x i8] c"print int : \00"
+@str_1 = constant [2 x i8] c"
 \00"
-define dso_local i32 @F_getDif3N (){
+define dso_local void @F_printInt (i32 %P_0){
 b0:
-  br label %b1
-b1:
-  %V39 = phi i32 [0,%b0], [%V38,%b3]
-  %V35 = phi i32 [0,%b0], [%V34,%b3]
-  %V31 = phi i32 [0,%b0], [%V32,%b3]
-  %V30 = phi i32 [1,%b0], [%V28,%b3]
-  %V6 = icmp sle i32 %V30, 3
-  br i1 %V6, label %b2, label %b4
-b2:
-  br label %b5
-b5:
-  %V38 = phi i32 [%V39,%b2], [%V37,%b7]
-  %V34 = phi i32 [%V35,%b2], [%V33,%b7]
-  %V32 = phi i32 [1,%b2], [%V26,%b7]
-  %V8 = icmp sle i32 %V32, 3
-  br i1 %V8, label %b6, label %b8
-b6:
-  br label %b9
-b9:
-  %V37 = phi i32 [%V38,%b6], [%V36,%b11]
-  %V33 = phi i32 [1,%b6], [%V24,%b11]
-  %V10 = icmp sle i32 %V33, 3
-  br i1 %V10, label %b10, label %b12
-b10:
-  %V13 = icmp ne i32 %V30, %V32
-  br i1 %V13, label %b15, label %b14
-b15:
-  %V16 = icmp ne i32 %V30, %V33
-  br i1 %V16, label %b16, label %b14
-b16:
-  %V19 = icmp ne i32 %V32, %V33
-  br i1 %V19, label %b13, label %b14
-b13:
-  %V21 = add i32 %V37, 1
-  call void @putint(i32 %V21)
-  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
-  br label %b14
-b14:
-  %V36 = phi i32 [%V37,%b10], [%V37,%b15], [%V37,%b16], [%V21,%b13]
-  br label %b11
-b11:
-  %V24 = add i32 %V33, 1
-  br label %b9
-b12:
-  br label %b7
-b7:
-  %V26 = add i32 %V32, 1
-  br label %b5
-b8:
-  br label %b3
-b3:
-  %V28 = add i32 %V30, 1
-  br label %b1
-b4:
-  ret i32 %V39
+  call void @putstr(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @str_0, i32 0, i32 0))
+  call void @putint(i32 %P_0)
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
+  ret void
 }
 define dso_local i32 @main() {
 b0:
-  %V1 = call i32 @F_getDif3N ()
-  call void @putint(i32 %V1)
+  move %V53, 5
+  move %V49, 4
+  move %V47, 3
+  move %V45, 10
+  br label %b1
+b1:
+  %V7 = icmp ne i32 %V45, 0
+  br i1 %V7, label %b2, label %b4
+b2:
+  %V9 = sub i32 %V45, 1
+  %V12 = icmp sge i32 %V47, %V9
+  br i1 %V12, label %b5, label %b18
+b5:
+  %V15 = add i32 %V9, 1
+  %V16 = sdiv i32 %V47, %V15
+  %V18 = add i32 %V16, %V9
+  move %V46, %V18
+  br label %b6
+b6:
+  %V21 = icmp sle i32 %V49, %V9
+  br i1 %V21, label %b7, label %b8
+b7:
+  %V24 = mul i32 %V49, %V9
+  move %V48, %V24
+  br label %b9
+b8:
+  %V27 = add i32 %V9, 3
+  %V28 = srem i32 %V49, %V27
+  move %V48, %V28
+  br label %b9
+b9:
+  move %V51, %V53
+  br label %b10
+b10:
+  %V31 = icmp slt i32 %V51, %V48
+  br i1 %V31, label %b11, label %b19
+b11:
+  %V34 = add i32 %V51, %V9
+  %V37 = icmp eq i32 %V34, 2
+  br i1 %V37, label %b14, label %b15
+b14:
+  move %V52, %V34
+  br label %b3
+b15:
+  %V40 = icmp ne i32 %V34, %V46
+  br i1 %V40, label %b16, label %b17
+b16:
+  %V43 = add i32 %V46, %V34
+  move %V50, %V43
+  br label %b12
+b17:
+  move %V50, %V34
+  br label %b12
+b12:
+  move %V51, %V50
+  br label %b10
+b3:
+  move %V53, %V52
+  move %V49, %V48
+  move %V47, %V46
+  move %V45, %V9
+  br label %b1
+b4:
+  call void @F_printInt (i32 2)
   ret i32 0
+b18:
+  move %V46, %V47
+  br label %b6
+b19:
+  move %V52, %V51
+  br label %b3
 }
 

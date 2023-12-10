@@ -26,10 +26,13 @@ public class GVN {
             while (iterator.hasNext()) {
                 Instr instr = iterator.next();
                 if (instr instanceof ALUInstr && ((ALUInstr) instr).foldConst()) {
+                    instr.isDeleted=true;
                     iterator.remove();
                 } else if (instr instanceof IcmpInstr && ((IcmpInstr) instr).foldConst()) {
+                    instr.isDeleted=true;
                     iterator.remove();
                 } else if (instr instanceof ZextInstr && ((ZextInstr) instr).foldSelf()) {
+                    instr.isDeleted=true;
                     iterator.remove();
                 }
             }

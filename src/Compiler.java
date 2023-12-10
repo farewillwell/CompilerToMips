@@ -80,8 +80,11 @@ public class Compiler {
             new PhiRemove().solve(irUnit);
             new GVN().solve(irUnit);
             new DeadCodeRemove().solve(irUnit);
-            setOut("set.txt");
+            setOut("llvm_ir.txt");
+            System.out.println(irUnit);
+            setOut("active_set.txt");
             new ActiveAnalysis().solve(irUnit);
+            setOut("reg_set.txt");
             new RegAlloc().solve(irUnit);
         }
         //--------------------------------------------------------------------------------------------

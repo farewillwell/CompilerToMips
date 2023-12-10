@@ -5,6 +5,7 @@ import mid_end.llvm_ir.Instrs.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class BasicBlock extends Value {
     public final ArrayList<Instr> instrList = new ArrayList<>();
@@ -197,7 +198,14 @@ public class BasicBlock extends Value {
     }
 
     public void removePhi() {
-        instrList.removeIf(i -> i instanceof PhiInstr);
+        Iterator<Instr> iterator = instrList.iterator();
+        while (iterator.hasNext()) {
+            Instr instr = iterator.next();
+            if (instr instanceof PhiInstr) {
+                instr.isDeleted = true;
+                iterator.remove();
+            }
+        }
     }
 
     public boolean hasPhi() {
