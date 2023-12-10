@@ -1,3 +1,35 @@
 alloc : %P_0 -> $t3
--------------alloc for printInt ---------------
+-------------alloc for isPrime ---------------
+---------block b0---------------
+alloc : %V11 -> $t4
+---------block b1---------------
+alloc : %V5 -> $t5
+last use %V5remove $t5
+---------block b2---------------
+alloc : %V8 -> $t5
+last use %V8remove $t5
+alloc : %V9 -> $t5
+last use %V9remove $t5
+---------block b5---------------
+-------------b5------------end
+---------block b6---------------
+refill : %V11 -> $t4
+-------------b6------------end
+def %V9 :remove $t5
+def %V8 :remove $t5
+-------------b2------------end
+---------block b4---------------
+-------------b4------------end
+def %V5 :remove $t5
+-------------b1------------end
+def %V11 :remove $t4
+-------------b0------------end
 -------------alloc for main ---------------
+---------block b0---------------
+alloc : %V3 -> $t3
+last use %V3remove $t3
+alloc : %V5 -> $t3
+last use %V5remove $t3
+def %V5 :remove $t3
+def %V3 :remove $t3
+-------------b0------------end

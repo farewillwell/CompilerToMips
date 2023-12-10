@@ -23,6 +23,7 @@ public class Instr extends User {
 
     public void setAns(Value value) {
         ans = value;
+        value.definer=this;
     }
 
     public Value getAns() {

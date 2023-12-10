@@ -27,14 +27,14 @@ public class ActiveAnalysis {
         System.out.println("-----------" + block.name + "----------------");
         for (Instr instr : block.instrList) {
             // use的判断先于def
-            if (instr.getAns() != null && !block.use.contains(instr.getAns())) {
-                block.def.add(instr.getAns());
-            }
             for (Value value : instr.paras) {
                 // 有且仅有这个才有价值,constant什么的没有价值
                 if ((value instanceof LocalVar || value instanceof Param) && !block.def.contains(value)) {
                     block.use.add(value);
                 }
+            }
+            if (instr.getAns() != null && !block.use.contains(instr.getAns())) {
+                block.def.add(instr.getAns());
             }
         }
         System.out.print("use: ");

@@ -26,6 +26,8 @@ public class Value {
 
     }
 
+    public Instr definer;
+
     private final ArrayList<Instr> userInstr = new ArrayList<>();
 
     public void addUser(Instr instr) {
@@ -53,5 +55,10 @@ public class Value {
         for (Instr instr : copy) {
             instr.replace(this, newValue);
         }
+    }
+
+    public void allReplaceWith(Value newValue) {
+        userReplaceMeWith(newValue);
+        definer.setAns(newValue);
     }
 }

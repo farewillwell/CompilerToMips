@@ -3,88 +3,37 @@ declare void @putch(i32)
 declare void @putint(i32)
 declare void @putstr(i8*)
 
-@str_0 = constant [13 x i8] c"print int : \00"
+@str_0 = constant [2 x i8] c"
+\00"
 @str_1 = constant [2 x i8] c"
 \00"
-define dso_local void @F_printInt (i32 %P_0){
+define dso_local i32 @F_isPrime (i32 %P_0){
 b0:
-  call void @putstr(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @str_0, i32 0, i32 0))
-  call void @putint(i32 %P_0)
-  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-  ret void
+  move %V11, 2
+  br label %b1
+b1:
+  %V5 = icmp slt i32 %V11, %P_0
+  br i1 %V5, label %b2, label %b4
+b2:
+  %V8 = srem i32 %P_0, %V11
+  %V9 = icmp eq i32 %V8, 0
+  br i1 %V9, label %b5, label %b6
+b5:
+  ret i32 0
+b6:
+  %V11 = add i32 %V11, 1
+  br label %b1
+b4:
+  ret i32 1
 }
 define dso_local i32 @main() {
 b0:
-  move %V53, 5
-  move %V49, 4
-  move %V47, 3
-  move %V45, 10
-  br label %b1
-b1:
-  %V7 = icmp ne i32 %V45, 0
-  br i1 %V7, label %b2, label %b4
-b2:
-  %V9 = sub i32 %V45, 1
-  %V12 = icmp sge i32 %V47, %V9
-  br i1 %V12, label %b5, label %b18
-b5:
-  %V15 = add i32 %V9, 1
-  %V16 = sdiv i32 %V47, %V15
-  %V18 = add i32 %V16, %V9
-  move %V46, %V18
-  br label %b6
-b6:
-  %V21 = icmp sle i32 %V49, %V9
-  br i1 %V21, label %b7, label %b8
-b7:
-  %V24 = mul i32 %V49, %V9
-  move %V48, %V24
-  br label %b9
-b8:
-  %V27 = add i32 %V9, 3
-  %V28 = srem i32 %V49, %V27
-  move %V48, %V28
-  br label %b9
-b9:
-  move %V51, %V53
-  br label %b10
-b10:
-  %V31 = icmp slt i32 %V51, %V48
-  br i1 %V31, label %b11, label %b19
-b11:
-  %V34 = add i32 %V51, %V9
-  %V37 = icmp eq i32 %V34, 2
-  br i1 %V37, label %b14, label %b15
-b14:
-  move %V52, %V34
-  br label %b3
-b15:
-  %V40 = icmp ne i32 %V34, %V46
-  br i1 %V40, label %b16, label %b17
-b16:
-  %V43 = add i32 %V46, %V34
-  move %V50, %V43
-  br label %b12
-b17:
-  move %V50, %V34
-  br label %b12
-b12:
-  move %V51, %V50
-  br label %b10
-b3:
-  move %V53, %V52
-  move %V49, %V48
-  move %V47, %V46
-  move %V45, %V9
-  br label %b1
-b4:
-  call void @F_printInt (i32 2)
+  %V3 = call i32 @F_isPrime (i32 30)
+  call void @putint(i32 %V3)
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
+  %V5 = call i32 @F_isPrime (i32 31)
+  call void @putint(i32 %V5)
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
   ret i32 0
-b18:
-  move %V46, %V47
-  br label %b6
-b19:
-  move %V52, %V51
-  br label %b3
 }
 

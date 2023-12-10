@@ -12,7 +12,7 @@ import java.io.*;
 
 public class Compiler {
     // 是否进行代码检查
-    private static final boolean CHECK_ERROR = false;
+    private static final boolean CHECK_ERROR = true;
     // 是否开优化
     private static final boolean DO_OPTIMIZE = true;
 

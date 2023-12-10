@@ -54,13 +54,13 @@ public class RegAlloc {
                 if (manager.hasUsableReg() && !manager.notHasReg.contains(value)) {
                     manager.allocOnReg(value);
                 }
-            } else {
+            } else if(!manager.regUsed.contains(manager.varSReg.get(value))){
                 manager.refillAllocReg(value);
             }
         }
         // 对所有out变量,如果已经提前预设定好了的话,那么就把这个寄存器加进去,防止冲突
         for (Value value : block.out) {
-            if (manager.varSReg.containsKey(value)) {
+            if (manager.varSReg.containsKey(value)&&!manager.regUsed.contains(manager.varSReg.get(value))) {
                 manager.refillAllocReg(value);
             }
         }

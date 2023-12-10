@@ -121,7 +121,13 @@ public class PhiRemove {
                 }
                 // 该指令的赋值不会修改其他指令要用到的值
                 if (!targetAsMoveIn) {
-                    moves.add(new MoveInstr(now.getTarget(), now.getMoveIn()));
+                    //if (now.getMoveIn() instanceof Constant) {
+                        moves.add(new MoveInstr(now.getTarget(), now.getMoveIn()));
+                    //}
+                    // 不选择生成move,而选择用moveIn的代替所有target
+                    //else {
+                        //now.getTarget().allReplaceWith(now.getMoveIn());
+                    //}
                 } else {
                     // 该指令的赋值会影响其他move的值
                     // 那么需要把这个值给换掉

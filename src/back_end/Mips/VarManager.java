@@ -61,7 +61,8 @@ public class VarManager {
         varSReg = new HashMap<>();
         memMap = new HashMap<>();
         // 参数是很重要的东西
-        for (int i = 11; i <= 18; i++) {
+        // 当前最优参数:17
+        for (int i = 11; i <= 17; i++) {
             usableRegs.add(Register.getWithIndex(i));
         }
     }
