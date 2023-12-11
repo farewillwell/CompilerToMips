@@ -19,7 +19,7 @@ public class GVN {
     }
 
     private void constFolding(Function function) {
-        // 策略,考虑到llvm value是单次赋值的,所以一个表达式得到的结果必然没有在之前被用过
+        // 策略,在pc2move之前使用考虑到llvm value是单次赋值的,所以一个表达式得到的结果必然没有在之前被用过
         // 之后用到的也就是当前这个值,而不会给里面赋值什么的,所以可以直接替换
         for (BasicBlock block : function.basicBlocks) {
             Iterator<Instr> iterator = block.instrList.iterator();

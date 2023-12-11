@@ -10,10 +10,16 @@ import java.util.LinkedList;
 
 
 public class PhiRemove {
-    public void solve(IRModule irModule) {
+    public void phi2Pc(IRModule irModule) {
         for (Function function : irModule.functions) {
             IRBuilder.IB.enterFunc(function);
             turnPhiToPC(function);
+        }
+    }
+
+    public void pc2Move(IRModule irModule) {
+        for (Function function : irModule.functions) {
+            IRBuilder.IB.enterFunc(function);
             turnPCToMove(function);
         }
     }
@@ -121,13 +127,19 @@ public class PhiRemove {
                 }
                 // 该指令的赋值不会修改其他指令要用到的值
                 if (!targetAsMoveIn) {
-                    //if (now.getMoveIn() instanceof Constant) {
+                    // 暴力开关,事实证明如果开了会有一个点错误
+                    // 所以不要开!
+                    if (false) {
+                        if (now.getMoveIn() instanceof Constant || now.getMoveIn() instanceof Param) {
+                            moves.add(new MoveInstr(now.getTarget(), now.getMoveIn()));
+                        }
+                        //不选择生成move,而选择用moveIn的代替所有target
+                        else {
+                            now.getMoveIn().allReplaceWith(now.getTarget());
+                        }
+                    } else {
                         moves.add(new MoveInstr(now.getTarget(), now.getMoveIn()));
-                    //}
-                    // 不选择生成move,而选择用moveIn的代替所有target
-                    //else {
-                        //now.getTarget().allReplaceWith(now.getMoveIn());
-                    //}
+                    }
                 } else {
                     // 该指令的赋值会影响其他move的值
                     // 那么需要把这个值给换掉

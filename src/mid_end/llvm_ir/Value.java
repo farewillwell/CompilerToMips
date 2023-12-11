@@ -26,7 +26,7 @@ public class Value {
 
     }
 
-    public Instr definer;
+    public final ArrayList<Instr> definers = new ArrayList<>();
 
     private final ArrayList<Instr> userInstr = new ArrayList<>();
 
@@ -59,6 +59,10 @@ public class Value {
 
     public void allReplaceWith(Value newValue) {
         userReplaceMeWith(newValue);
-        definer.setAns(newValue);
+        // 当然,实行这样的操作后可能会出现很多个definer,所以要用数组存
+        ArrayList<Instr>define = new ArrayList<>(definers);
+        for (Instr instr : define) {
+            instr.reSetAns(newValue);
+        }
     }
 }

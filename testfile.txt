@@ -1,20 +1,29 @@
-
-int isPrime(int m) {
-    int i;
-    i = 2;
-    for (;i < m;) {
-        if (m % i == 0)
-            return 0;
-        i = i +  1;
-    } 
-    return 1;
-}
-
-int main() {
-    int num;
-    num = 30;
-    printf("%d\n", isPrime(num));
-    num = 31;
-    printf("%d\n", isPrime(num));
-    return 0;
+int main(){
+    int a = 10,b,c,d,e;
+    b = 2;
+    c = 3;
+    d = 4;
+    e = 5;
+    for (;a;) {
+        a = a - 1;
+        if (c>=a){
+            c = c / (a+1) + a;
+        }
+        if (d <= a){
+            d = d*a;
+        }
+        else{
+            d = d % (a+3);
+        }
+        for(;e < d;){
+            e = e + a;
+            if (e == b) break;
+            if (e != c) {
+                e  = c + e;
+                continue;
+            }
+        }
+    }
+    printf("%d\n",e);
+	return 0;
 }

@@ -4,7 +4,6 @@ import back_end.Mips.AsmInstrs.MemAsm;
 import mid_end.llvm_ir.Value;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 
 public class VarManager {
@@ -15,10 +14,8 @@ public class VarManager {
     public final HashMap<Value, Register> varSReg;
     // 当前已经使用的reg的使用方式,注意,这个只是用来在进入函数之后的时候回归位置使用的
     // 为了防止在一个多次赋值的地方使用寄存器
-    public final HashSet<Value> notHasReg = new HashSet<>();
 
-
-    public final HashSet<Register> regUsed;
+    public final HashMap<Register, Value> regUsedValue = new HashMap<>();
     public final LinkedList<Register> usableRegs;
 
     public final HashMap<Value, MipsSymbol> memMap;
@@ -26,8 +23,17 @@ public class VarManager {
 
     // 字节数，一个i32有4个字节
 
-    public boolean hasUsableReg() {
-        return regUsed.size() != usableRegs.size();
+    public void allocOnReg(Value value) {
+        LinkedList<Register> canBeUsed = new LinkedList<>(usableRegs);
+        canBeUsed.removeAll(regUsedValue.keySet());
+        Register register = canBeUsed.getFirst();
+        System.out.println(register+"---"+value);
+        varSReg.put(value, register);
+        regUsedValue.put(register, value);
+    }
+
+    public boolean hasUseAbleReg() {
+        return regUsedValue.keySet().size() != usableRegs.size();
     }
 
     public int allocOnStack(int byteSize) {
@@ -38,33 +44,17 @@ public class VarManager {
         return virtualSpOffsetFromRealSp;
     }
 
-    public void allocOnReg(Value value) {
-        // 任意选取一个可用的
-        LinkedList<Register> canBeUsed = new LinkedList<>(usableRegs);
-        canBeUsed.removeAll(regUsed);
-        Register register = canBeUsed.getFirst();
-        regUsed.add(register);
-        varSReg.put(value, register);
-        System.out.println("alloc : " + value + " -> " + register);
-    }
-
-    // 在之前已经给分配过的,不过这里又需要存储了,因此就要放回到寄存器use处
-    public void refillAllocReg(Value value) {
-        System.out.println("refill : " + value + " -> " + varSReg.get(value));
-        regUsed.add(varSReg.get(value));
-    }
 
     // 每次进入到一个新函数都要初始化usableReg
     public VarManager() {
-        regUsed = new HashSet<>();
         usableRegs = new LinkedList<>();
         varSReg = new HashMap<>();
         memMap = new HashMap<>();
-        // 参数是很重要的东西
-        // 当前最优参数:17
-        for (int i = 11; i <= 17; i++) {
+        usableRegs.add(Register.getWithIndex(3));
+        for (int i = 11; i <= 28; i++) {
             usableRegs.add(Register.getWithIndex(i));
         }
+        usableRegs.add(Register.getWithIndex(30));
     }
 
     public void addLocalSymbol(MipsSymbol mipsSymbol) {
@@ -86,18 +76,6 @@ public class VarManager {
         virtualSpOffsetFromRealSp = cur;
     }
 
-    // 重大bug:错误解放寄存器
-    // 例如我去了一个不含这个的子节点,把这个解散了,那么这个list就永远的含了这个
-    // 当我退回的时候,这个添加上的解散可以在分配栈上被满足,但是在这里无法被消除
-    public void releaseReg(Register register) {
-        if (register == null) {
-            System.out.println((Object) null);
-            return;
-        }
-        System.out.println("remove " + register);
-        regUsed.remove(register);
-        // 不可以重复添加,因此要检查一下里面是不是已经有了,就是重复释放了
-    }
 
     // 将所有使用的寄存器放回到他们对应的位置
     // 所有使用的寄存器吗?假如以后在活跃的没有那么多了,那还需要全存起来吗?

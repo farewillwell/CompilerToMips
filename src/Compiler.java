@@ -77,15 +77,20 @@ public class Compiler {
             System.setOut(stdout);
             irUnit.doCFG();
             new Mem2Reg().solve(irUnit);
-            new PhiRemove().solve(irUnit);
+            new PhiRemove().phi2Pc(irUnit);
             new GVN().solve(irUnit);
             new DeadCodeRemove().solve(irUnit);
-            setOut("llvm_ir.txt");
-            System.out.println(irUnit);
             setOut("active_set.txt");
             new ActiveAnalysis().solve(irUnit);
             setOut("reg_set.txt");
             new RegAlloc().solve(irUnit);
+            new DeadCodeRemove().solve(irUnit);
+            new PhiRemove().pc2Move(irUnit);
+            System.out.println(irUnit);
+            new GVN().solve(irUnit);
+            new DeadCodeRemove().solve(irUnit);
+            setOut("llvm_ir.txt");
+            System.out.println(irUnit);
         }
         //--------------------------------------------------------------------------------------------
         // mips make

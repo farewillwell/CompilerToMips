@@ -54,7 +54,7 @@ public enum Register {
     // 比如就用fp来存这个就是不错的行为
 
     public static Register getWithIndex(int index) {
-        if ((index >= 5 && index <= 7) || (index >= 11 && index <= 28)) {
+        if (index==3||(index >= 5 && index <= 7) || (index >= 11 && index <= 28)||index==30) {
             return values()[index];
         }
         // 不能用的,zero,at,v0,v1,a0-a3,sp,fp,ra

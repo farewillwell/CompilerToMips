@@ -1,6 +1,5 @@
 .data
 str_0: .asciiz "\n"
-str_1: .asciiz "\n"
 
 .text
 
@@ -11,75 +10,196 @@ jal main
 # leave main
 j END
 
-isPrime:
-move $t3, $a1
-isPrimeb0:
-
-# move %V11, 2
-li $t0, 2
-move $t4, $t0
-
-# br label %b1
-j isPrimeb1
-
-isPrimeb1:
-
-# %V5 = icmp slt i32 %V11, %P_0
-slt $t5, $t4, $t3
-
-# br i1 %V5, label %b2, label %b4
-bne $t5, $zero, isPrimeb2
-beq $t5, $zero, isPrimeb4
-isPrimeb2:
-
-# %V8 = srem i32 %P_0, %V11
-div $t3, $t4
-mfhi $t5
-
-# %V9 = icmp eq i32 %V8, 0
-li $t1, 0
-seq $t5, $t5, $t1
-
-# br i1 %V9, label %b5, label %b6
-bne $t5, $zero, isPrimeb5
-beq $t5, $zero, isPrimeb6
-isPrimeb5:
-
-# ret i32 0
-li $v0, 0
-jr $ra
-
-isPrimeb6:
-
-# %V11 = add i32 %V11, 1
-li $t1, 1
-addu $t4, $t4, $t1
-
-# br label %b1
-j isPrimeb1
-
-isPrimeb4:
-
-# ret i32 1
-li $v0, 1
-jr $ra
-
 main:
 mainb0:
 
-# %V3 = call i32 @F_isPrime (i32 30)
-sw $ra, -12($sp)
-li $t0, 30
-move $a1, $t0
-addi $sp, $sp, -12
-jal isPrime
+# move %V53, 5
+li $t0, 5
+move $t5, $t0
 
-addi $sp, $sp, 12
-lw $ra, -12($sp)
-move $t3, $v0
+# move %V49, 4
+li $t0, 4
+move $t6, $t0
 
-# call void @putint(i32 %V3)
-move $a0, $t3
+# move %V47, 3
+li $t0, 3
+move $t7, $t0
+
+# move %V45, 10
+li $t0, 10
+move $s0, $t0
+
+# br label %b1
+j mainb1
+
+mainb1:
+
+# %V7 = icmp ne i32 %V45, 0
+li $t1, 0
+sne $v1, $s0, $t1
+
+# br i1 %V7, label %b2, label %b4
+bne $v1, $zero, mainb2
+beq $v1, $zero, mainb4
+mainb2:
+
+# %V9 = sub i32 %V45, 1
+li $t1, 1
+subu $v1, $s0, $t1
+
+# %V12 = icmp sge i32 %V47, %V9
+sge $t3, $t7, $v1
+
+# br i1 %V12, label %b5, label %b18
+bne $t3, $zero, mainb5
+beq $t3, $zero, mainb18
+mainb5:
+
+# %V15 = add i32 %V9, 1
+li $t1, 1
+addu $t3, $v1, $t1
+
+# %V16 = sdiv i32 %V47, %V15
+div $t7, $t3
+mflo $t3
+
+# %V18 = add i32 %V16, %V9
+addu $t3, $t3, $v1
+
+# move %V46, %V18
+move $s1, $t3
+
+# br label %b6
+j mainb6
+
+mainb6:
+
+# %V21 = icmp sle i32 %V49, %V9
+sle $t3, $t6, $v1
+
+# br i1 %V21, label %b7, label %b8
+bne $t3, $zero, mainb7
+beq $t3, $zero, mainb8
+mainb7:
+
+# %V24 = mul i32 %V49, %V9
+mult $t6, $v1
+mflo $t3
+
+# move %V48, %V24
+move $s2, $t3
+
+# br label %b9
+j mainb9
+
+mainb8:
+
+# %V27 = add i32 %V9, 3
+li $t1, 3
+addu $t3, $v1, $t1
+
+# %V28 = srem i32 %V49, %V27
+div $t6, $t3
+mfhi $t3
+
+# move %V48, %V28
+move $s2, $t3
+
+# br label %b9
+j mainb9
+
+mainb9:
+
+# move %V51, %V53
+move $s3, $t5
+
+# br label %b10
+j mainb10
+
+mainb10:
+
+# %V31 = icmp slt i32 %V51, %V48
+slt $t3, $s3, $s2
+
+# br i1 %V31, label %b11, label %b19
+bne $t3, $zero, mainb11
+beq $t3, $zero, mainb19
+mainb11:
+
+# %V34 = add i32 %V51, %V9
+addu $t3, $s3, $v1
+
+# %V37 = icmp eq i32 %V34, 2
+li $t1, 2
+seq $t4, $t3, $t1
+
+# br i1 %V37, label %b14, label %b15
+bne $t4, $zero, mainb14
+beq $t4, $zero, mainb15
+mainb14:
+
+# move %V50, %V34
+move $s4, $t3
+
+# br label %b3
+j mainb3
+
+mainb15:
+
+# %V40 = icmp ne i32 %V34, %V46
+sne $t4, $t3, $s1
+
+# br i1 %V40, label %b16, label %b17
+bne $t4, $zero, mainb16
+beq $t4, $zero, mainb17
+mainb16:
+
+# %V43 = add i32 %V46, %V34
+addu $t3, $s1, $t3
+
+# move %V52, %V43
+move $s5, $t3
+
+# br label %b12
+j mainb12
+
+mainb17:
+
+# move %V52, %V34
+move $s5, $t3
+
+# br label %b12
+j mainb12
+
+mainb12:
+
+# move %V51, %V52
+move $s3, $s5
+
+# br label %b10
+j mainb10
+
+mainb3:
+
+# move %V53, %V50
+move $t5, $s4
+
+# move %V49, %V48
+move $t6, $s2
+
+# move %V47, %V46
+move $t7, $s1
+
+# move %V45, %V9
+move $s0, $v1
+
+# br label %b1
+j mainb1
+
+mainb4:
+
+# call void @putint(i32 %V53)
+move $a0, $t5
 li $v0, 1
 syscall
 
@@ -88,32 +208,25 @@ la $a0, str_0
 li $v0, 4
 syscall
 
-# %V5 = call i32 @F_isPrime (i32 31)
-sw $ra, -16($sp)
-sw $t3, -4($sp)
-li $t0, 31
-move $a1, $t0
-addi $sp, $sp, -16
-jal isPrime
-
-addi $sp, $sp, 16
-lw $ra, -16($sp)
-lw $t3, -4($sp)
-move $t3, $v0
-
-# call void @putint(i32 %V5)
-move $a0, $t3
-li $v0, 1
-syscall
-
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-la $a0, str_1
-li $v0, 4
-syscall
-
 # ret i32 0
 li $v0, 0
 jr $ra
+
+mainb18:
+
+# move %V46, %V47
+move $s1, $t7
+
+# br label %b6
+j mainb6
+
+mainb19:
+
+# move %V50, %V51
+move $s4, $s3
+
+# br label %b3
+j mainb3
 
 END:
 li $v0, 10

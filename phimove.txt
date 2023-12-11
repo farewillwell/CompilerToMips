@@ -7,7 +7,7 @@ declare void @putstr(i8*)
 \00"
 define dso_local i32 @main() {
 b0:
-  move %V53, 5
+  move %V51, 5
   move %V49, 4
   move %V47, 3
   move %V45, 10
@@ -16,68 +16,54 @@ b1:
   %V7 = icmp ne i32 %V45, 0
   br i1 %V7, label %b2, label %b4
 b2:
-  %V9 = sub i32 %V45, 1
-  %V12 = icmp sge i32 %V47, %V9
+  %V45 = sub i32 %V45, 1
+  %V12 = icmp sge i32 %V47, %V45
   br i1 %V12, label %b5, label %b18
 b5:
-  %V15 = add i32 %V9, 1
+  %V15 = add i32 %V45, 1
   %V16 = sdiv i32 %V47, %V15
-  %V18 = add i32 %V16, %V9
-  move %V46, %V18
+  %V47 = add i32 %V16, %V45
   br label %b6
 b6:
-  %V21 = icmp sle i32 %V49, %V9
+  %V21 = icmp sle i32 %V49, %V45
   br i1 %V21, label %b7, label %b8
 b7:
-  %V24 = mul i32 %V49, %V9
-  move %V48, %V24
+  %V49 = mul i32 %V49, %V45
   br label %b9
 b8:
-  %V27 = add i32 %V9, 3
-  %V28 = srem i32 %V49, %V27
-  move %V48, %V28
+  %V27 = add i32 %V45, 3
+  %V49 = srem i32 %V49, %V27
   br label %b9
 b9:
-  move %V51, %V53
   br label %b10
 b10:
-  %V31 = icmp slt i32 %V51, %V48
+  %V31 = icmp slt i32 %V51, %V49
   br i1 %V31, label %b11, label %b19
 b11:
-  %V34 = add i32 %V51, %V9
-  %V37 = icmp eq i32 %V34, 2
+  %V51 = add i32 %V51, %V45
+  %V37 = icmp eq i32 %V51, 2
   br i1 %V37, label %b14, label %b15
 b14:
-  move %V50, %V34
   br label %b3
 b15:
-  %V40 = icmp ne i32 %V34, %V46
+  %V40 = icmp ne i32 %V51, %V47
   br i1 %V40, label %b16, label %b17
 b16:
-  %V43 = add i32 %V46, %V34
-  move %V52, %V43
+  %V51 = add i32 %V47, %V51
   br label %b12
 b17:
-  move %V52, %V34
   br label %b12
 b12:
-  move %V51, %V52
   br label %b10
 b3:
-  move %V53, %V50
-  move %V49, %V48
-  move %V47, %V46
-  move %V45, %V9
   br label %b1
 b4:
-  call void @putint(i32 %V53)
+  call void @putint(i32 %V51)
   call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
   ret i32 0
 b18:
-  move %V46, %V47
   br label %b6
 b19:
-  move %V50, %V51
   br label %b3
 }
 
