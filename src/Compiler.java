@@ -69,6 +69,8 @@ public class Compiler {
         if (!CHECK_ERROR || errorCollector.noError()) {
             irUnit = (IRModule) compUnit.getIRCode();
             irUnit.finish();
+            setOut("llvm_ir.txt");
+            System.out.println(irUnit);
         }
         //-------------------------------------------------------------------------------------------
         // optimize

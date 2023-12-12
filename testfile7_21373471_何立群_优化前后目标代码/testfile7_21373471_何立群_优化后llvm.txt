@@ -53,10 +53,10 @@ b0:
   %V22 = call i32 @F_fib (i32 %V21)
   %V28 = sub i32 1197, %V22
   %V29 = add i32 %V28, -10091
-  move %V116, %V19
+  move %V115, %V19
   br label %b1
 b1:
-  %V32 = icmp slt i32 %V116, 100
+  %V32 = icmp slt i32 %V115, 100
   br i1 %V32, label %b2, label %b4
 b2:
   %V33 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 0
@@ -111,28 +111,28 @@ b2:
   store i32 %V101 , i32* %V102
   br label %b3
 b3:
-  %V104 = add i32 %V116, 1
-  move %V116, %V104
+  %V104 = add i32 %V115, 1
+  move %V115, %V104
   br label %b1
 b4:
-  move %V115, 0
+  move %V116, 0
   br label %b5
 b5:
-  %V106 = icmp slt i32 %V115, 10
+  %V106 = icmp slt i32 %V116, 10
   br i1 %V106, label %b6, label %b8
 b6:
-  %V108 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 %V115
+  %V108 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 %V116
   %V109 = load i32, i32* %V108
   call void @putint(i32 %V109)
   call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_0, i32 0, i32 0))
-  %V111 = add i32 %V115, 1
+  %V111 = add i32 %V116, 1
   br label %b7
 b7:
-  move %V115, %V111
+  move %V116, %V111
   br label %b5
 b8:
   call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-  call void @putint(i32 %V115)
+  call void @putint(i32 %V116)
   call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_2, i32 0, i32 0))
   call void @putint(i32 %V29)
   call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_3, i32 0, i32 0))

@@ -56,16 +56,16 @@ subu $t3, $v1, $t1
 
 # %V8 = call i32 @F_fib (i32 %V7)
 sw $ra, -36($sp)
-sw $t3, -16($sp)
 sw $v1, -4($sp)
+sw $t3, -16($sp)
 move $a1, $t3
 addi $sp, $sp, -36
 jal fib
 
 addi $sp, $sp, 36
 lw $ra, -36($sp)
-lw $t3, -16($sp)
 lw $v1, -4($sp)
+lw $t3, -16($sp)
 move $t3, $v0
 
 # %V10 = sub i32 %P_0, 2
@@ -116,8 +116,8 @@ subu $v1, $t0, $v1
 
 # %V11 = call i32 @F_fib (i32 4)
 sw $ra, -276($sp)
-sw $t3, -8($sp)
 sw $v1, -16($sp)
+sw $t3, -8($sp)
 li $t0, 4
 move $a1, $t0
 addi $sp, $sp, -276
@@ -125,8 +125,8 @@ jal fib
 
 addi $sp, $sp, 276
 lw $ra, -276($sp)
-lw $t3, -8($sp)
 lw $v1, -16($sp)
+lw $t3, -8($sp)
 move $t3, $v0
 
 # %V12 = mul i32 %V10, %V11
@@ -203,7 +203,7 @@ subu $t3, $t0, $t3
 li $t1, -10091
 addu $t3, $t3, $t1
 
-# move %V116, %V19
+# move %V115, %V19
 move $t5, $v1
 
 # br label %b1
@@ -211,7 +211,7 @@ j mainb1
 
 mainb1:
 
-# %V32 = icmp slt i32 %V116, 100
+# %V32 = icmp slt i32 %V115, 100
 li $t1, 100
 slt $v1, $t5, $t1
 
@@ -405,11 +405,11 @@ j mainb3
 
 mainb3:
 
-# %V104 = add i32 %V116, 1
+# %V104 = add i32 %V115, 1
 li $t1, 1
 addu $v1, $t5, $t1
 
-# move %V116, %V104
+# move %V115, %V104
 move $t5, $v1
 
 # br label %b1
@@ -417,7 +417,7 @@ j mainb1
 
 mainb4:
 
-# move %V115, 0
+# move %V116, 0
 li $t0, 0
 move $t6, $t0
 
@@ -426,7 +426,7 @@ j mainb5
 
 mainb5:
 
-# %V106 = icmp slt i32 %V115, 10
+# %V106 = icmp slt i32 %V116, 10
 li $t1, 10
 slt $v1, $t6, $t1
 
@@ -435,7 +435,7 @@ bne $v1, $zero, mainb6
 beq $v1, $zero, mainb8
 mainb6:
 
-# %V108 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 %V115
+# %V108 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 %V116
 la $t0, g2
 sll $t1, $t6, 2
 addu $v1, $t1, $t0
@@ -453,7 +453,7 @@ la $a0, str_0
 li $v0, 4
 syscall
 
-# %V111 = add i32 %V115, 1
+# %V111 = add i32 %V116, 1
 li $t1, 1
 addu $v1, $t6, $t1
 
@@ -462,7 +462,7 @@ j mainb7
 
 mainb7:
 
-# move %V115, %V111
+# move %V116, %V111
 move $t6, $v1
 
 # br label %b5
@@ -475,7 +475,7 @@ la $a0, str_1
 li $v0, 4
 syscall
 
-# call void @putint(i32 %V115)
+# call void @putint(i32 %V116)
 move $a0, $t6
 li $v0, 1
 syscall

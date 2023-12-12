@@ -1,298 +1,216 @@
 --------------dominates------------------
+fib
+------------show prev------------
+b0:  
+b1:b0   
+b2:b0   
+b3:b2   
+b4:b2   
+-----------show Next --------------
+b0:b1 b2   
+b1:  
+b2:b3 b4   
+b3:  
+b4:  
+pass1
+b0: who dom me ?{b0 }
+b1: who dom me ?{b1 b0 }
+b2: who dom me ?{b2 b0 }
+b3: who dom me ?{b2 b0 b3 }
+b4: who dom me ?{b2 b4 b0 }
+pass2
+b0: who dom me ?{b0 }
+b1: who dom me ?{b1 b0 }
+b2: who dom me ?{b2 b0 }
+b3: who dom me ?{b2 b0 b3 }
+b4: who dom me ?{b2 b4 b0 }
+b0: me dom who ?{b2 b4 b1 b0 b3 }
+b1: me dom who ?{b1 }
+b2: me dom who ?{b2 b4 b3 }
+b3: me dom who ?{b3 }
+b4: me dom who ?{b4 }
 main
 ------------show prev------------
 b0:  
 b1:b0 b3   
 b2:b1   
-b5:b2   
-b6:b5 b18   
-b7:b6   
-b8:b6   
-b9:b7 b8   
-b10:b9 b12   
-b11:b10   
-b14:b11   
-b15:b11   
-b16:b15   
-b17:b15   
-b12:b16 b17   
-b3:b14 b19   
+b3:b2   
 b4:b1   
-b18:b2   
-b19:b10   
+b5:b4 b7   
+b6:b5   
+b7:b6   
+b8:b5   
 -----------show Next --------------
 b0:b1   
 b1:b2 b4   
-b2:b5 b18   
-b5:b6   
-b6:b7 b8   
-b7:b9   
-b8:b9   
-b9:b10   
-b10:b11 b19   
-b11:b14 b15   
-b14:b3   
-b15:b16 b17   
-b16:b12   
-b17:b12   
-b12:b10   
+b2:b3   
 b3:b1   
-b4:  
-b18:b6   
-b19:b3   
+b4:b5   
+b5:b6 b8   
+b6:b7   
+b7:b5   
+b8:  
 pass1
 b0: who dom me ?{b0 }
 b1: who dom me ?{b1 b0 }
 b2: who dom me ?{b2 b1 b0 }
-b5: who dom me ?{b2 b1 b0 b5 }
-b6: who dom me ?{b2 b6 b1 b0 b5 }
-b7: who dom me ?{b2 b6 b1 b0 b7 b5 }
-b8: who dom me ?{b2 b6 b1 b0 b8 b5 }
-b9: who dom me ?{b2 b6 b9 b1 b0 b5 }
-b10: who dom me ?{b2 b6 b9 b1 b0 b10 b5 }
-b11: who dom me ?{b2 b6 b9 b1 b11 b0 b10 b5 }
-b14: who dom me ?{b2 b6 b9 b1 b11 b0 b10 b5 b14 }
-b15: who dom me ?{b2 b6 b9 b1 b11 b0 b15 b10 b5 }
-b16: who dom me ?{b2 b6 b9 b1 b11 b16 b0 b15 b10 b5 }
-b17: who dom me ?{b2 b6 b17 b9 b1 b11 b0 b15 b10 b5 }
-b12: who dom me ?{b2 b12 b6 b9 b1 b11 b0 b15 b10 b5 }
-b3: who dom me ?{b2 b6 b9 b1 b11 b0 b3 b10 b5 b14 }
-b4: who dom me ?{b1 b0 b4 }
-b18: who dom me ?{b2 b1 b0 b18 }
-b19: who dom me ?{b2 b6 b19 b9 b1 b0 b10 b5 }
+b3: who dom me ?{b2 b1 b3 b0 }
+b4: who dom me ?{b4 b1 b0 }
+b5: who dom me ?{b4 b1 b0 b5 }
+b6: who dom me ?{b6 b4 b1 b0 b5 }
+b7: who dom me ?{b6 b4 b7 b1 b0 b5 }
+b8: who dom me ?{b8 b4 b1 b0 b5 }
 pass2
 b0: who dom me ?{b0 }
 b1: who dom me ?{b1 b0 }
 b2: who dom me ?{b2 b1 b0 }
-b5: who dom me ?{b2 b1 b0 b5 }
-b6: who dom me ?{b2 b6 b1 b0 }
-b7: who dom me ?{b2 b6 b1 b0 b7 }
-b8: who dom me ?{b2 b6 b1 b0 b8 }
-b9: who dom me ?{b2 b6 b9 b1 b0 }
-b10: who dom me ?{b2 b6 b9 b1 b0 b10 }
-b11: who dom me ?{b2 b6 b9 b1 b11 b0 b10 }
-b14: who dom me ?{b2 b6 b9 b1 b11 b0 b10 b14 }
-b15: who dom me ?{b2 b6 b9 b1 b11 b0 b15 b10 }
-b16: who dom me ?{b2 b6 b9 b1 b11 b16 b0 b15 b10 }
-b17: who dom me ?{b2 b6 b17 b9 b1 b11 b0 b15 b10 }
-b12: who dom me ?{b2 b12 b6 b9 b1 b11 b0 b15 b10 }
-b3: who dom me ?{b2 b6 b9 b1 b0 b3 b10 }
-b4: who dom me ?{b1 b0 b4 }
-b18: who dom me ?{b2 b1 b0 b18 }
-b19: who dom me ?{b2 b6 b19 b9 b1 b0 b10 }
-pass3
-b0: who dom me ?{b0 }
-b1: who dom me ?{b1 b0 }
-b2: who dom me ?{b2 b1 b0 }
-b5: who dom me ?{b2 b1 b0 b5 }
-b6: who dom me ?{b2 b6 b1 b0 }
-b7: who dom me ?{b2 b6 b1 b0 b7 }
-b8: who dom me ?{b2 b6 b1 b0 b8 }
-b9: who dom me ?{b2 b6 b9 b1 b0 }
-b10: who dom me ?{b2 b6 b9 b1 b0 b10 }
-b11: who dom me ?{b2 b6 b9 b1 b11 b0 b10 }
-b14: who dom me ?{b2 b6 b9 b1 b11 b0 b10 b14 }
-b15: who dom me ?{b2 b6 b9 b1 b11 b0 b15 b10 }
-b16: who dom me ?{b2 b6 b9 b1 b11 b16 b0 b15 b10 }
-b17: who dom me ?{b2 b6 b17 b9 b1 b11 b0 b15 b10 }
-b12: who dom me ?{b2 b12 b6 b9 b1 b11 b0 b15 b10 }
-b3: who dom me ?{b2 b6 b9 b1 b0 b3 b10 }
-b4: who dom me ?{b1 b0 b4 }
-b18: who dom me ?{b2 b1 b0 b18 }
-b19: who dom me ?{b2 b6 b19 b9 b1 b0 b10 }
-b0: me dom who ?{b2 b12 b6 b17 b19 b9 b1 b11 b16 b0 b8 b3 b7 b15 b18 b4 b10 b5 b14 }
-b1: me dom who ?{b2 b12 b6 b17 b19 b9 b1 b11 b16 b8 b3 b7 b15 b18 b4 b10 b5 b14 }
-b2: me dom who ?{b2 b12 b6 b17 b19 b9 b11 b16 b8 b3 b7 b15 b18 b10 b5 b14 }
-b5: me dom who ?{b5 }
-b6: me dom who ?{b12 b6 b17 b19 b9 b11 b16 b8 b3 b7 b15 b10 b14 }
+b3: who dom me ?{b2 b1 b3 b0 }
+b4: who dom me ?{b4 b1 b0 }
+b5: who dom me ?{b4 b1 b0 b5 }
+b6: who dom me ?{b6 b4 b1 b0 b5 }
+b7: who dom me ?{b6 b4 b7 b1 b0 b5 }
+b8: who dom me ?{b8 b4 b1 b0 b5 }
+b0: me dom who ?{b6 b8 b2 b4 b7 b1 b3 b0 b5 }
+b1: me dom who ?{b6 b8 b2 b4 b7 b1 b3 b5 }
+b2: me dom who ?{b2 b3 }
+b3: me dom who ?{b3 }
+b4: me dom who ?{b6 b8 b4 b7 b5 }
+b5: me dom who ?{b6 b8 b7 b5 }
+b6: me dom who ?{b6 b7 }
 b7: me dom who ?{b7 }
 b8: me dom who ?{b8 }
-b9: me dom who ?{b15 b12 b17 b19 b9 b11 b16 b10 b3 b14 }
-b10: me dom who ?{b15 b12 b17 b19 b11 b16 b10 b3 b14 }
-b11: me dom who ?{b15 b12 b17 b11 b16 b14 }
-b14: me dom who ?{b14 }
-b15: me dom who ?{b15 b12 b17 b16 }
-b16: me dom who ?{b16 }
-b17: me dom who ?{b17 }
-b12: me dom who ?{b12 }
-b3: me dom who ?{b3 }
-b4: me dom who ?{b4 }
-b18: me dom who ?{b18 }
-b19: me dom who ?{b19 }
 --------------immDomTree------------------
+fib
+b0 's domer : /
+b0 's domed : b2 b1 
+b1 's domer : b0
+b1 's domed : 
+b2 's domer : b0
+b2 's domed : b4 b3 
+b3 's domer : b2
+b3 's domed : 
+b4 's domer : b2
+b4 's domed : 
 main
 b0 's domer : /
 b0 's domed : b1 
 b1 's domer : b0
 b1 's domed : b2 b4 
 b2 's domer : b1
-b2 's domed : b18 b6 b5 
-b5 's domer : b2
-b5 's domed : 
-b6 's domer : b2
-b6 's domed : b9 b8 b7 
-b7 's domer : b6
-b7 's domed : 
-b8 's domer : b6
-b8 's domed : 
-b9 's domer : b6
-b9 's domed : b10 
-b10 's domer : b9
-b10 's domed : b19 b11 b3 
-b11 's domer : b10
-b11 's domed : b15 b14 
-b14 's domer : b11
-b14 's domed : 
-b15 's domer : b11
-b15 's domed : b12 b17 b16 
-b16 's domer : b15
-b16 's domed : 
-b17 's domer : b15
-b17 's domed : 
-b12 's domer : b15
-b12 's domed : 
-b3 's domer : b10
+b2 's domed : b3 
+b3 's domer : b2
 b3 's domed : 
 b4 's domer : b1
-b4 's domed : 
-b18 's domer : b2
-b18 's domed : 
-b19 's domer : b10
-b19 's domed : 
+b4 's domed : b5 
+b5 's domer : b4
+b5 's domed : b6 b8 
+b6 's domer : b5
+b6 's domed : b7 
+b7 's domer : b6
+b7 's domed : 
+b8 's domer : b5
+b8 's domed : 
 -------------------df-------------------------
+fib
+b0 's df :
+b1 's df :
+b2 's df :
+b3 's df :
+b4 's df :
 main
 b0 's df :
 b1 's df :b1 
 b2 's df :b1 
-b5 's df :b6 
-b6 's df :b1 
-b7 's df :b9 
-b8 's df :b9 
-b9 's df :b1 
-b10 's df :b1 b10 
-b11 's df :b3 b10 
-b14 's df :b3 
-b15 's df :b10 
-b16 's df :b12 
-b17 's df :b12 
-b12 's df :b10 
 b3 's df :b1 
 b4 's df :
-b18 's df :b6 
-b19 's df :b3 
+b5 's df :b5 
+b6 's df :b5 
+b7 's df :b5 
+b8 's df :
 ------------active---------------
-----------main---------------
+----------fib---------------
 -----------b0----------------
-use: %V53 %V49 %V45 %V47 
-def: 
+use: %P_0 
+def: %V3 
 -----------b1----------------
-use: %V45 
-def: %V7 
+use: 
+def: 
 -----------b2----------------
-use: %V45 %V47 
-def: %V12 %V9 
------------b5----------------
-use: %V46 %V9 %V47 
-def: %V16 %V18 %V15 
------------b6----------------
-use: %V49 %V9 
-def: %V21 
------------b7----------------
-use: %V49 %V9 %V48 
-def: %V24 
------------b8----------------
-use: %V49 %V9 %V48 
-def: %V28 %V27 
------------b9----------------
-use: %V53 %V51 
-def: 
------------b10----------------
-use: %V51 %V48 
-def: %V31 
------------b11----------------
-use: %V51 %V9 
-def: %V37 %V34 
------------b14----------------
-use: %V34 %V50 
-def: 
------------b15----------------
-use: %V46 %V34 
-def: %V40 
------------b16----------------
-use: %V46 %V52 %V34 
-def: %V43 
------------b17----------------
-use: %V52 %V34 
-def: 
------------b12----------------
-use: %V52 %V51 
-def: 
+use: %P_0 
+def: %V5 
 -----------b3----------------
-use: %V53 %V49 %V46 %V45 %V50 %V48 %V47 %V9 
+use: 
 def: 
 -----------b4----------------
-use: %V53 
+use: %P_0 
+def: %V12 %V11 %V10 %V7 %V8 
+b0 : 
+in : %P_0 
+out : %P_0 
+b1 : 
+in : 
+out : 
+b2 : 
+in : %P_0 
+out : %P_0 
+b3 : 
+in : 
+out : 
+b4 : 
+in : %P_0 
+out : 
+----------main---------------
+-----------b0----------------
+use: %V116 
+def: %V28 %V15 %V11 %V10 %V19 %V21 %V5 %V14 %V12 %V18 %V29 %V6 %V16 %V9 %V13 %V17 %V22 %V20 
+-----------b1----------------
+use: %V116 
+def: %V32 
+-----------b2----------------
+use: 
+def: %V76 %V41 %V68 %V33 %V62 %V102 %V52 %V45 %V82 %V47 %V89 %V40 %V95 %V96 %V59 %V75 %V38 %V54 %V69 %V46 %V81 %V48 %V55 %V80 %V39 %V67 %V101 %V61 %V53 %V87 %V34 %V97 %V66 %V94 %V73 %V90 %V60 %V88 %V74 %V83 
+-----------b3----------------
+use: %V116 
+def: %V104 
+-----------b4----------------
+use: %V115 
 def: 
------------b18----------------
-use: %V46 %V47 
+-----------b5----------------
+use: %V115 
+def: %V106 
+-----------b6----------------
+use: %V115 
+def: %V109 %V108 %V111 
+-----------b7----------------
+use: %V115 %V111 
 def: 
------------b19----------------
-use: %V51 %V50 
+-----------b8----------------
+use: %V29 %V115 
 def: 
 b0 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
+in : %V116 %V115 
+out : %V116 %V29 %V115 
 b1 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
+in : %V116 %V29 %V115 
+out : %V116 %V29 %V115 
 b2 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b5 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b6 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b7 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b8 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b9 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b10 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b11 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-b14 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b15 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-b16 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b17 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V34 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b12 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
+in : %V116 %V29 %V115 
+out : %V116 %V29 %V115 
 b3 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 
+in : %V116 %V29 %V115 
+out : %V116 %V29 %V115 
 b4 : 
-in : %V53 
+in : %V29 %V115 
+out : %V29 %V115 
+b5 : 
+in : %V29 %V115 
+out : %V29 %V115 
+b6 : 
+in : %V29 %V115 
+out : %V29 %V115 %V111 
+b7 : 
+in : %V29 %V115 %V111 
+out : %V29 %V115 
+b8 : 
+in : %V29 %V115 
 out : 
-b18 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-b19 : 
-in : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 
-out : %V53 %V49 %V46 %V45 %V52 %V51 %V50 %V48 %V47 %V9 

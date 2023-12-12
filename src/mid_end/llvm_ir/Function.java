@@ -12,6 +12,7 @@ import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Function extends User {
 
@@ -210,7 +211,16 @@ public class Function extends User {
     public void cleanUnReachableBlock() {
         HashSet<BasicBlock> unReach = new HashSet<>(basicBlocks);
         dfsDomTreeCheckReach(basicBlocks.get(0), unReach);
-        basicBlocks.removeIf(unReach::contains);
+        Iterator<BasicBlock> iterator = basicBlocks.iterator();
+        while (iterator.hasNext()) {
+            BasicBlock block = iterator.next();
+            if (unReach.contains(block)) {
+                iterator.remove();
+                for (Instr instr : block.instrList) {
+                    instr.isDeleted = true;
+                }
+            }
+        }
         // 别忘了删除他们的使用前后节点关系，不然始终藕断丝连!!!
         for (BasicBlock block : basicBlocks) {
             block.next.removeAll(unReach);

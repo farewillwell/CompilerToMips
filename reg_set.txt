@@ -1,123 +1,290 @@
--------------alloc for main ---------------
+$v1---%P_0
+-------------alloc for fib ---------------
+%V3----
+$t3---%V3
+%V5----
+$t3---%V5
 %V7----
-$v1---%V7
+$t3---%V7
+%V8----
+$t3---%V8
+%V10----
+$v1---%V10
+%V11----
+$v1---%V11
+%V12----
+$v1---%V12
+-------------alloc for main ---------------
+%V5----
+$v1---%V5
+%V6----
+$t3---%V6
 %V9----
 $v1---%V9
+%V10----
+$v1---%V10
+%V11----
+$t3---%V11
 %V12----
-$t3---%V12
-%V21----
-$t3---%V21
-%V31----
-$t3---%V31
-%V34----
-$t3---%V34
-%V37----
-$t4---%V37
-%V40----
-$t4---%V40
-%V43----
-$t3---%V43
-%V27----
-$t3---%V27
-%V28----
-$t3---%V28
-%V24----
-$t3---%V24
+$v1---%V12
+%V13----
+$t3---%V13
+%V14----
+$t3---%V14
 %V15----
 $t3---%V15
 %V16----
-$t3---%V16
+$v1---%V16
+%V17----
+$v1---%V17
 %V18----
-$t3---%V18
-$t5----%V53
-$t6----%V49
-$t7----%V47
-$s0----%V45
-$s1----%V46
-$s2----%V48
-$s3----%V51
-$s4----%V50
-$s5----%V52
+$v1---%V18
+%V19----
+$v1---%V19
+%V20----
+$t3---%V20
+%V21----
+$t3---%V21
+%V22----
+$t3---%V22
+%V28----
+$t3---%V28
+%V29----
+$t3---%V29
+%V32----
+$v1---%V32
+%V33----
+$v1---%V33
+%V34----
+$v1---%V34
+%V38----
+$v1---%V38
+%V39----
+$t4---%V39
+%V40----
+$v1---%V40
+%V41----
+$v1---%V41
+%V45----
+$v1---%V45
+%V46----
+$t4---%V46
+%V47----
+$v1---%V47
+%V48----
+$v1---%V48
+%V52----
+$v1---%V52
+%V53----
+$t4---%V53
+%V54----
+$v1---%V54
+%V55----
+$v1---%V55
+%V59----
+$v1---%V59
+%V60----
+$t4---%V60
+%V61----
+$v1---%V61
+%V62----
+$v1---%V62
+%V66----
+$v1---%V66
+%V67----
+$t4---%V67
+%V68----
+$v1---%V68
+%V69----
+$v1---%V69
+%V73----
+$v1---%V73
+%V74----
+$t4---%V74
+%V75----
+$v1---%V75
+%V76----
+$v1---%V76
+%V80----
+$v1---%V80
+%V81----
+$t4---%V81
+%V82----
+$v1---%V82
+%V83----
+$v1---%V83
+%V87----
+$v1---%V87
+%V88----
+$t4---%V88
+%V89----
+$v1---%V89
+%V90----
+$v1---%V90
+%V94----
+$v1---%V94
+%V95----
+$t4---%V95
+%V96----
+$v1---%V96
+%V97----
+$v1---%V97
+%V101----
+$v1---%V101
+%V102----
+$t4---%V102
+%V104----
+$v1---%V104
+%V106----
+$v1---%V106
+%V108----
+$v1---%V108
+%V109----
+$v1---%V109
+%V111----
+$v1---%V111
+$t5----%V116
+$t6----%V115
 declare i32 @getint()
 declare void @putch(i32)
 declare void @putint(i32)
 declare void @putstr(i8*)
 
-@str_0 = constant [2 x i8] c"
+@G_N = dso_local constant i32 10
+
+@G_a = dso_local global [10 x i32] [i32 0,i32 1,i32 2,i32 3,i32 4,i32 5,i32 6,i32 7,i32 8,i32 9]
+
+@str_0 = constant [3 x i8] c", \00"
+@str_1 = constant [2 x i8] c"
 \00"
+@str_2 = constant [3 x i8] c", \00"
+@str_3 = constant [3 x i8] c", \00"
+@str_4 = constant [2 x i8] c"
+\00"
+define dso_local i32 @F_fib (i32 %P_0){
+b0:
+  %V3 = icmp eq i32 %P_0, 1
+  br i1 %V3, label %b1, label %b2
+b1:
+  ret i32 1
+b2:
+  %V5 = icmp eq i32 %P_0, 2
+  br i1 %V5, label %b3, label %b4
+b3:
+  ret i32 2
+b4:
+  %V7 = sub i32 %P_0, 1
+  %V8 = call i32 @F_fib (i32 %V7)
+  %V10 = sub i32 %P_0, 2
+  %V11 = call i32 @F_fib (i32 %V10)
+  %V12 = add i32 %V8, %V11
+  ret i32 %V12
+}
 define dso_local i32 @main() {
 b0:
-  move %V53, 5
-  move %V49, 4
-  move %V47, 3
-  move %V45, 10
+  %V5 = call i32 @getint()
+  %V6 = call i32 @getint()
+  %V9 = mul i32 %V5, %V6
+  %V10 = sub i32 0, %V9
+  %V11 = call i32 @F_fib (i32 4)
+  %V12 = mul i32 %V10, %V11
+  %V13 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 1
+  %V14 = load i32, i32* %V13
+  %V15 = mul i32 %V14, 1
+  %V16 = add i32 %V12, 0
+  %V17 = add i32 %V16, %V15
+  %V18 = sub i32 %V17, 0
+  %V19 = mul i32 %V18, 5
+  %V20 = call i32 @F_fib (i32 5)
+  %V21 = add i32 %V20, 2
+  %V22 = call i32 @F_fib (i32 %V21)
+  %V28 = sub i32 1197, %V22
+  %V29 = add i32 %V28, -10091
+  move %V116, %V19
   br label %b1
 b1:
-  %V7 = icmp ne i32 %V45, 0
-  br i1 %V7, label %b2, label %b4
+  %V32 = icmp slt i32 %V116, 100
+  br i1 %V32, label %b2, label %b4
 b2:
-  %V9 = sub i32 %V45, 1
-  %V12 = icmp sge i32 %V47, %V9
-  br i1 %V12, label %b5, label %b18
-b5:
-  %V15 = add i32 %V9, 1
-  %V16 = sdiv i32 %V47, %V15
-  %V18 = add i32 %V16, %V9
-  move %V46, %V18
-  br label %b6
-b6:
-  %V21 = icmp sle i32 %V49, %V9
-  br i1 %V21, label %b7, label %b8
-b7:
-  %V24 = mul i32 %V49, %V9
-  move %V48, %V24
-  br label %b9
-b8:
-  %V27 = add i32 %V9, 3
-  %V28 = srem i32 %V49, %V27
-  move %V48, %V28
-  br label %b9
-b9:
-  move %V51, %V53
-  br label %b10
-b10:
-  %V31 = icmp slt i32 %V51, %V48
-  br i1 %V31, label %b11, label %b19
-b11:
-  %V34 = add i32 %V51, %V9
-  %V37 = icmp eq i32 %V34, 2
-  br i1 %V37, label %b14, label %b15
-b14:
-  move %V50, %V34
+  %V33 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 0
+  %V34 = load i32, i32* %V33
+  %V38 = add i32 %V34, 36
+  %V39 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 0
+  store i32 %V38 , i32* %V39
+  %V40 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 1
+  %V41 = load i32, i32* %V40
+  %V45 = add i32 %V41, 36
+  %V46 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 1
+  store i32 %V45 , i32* %V46
+  %V47 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 2
+  %V48 = load i32, i32* %V47
+  %V52 = add i32 %V48, 36
+  %V53 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 2
+  store i32 %V52 , i32* %V53
+  %V54 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 3
+  %V55 = load i32, i32* %V54
+  %V59 = add i32 %V55, 36
+  %V60 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 3
+  store i32 %V59 , i32* %V60
+  %V61 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 4
+  %V62 = load i32, i32* %V61
+  %V66 = add i32 %V62, 36
+  %V67 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 4
+  store i32 %V66 , i32* %V67
+  %V68 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 5
+  %V69 = load i32, i32* %V68
+  %V73 = add i32 %V69, 36
+  %V74 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 5
+  store i32 %V73 , i32* %V74
+  %V75 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 6
+  %V76 = load i32, i32* %V75
+  %V80 = add i32 %V76, 36
+  %V81 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 6
+  store i32 %V80 , i32* %V81
+  %V82 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 7
+  %V83 = load i32, i32* %V82
+  %V87 = add i32 %V83, 36
+  %V88 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 7
+  store i32 %V87 , i32* %V88
+  %V89 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 8
+  %V90 = load i32, i32* %V89
+  %V94 = add i32 %V90, 36
+  %V95 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 8
+  store i32 %V94 , i32* %V95
+  %V96 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 9
+  %V97 = load i32, i32* %V96
+  %V101 = add i32 %V97, 36
+  %V102 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 9
+  store i32 %V101 , i32* %V102
   br label %b3
-b15:
-  %V40 = icmp ne i32 %V34, %V46
-  br i1 %V40, label %b16, label %b17
-b16:
-  %V43 = add i32 %V46, %V34
-  move %V52, %V43
-  br label %b12
-b17:
-  move %V52, %V34
-  br label %b12
-b12:
-  move %V51, %V52
-  br label %b10
 b3:
-  move %V53, %V50
-  move %V49, %V48
-  move %V47, %V46
-  move %V45, %V9
+  %V104 = add i32 %V116, 1
+  move %V116, %V104
   br label %b1
 b4:
-  call void @putint(i32 %V53)
-  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
+  move %V115, 0
+  br label %b5
+b5:
+  %V106 = icmp slt i32 %V115, 10
+  br i1 %V106, label %b6, label %b8
+b6:
+  %V108 = getelementptr inbounds [10 x i32], [10 x i32]* @G_a,  i32 0 ,i32 %V115
+  %V109 = load i32, i32* %V108
+  call void @putint(i32 %V109)
+  call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_0, i32 0, i32 0))
+  %V111 = add i32 %V115, 1
+  br label %b7
+b7:
+  move %V115, %V111
+  br label %b5
+b8:
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
+  call void @putint(i32 %V115)
+  call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_2, i32 0, i32 0))
+  call void @putint(i32 %V29)
+  call void @putstr(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @str_3, i32 0, i32 0))
+  call void @putint(i32 -6)
+  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_4, i32 0, i32 0))
   ret i32 0
-b18:
-  move %V46, %V47
-  br label %b6
-b19:
-  move %V50, %V51
-  br label %b3
 }
 
