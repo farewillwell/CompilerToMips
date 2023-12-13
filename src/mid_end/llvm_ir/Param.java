@@ -6,6 +6,8 @@ public class Param extends Value {
 
     private final String name;
 
+    public Value replacer = null;
+
     public Param(LLVMType type) {
         super(type);
         this.name = IRBuilder.IB.getParamName();
@@ -13,6 +15,9 @@ public class Param extends Value {
 
     @Override
     public String toString() {
+        if (replacer != null) {
+            return replacer.toString();
+        }
         return name;
     }
 

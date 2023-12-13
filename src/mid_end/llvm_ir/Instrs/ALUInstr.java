@@ -185,4 +185,30 @@ public class ALUInstr extends Instr {
             MipsBuilder.MB.storeInReg(getAns(), register);
         }
     }
+
+    @Override
+    public boolean canBeGVN() {
+        return true;
+    }
+
+    // 满足交换律,可以进行操作
+    @Override
+    public String gvnCode() {
+        Value p0;
+        Value p1;
+        // hashCode大的在先
+        if (opcode.equals(ADD) || opcode.equals(MUL)) {
+            if (paras.get(0).hashCode() > paras.get(1).hashCode()) {
+                p0 = paras.get(0);
+                p1 = paras.get(1);
+            } else {
+                p0 = paras.get(1);
+                p1 = paras.get(0);
+            }
+        } else {
+            p0 = paras.get(0);
+            p1 = paras.get(1);
+        }
+        return opcode + p0 + p1;
+    }
 }

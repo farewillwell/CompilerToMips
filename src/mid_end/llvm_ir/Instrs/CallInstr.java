@@ -90,4 +90,29 @@ public class CallInstr extends Instr {
             }
         }
     }
+
+    @Override
+    public boolean canBeGVN() {
+        return function.canBeGVN();
+    }
+
+    @Override
+    public String gvnCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("call ");
+        stringBuilder.append(function.type.toString());
+        stringBuilder.append(" @F_");
+        stringBuilder.append(function.name);
+        stringBuilder.append(" (");
+        for (int i = 0; i < paras.size(); i++) {
+            stringBuilder.append(paras.get(i).type.toString());
+            stringBuilder.append(" ");
+            stringBuilder.append(paras.get(i).toString());
+            if (i != paras.size() - 1) {
+                stringBuilder.append(" , ");
+            }
+        }
+        stringBuilder.append(")");
+        return stringBuilder.toString();
+    }
 }

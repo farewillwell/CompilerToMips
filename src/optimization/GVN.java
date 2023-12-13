@@ -1,19 +1,18 @@
 package optimization;
 
-import mid_end.llvm_ir.BasicBlock;
-import mid_end.llvm_ir.Function;
-import mid_end.llvm_ir.IRModule;
-import mid_end.llvm_ir.Instr;
+import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.Instrs.ALUInstr;
 import mid_end.llvm_ir.Instrs.IcmpInstr;
 import mid_end.llvm_ir.Instrs.ZextInstr;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class GVN {
     public void solve(IRModule irModule) {
         for (Function function : irModule.functions) {
             constFolding(function);
+            doGVN(function);
             jumpChange(function);
         }
     }
@@ -26,17 +25,51 @@ public class GVN {
             while (iterator.hasNext()) {
                 Instr instr = iterator.next();
                 if (instr instanceof ALUInstr && ((ALUInstr) instr).foldConst()) {
-                    instr.isDeleted=true;
+                    instr.isDeleted = true;
                     iterator.remove();
                 } else if (instr instanceof IcmpInstr && ((IcmpInstr) instr).foldConst()) {
-                    instr.isDeleted=true;
+                    instr.isDeleted = true;
                     iterator.remove();
                 } else if (instr instanceof ZextInstr && ((ZextInstr) instr).foldSelf()) {
-                    instr.isDeleted=true;
+                    instr.isDeleted = true;
                     iterator.remove();
                 }
             }
         }
+    }
+
+    private void doGVN(Function function) {
+        HashMap<String, Value> gvnMap = new HashMap<>();
+        GVNRemove(function.basicBlocks.get(0), gvnMap);
+    }
+
+    private void GVNRemove(BasicBlock block, HashMap<String, Value> gvnMap) {
+        HashMap<String, Value> stack = new HashMap<>(gvnMap);
+        Iterator<Instr> iterator = block.instrList.iterator();
+        while (iterator.hasNext()) {
+            Instr instr = iterator.next();
+            if (instr.canBeGVN()) {
+                String hash = instr.gvnCode();
+                if (gvnMap.containsKey(hash)) {
+                    if (instr.getAns() != null) {
+                        instr.getAns().userReplaceMeWith(gvnMap.get(hash));
+                        iterator.remove();
+                    }
+                } else {
+                    if (instr.getAns() != null) {
+                        gvnMap.put(hash, instr.getAns());
+                    } else {
+                        iterator.remove();
+                    }
+
+                }
+            }
+        }
+        for (BasicBlock basicBlock : block.beImmDom) {
+            GVNRemove(basicBlock, gvnMap);
+        }
+        gvnMap.clear();
+        gvnMap.putAll(stack);
     }
 
     private void jumpChange(Function function) {

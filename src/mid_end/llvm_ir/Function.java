@@ -7,8 +7,12 @@ import back_end.Mips.MipsBuilder;
 import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import back_end.Mips.VarManager;
+import mid_end.llvm_ir.Instrs.CallInstr;
+import mid_end.llvm_ir.Instrs.IO.IOInstr;
+import mid_end.llvm_ir.Instrs.MoveInstr;
 import mid_end.llvm_ir.Instrs.ReturnInstr;
 import mid_end.llvm_ir.type.BaseType;
+import mid_end.llvm_ir.type.PointerType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,8 +27,6 @@ public class Function extends User {
         basicBlocks = new ArrayList<>();
         funcParams = new ArrayList<>();
         this.name = name;
-        this.localCnt = 1;
-        this.bbCnt = 0;
     }
 
     public final ArrayList<Param> funcParams;
@@ -33,9 +35,6 @@ public class Function extends User {
 
     public final String name;
 
-    public int localCnt;
-
-    public int bbCnt;
 
     public void addPara(Param param) {
         this.funcParams.add(param);
@@ -236,4 +235,68 @@ public class Function extends User {
             }
         }
     }
+
+    // 必须是一种计算过程
+    // 不读写全局变量,就是参数不是全局变量.
+    // 参数不是指针
+    // io
+    // 不递归
+    public boolean canBeGVN() {
+        for (Param param : funcParams) {
+            if (param.type instanceof PointerType) {
+                return false;
+            }
+        }
+        for (BasicBlock block : basicBlocks) {
+            for (Instr instr : block.instrList) {
+                if (instr instanceof IOInstr || instr instanceof CallInstr) {
+                    return false;
+                }
+                for (Value value : instr.paras) {
+                    if (value instanceof GlobalVar) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    //可内联:直接就当成不调用call就行
+    //不内连那么复杂的
+    //同时,要预备一个模板,以防内联后消掉参数
+    // 那么,如何处理参数呢?
+    // 首先,一旦确定这个要内联的化,就不用输出这个函数了
+    // 我们可以在一次内联的时候将这个函数的所有变量记录一下对应的表
+    // 一个是para,一个是localVar
+    // 函数内联应当在代码优化的最后完成*********************************************
+    public boolean canBeInline() {
+        for (BasicBlock block : basicBlocks) {
+            for (Instr instr : block.instrList) {
+                if (instr instanceof CallInstr) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 有误，目前无效!!!
+    /*
+    public ArrayList<BasicBlock> inlinedFunc(ArrayList<Value> values, Value retValue, BasicBlock targetBlock) {
+        // 如何替换参数?
+        for (int i = 0; i < funcParams.size(); i++) {
+            funcParams.get(i).replacer = values.get(i);
+        }
+        ArrayList<BasicBlock> newBlocks = new ArrayList<>();
+        for (int i = 0; i < basicBlocks.size(); i++) {
+            BasicBlock block = basicBlocks.get(i);
+            Instr instr = block.instrList.get(block.instrList.size() - 1);
+            if (instr instanceof ReturnInstr) {
+                block.instrList.remove(block.instrList.size() - 1);
+                //block.instrList.add(new MoveInstr())
+            }
+
+        }
+    }*/
 }

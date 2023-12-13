@@ -102,4 +102,12 @@ public class Instr extends User {
         int offset = MipsBuilder.MB.allocOnStack(4);
         MipsBuilder.MB.addVarSymbol(new MipsSymbol(getAns(), offset));
     }
+
+    public boolean canBeGVN() {
+        return false;
+    }
+
+    public String gvnCode() {
+        return null;
+    }
 }

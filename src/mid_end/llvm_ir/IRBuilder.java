@@ -24,6 +24,8 @@ public class IRBuilder {
     public IRBuilder() {
         paraCnt = 0;
         stringCnt = 0;
+        blockCnt=0;
+        localCnt=0;
         IRModule = new IRModule();
         loopStack = new Stack<>();
     }
@@ -38,7 +40,11 @@ public class IRBuilder {
     private int paraCnt;
     private int stringCnt;
 
+    private int blockCnt;
+
     public int globalCnt;
+
+    public int localCnt;
 
     public String getGlobalVarName(String name) {
         globalCnt++;
@@ -54,7 +60,7 @@ public class IRBuilder {
     }
 
     public String getLocalVarName() {
-        return LOCAL_VAR_PRE + nowFunc.localCnt++;
+        return LOCAL_VAR_PRE + localCnt++;
     }
 
     private BasicBlock nowBlock;
@@ -88,7 +94,7 @@ public class IRBuilder {
     }
 
     public String getBasicBlockName() {
-        return BLOCK_PRE + nowFunc.bbCnt++;
+        return BLOCK_PRE + blockCnt++;
     }
 
     public String getNowFuncName() {

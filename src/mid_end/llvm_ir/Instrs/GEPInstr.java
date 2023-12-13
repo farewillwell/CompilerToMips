@@ -152,4 +152,14 @@ public class GEPInstr extends Instr {
             }
         }
     }
+
+    @Override
+    public boolean canBeGVN() {
+        return true;
+    }
+
+    @Override
+    public String gvnCode() {
+        return "gep" + paras.get(0) + paras.get(1);
+    }
 }

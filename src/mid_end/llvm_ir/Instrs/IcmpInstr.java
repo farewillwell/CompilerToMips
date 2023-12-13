@@ -121,4 +121,14 @@ public class IcmpInstr extends Instr {
             Instr.storeMemFromReg(Register.T2, getAns());
         }
     }
+
+    @Override
+    public boolean canBeGVN() {
+        return true;
+    }
+
+    @Override
+    public String gvnCode() {
+        return opcode + paras.get(0) + paras.get(1);
+    }
 }
