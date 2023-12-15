@@ -1,15 +1,15 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.JumpAsm;
+import back_end.Mips.AsmInstrs.JumpMips;
 import mid_end.llvm_ir.BasicBlock;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
-public class JumpInstr extends Instr {
+public class JumpIr extends Instr {
 
     private BasicBlock dstBlock;
 
-    public JumpInstr(BasicBlock dstBlock) {
+    public JumpIr(BasicBlock dstBlock) {
         this.dstBlock = dstBlock;
     }
 
@@ -26,7 +26,7 @@ public class JumpInstr extends Instr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        new JumpAsm(JumpAsm.J, dstBlock.nameInMips);
+        new JumpMips(JumpMips.J, dstBlock.nameInMips);
     }
 
     public BasicBlock getTargetBlock() {

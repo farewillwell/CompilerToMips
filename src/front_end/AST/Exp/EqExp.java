@@ -3,7 +3,7 @@ package front_end.AST.Exp;
 import front_end.AST.Node;
 import front_end.AST.TokenNode;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.IcmpInstr;
+import mid_end.llvm_ir.Instrs.IcmpIr;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.BaseType;
 
@@ -44,12 +44,12 @@ public class EqExp extends Node {
         // 一般得到的返回值是1或者32，根据里面的返回而异。
         for (int i = 0; i < otherRelExps.size(); i++) {
             Value I32Value = BaseType.ensureReturnType(BaseType.I32, eqValue);
-            String opcode = IcmpInstr.chooseString(tokenNodes.get(i));
+            String opcode = IcmpIr.chooseString(tokenNodes.get(i));
             // 要保证 除了本身是要I32之外，添加上的也是I32
             Value BeI32Value = BaseType.ensureReturnType(BaseType.I32,otherRelExps.get(i).getIRCode());
-            IcmpInstr icmpInstr = new IcmpInstr(opcode, I32Value, BeI32Value);
-            IRBuilder.IB.addInstrForBlock(icmpInstr);
-            eqValue = icmpInstr.getAns();
+            IcmpIr icmpIr = new IcmpIr(opcode, I32Value, BeI32Value);
+            IRBuilder.IB.addInstrForBlock(icmpIr);
+            eqValue = icmpIr.getAns();
         }
         return BaseType.ensureReturnType(BaseType.I1, eqValue);
         // 这里必须保证返回的是i1

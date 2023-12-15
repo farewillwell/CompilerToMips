@@ -1,16 +1,15 @@
 package mid_end.llvm_ir;
 
-import back_end.Mips.AsmInstrs.BlockSignAsm;
-import back_end.Mips.AsmInstrs.MemAsm;
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.BlockSignMips;
+import back_end.Mips.AsmInstrs.MemMips;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import back_end.Mips.VarManager;
-import mid_end.llvm_ir.Instrs.CallInstr;
+import mid_end.llvm_ir.Instrs.CallIr;
 import mid_end.llvm_ir.Instrs.IO.IOInstr;
-import mid_end.llvm_ir.Instrs.MoveInstr;
-import mid_end.llvm_ir.Instrs.ReturnInstr;
+import mid_end.llvm_ir.Instrs.ReturnIr;
 import mid_end.llvm_ir.type.BaseType;
 import mid_end.llvm_ir.type.PointerType;
 
@@ -53,9 +52,9 @@ public class Function extends User {
         BasicBlock last = basicBlocks.get(basicBlocks.size() - 1);
         if (last.lastInstrNotRet()) {
             if (type == BaseType.Void) {
-                last.addInstr(new ReturnInstr());
+                last.addInstr(new ReturnIr());
             } else {
-                last.addInstr(new ReturnInstr(new Constant(0)));
+                last.addInstr(new ReturnIr(new Constant(0)));
             }
         }
     }
@@ -92,7 +91,7 @@ public class Function extends User {
 
     @Override
     public void genMipsCode() {
-        new BlockSignAsm(name);
+        new BlockSignMips(name);
         MipsBuilder.MB.enterNewFunc(this);
         // para实际上已经存好了,无论如何都是从sp开始的，只需要在这里建上符号表就可以了
         // -----------------------参数问题------------------------- //
@@ -106,9 +105,9 @@ public class Function extends User {
             if (MipsBuilder.MB.hasRegFor(funcParams.get(i))) {
                 Register register = MipsBuilder.MB.queryReg(funcParams.get(i));
                 if (i < 3) {
-                    new MoveAsm(register, Register.getWithIndex(5 + i));
+                    new MoveMips(register, Register.getWithIndex(5 + i));
                 } else {
-                    new MemAsm(MemAsm.LW, register, Register.SP, offset);
+                    new MemMips(MemMips.LW, register, Register.SP, offset);
                 }
                 MipsBuilder.MB.storeInReg(funcParams.get(i), register);
             }
@@ -249,7 +248,7 @@ public class Function extends User {
         }
         for (BasicBlock block : basicBlocks) {
             for (Instr instr : block.instrList) {
-                if (instr instanceof IOInstr || instr instanceof CallInstr) {
+                if (instr instanceof IOInstr || instr instanceof CallIr) {
                     return false;
                 }
                 for (Value value : instr.paras) {
@@ -273,7 +272,7 @@ public class Function extends User {
     public boolean canBeInline() {
         for (BasicBlock block : basicBlocks) {
             for (Instr instr : block.instrList) {
-                if (instr instanceof CallInstr) {
+                if (instr instanceof CallIr) {
                     return false;
                 }
             }
@@ -292,9 +291,9 @@ public class Function extends User {
         for (int i = 0; i < basicBlocks.size(); i++) {
             BasicBlock block = basicBlocks.get(i);
             Instr instr = block.instrList.get(block.instrList.size() - 1);
-            if (instr instanceof ReturnInstr) {
+            if (instr instanceof ReturnIr) {
                 block.instrList.remove(block.instrList.size() - 1);
-                //block.instrList.add(new MoveInstr())
+                //block.instrList.add(new MoveIr())
             }
 
         }

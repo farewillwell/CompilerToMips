@@ -1,11 +1,11 @@
 package optimization;
 
 import mid_end.llvm_ir.*;
-import mid_end.llvm_ir.Instrs.BranchInstr;
-import mid_end.llvm_ir.Instrs.CallInstr;
+import mid_end.llvm_ir.Instrs.BranchIr;
+import mid_end.llvm_ir.Instrs.CallIr;
 import mid_end.llvm_ir.Instrs.IO.IOInstr;
-import mid_end.llvm_ir.Instrs.JumpInstr;
-import mid_end.llvm_ir.Instrs.MoveInstr;
+import mid_end.llvm_ir.Instrs.JumpIr;
+import mid_end.llvm_ir.Instrs.MoveIr;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,7 +41,7 @@ public class DeadCodeRemove {
             }
         }
         for (BasicBlock block : function.basicBlocks) {
-            block.instrList.removeIf(instr -> instr instanceof MoveInstr && ((MoveInstr) instr).useUndefine(definedValue));
+            block.instrList.removeIf(instr -> instr instanceof MoveIr && ((MoveIr) instr).useUndefine(definedValue));
         }
     }
 
@@ -65,20 +65,20 @@ public class DeadCodeRemove {
             }
         }
         // 原则，带有判断逻辑的branch都不删掉，要删只删掉jump的块
-        if (entry.instrList.size() == 1 && (entry.instrList.get(0) instanceof JumpInstr)) {
+        if (entry.instrList.size() == 1 && (entry.instrList.get(0) instanceof JumpIr)) {
             toRemove.add(entry);
-            JumpInstr jumpInstr = (JumpInstr) entry.instrList.get(0);
-            BasicBlock target = jumpInstr.getTargetBlock();
+            JumpIr jumpIr = (JumpIr) entry.instrList.get(0);
+            BasicBlock target = jumpIr.getTargetBlock();
             for (BasicBlock father : entry.prev) {
                 Instr instr = father.instrList.get(father.instrList.size() - 1);
-                if (instr instanceof BranchInstr) {
-                    if (((BranchInstr) instr).getThenBlock() == entry) {
-                        ((BranchInstr) instr).changeThen(target);
+                if (instr instanceof BranchIr) {
+                    if (((BranchIr) instr).getThenBlock() == entry) {
+                        ((BranchIr) instr).changeThen(target);
                     } else {
-                        ((BranchInstr) instr).changeElse(target);
+                        ((BranchIr) instr).changeElse(target);
                     }
                 } else {
-                    ((JumpInstr) instr).setDstBlock(target);
+                    ((JumpIr) instr).setDstBlock(target);
                 }
                 // -----------结束后，不要忘了把前驱后驱改变了-------------------
                 father.next.remove(entry);
@@ -99,7 +99,7 @@ public class DeadCodeRemove {
             while (iterator.hasNext()) {
                 Instr instr = iterator.next();
                 // 函数的过程和IOI的过程都是必须的,可以试试函数展开
-                if (instr.getAns() != null && !(instr instanceof CallInstr || instr instanceof IOInstr)) {
+                if (instr.getAns() != null && !(instr instanceof CallIr || instr instanceof IOInstr)) {
                     if (instr.getAns().userEmpty()) {
                         iterator.remove();
                         instr.isDeleted = true;

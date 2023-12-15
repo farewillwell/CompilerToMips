@@ -6,9 +6,9 @@ import front_end.AST.TokenNode;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.*;
-import mid_end.llvm_ir.Instrs.AllocInstr;
-import mid_end.llvm_ir.Instrs.GEPInstr;
-import mid_end.llvm_ir.Instrs.StoreInstr;
+import mid_end.llvm_ir.Instrs.AllocIr;
+import mid_end.llvm_ir.Instrs.GEPIr;
+import mid_end.llvm_ir.Instrs.StoreIr;
 import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.BaseType;
 import mid_end.llvm_ir.type.LLVMType;
@@ -106,31 +106,31 @@ public class VarDef extends Node {
             VarSymbol varSymbol = new VarSymbol(indent.content(), globalVar);
             SymbolManager.SM.addVarSymbol(varSymbol);
         } else {
-            AllocInstr allocInstr = new AllocInstr(llvmType, false);
-            IRBuilder.IB.addInstrForBlock(allocInstr);
-            VarSymbol varSymbol = new VarSymbol(indent.content(), allocInstr.getAns());
+            AllocIr allocIr = new AllocIr(llvmType, false);
+            IRBuilder.IB.addInstrForBlock(allocIr);
+            VarSymbol varSymbol = new VarSymbol(indent.content(), allocIr.getAns());
             if (initVal != null) {
                 if (getDim() == 0) {
                     Value value = initVal.getIRCode();
-                    StoreInstr storeInstr = new StoreInstr(value, allocInstr.getAns());
-                    IRBuilder.IB.addInstrForBlock(storeInstr);
+                    StoreIr storeIr = new StoreIr(value, allocIr.getAns());
+                    IRBuilder.IB.addInstrForBlock(storeIr);
                 } else if (getDim() == 1) {
                     for (int i = 0; i < constExps.get(0).queryValue(); i++) {
-                        GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
-                        IRBuilder.IB.addInstrForBlock(gepInstr);
-                        StoreInstr storeInstr = new StoreInstr(initVal.getIrByIndex(i), gepInstr.getAns());
-                        IRBuilder.IB.addInstrForBlock(storeInstr);
+                        GEPIr gepIr = new GEPIr(allocIr.getAns(), new Constant(i));
+                        IRBuilder.IB.addInstrForBlock(gepIr);
+                        StoreIr storeIr = new StoreIr(initVal.getIrByIndex(i), gepIr.getAns());
+                        IRBuilder.IB.addInstrForBlock(storeIr);
                     }
                 } else {
                     for (int i = 0; i < constExps.get(0).queryValue(); i++) {
-                        GEPInstr gepInstr = new GEPInstr(allocInstr.getAns(), new Constant(i));
-                        IRBuilder.IB.addInstrForBlock(gepInstr);
+                        GEPIr gepIr = new GEPIr(allocIr.getAns(), new Constant(i));
+                        IRBuilder.IB.addInstrForBlock(gepIr);
                         for (int j = 0; j < constExps.get(1).queryValue(); j++) {
-                            GEPInstr insideGepInstr = new GEPInstr(gepInstr.getAns(), new Constant(j));
-                            IRBuilder.IB.addInstrForBlock(insideGepInstr);
-                            StoreInstr storeInstr =
-                                    new StoreInstr(initVal.getIrByIndex(i, j), insideGepInstr.getAns());
-                            IRBuilder.IB.addInstrForBlock(storeInstr);
+                            GEPIr insideGepIr = new GEPIr(gepIr.getAns(), new Constant(j));
+                            IRBuilder.IB.addInstrForBlock(insideGepIr);
+                            StoreIr storeIr =
+                                    new StoreIr(initVal.getIrByIndex(i, j), insideGepIr.getAns());
+                            IRBuilder.IB.addInstrForBlock(storeIr);
                         }
                     }
                 }

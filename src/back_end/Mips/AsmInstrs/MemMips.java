@@ -2,7 +2,7 @@ package back_end.Mips.AsmInstrs;
 
 import back_end.Mips.Register;
 
-public class MemAsm extends AsmInstr {
+public class MemMips extends MipsInstr {
     public static final String LW = "lw";
     public static final String SW = "sw";
 
@@ -20,7 +20,7 @@ public class MemAsm extends AsmInstr {
 
     private final String label;
 
-    public MemAsm(String opcode, Register rt, Register base, Integer offset) {
+    public MemMips(String opcode, Register rt, Register base, Integer offset) {
         super(opcode);
         this.rt = rt;
         this.base = base;
@@ -29,7 +29,7 @@ public class MemAsm extends AsmInstr {
         this.useBase = true;
     }
 
-    public MemAsm(String opcode, Register rt, String label, Integer offset) {
+    public MemMips(String opcode, Register rt, String label, Integer offset) {
         super(opcode);
         this.rt = rt;
         this.base = null;

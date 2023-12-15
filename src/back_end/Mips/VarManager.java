@@ -1,6 +1,6 @@
 package back_end.Mips;
 
-import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.AsmInstrs.MemMips;
 import mid_end.llvm_ir.Value;
 
 import java.util.HashMap;
@@ -89,7 +89,7 @@ public class VarManager {
         for (Value value : memMap.keySet()) {
             if (memMap.get(value).register != null) {
                 int offset = memMap.get(value).offset;
-                new MemAsm(MemAsm.SW, memMap.get(value).register, Register.SP, offset);
+                new MemMips(MemMips.SW, memMap.get(value).register, Register.SP, offset);
             }
         }
     }
@@ -98,7 +98,7 @@ public class VarManager {
         for (Value value : memMap.keySet()) {
             if (memMap.get(value).register != null) {
                 int offset = memMap.get(value).offset;
-                new MemAsm(MemAsm.LW, memMap.get(value).register, Register.SP, offset);
+                new MemMips(MemMips.LW, memMap.get(value).register, Register.SP, offset);
             }
         }
     }

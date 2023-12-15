@@ -3,9 +3,9 @@ package mid_end.llvm_ir.Instrs;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
-public class PcopyInstr extends Instr {
+public class PallCopyIr extends Instr {
     // 理论上这个指令不存在任何ans,也不会出现在value约束里面
-    public PcopyInstr(Value target, Value moveIn) {
+    public PallCopyIr(Value target, Value moveIn) {
         addValue(target);
         addValue(moveIn);
     }

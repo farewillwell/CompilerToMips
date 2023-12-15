@@ -6,7 +6,7 @@ import front_end.ErrorCollector;
 import front_end.RW;
 import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.ALUInstr;
+import mid_end.llvm_ir.Instrs.ALUIr;
 import mid_end.llvm_ir.Value;
 
 import java.util.ArrayList;
@@ -89,25 +89,25 @@ public class AddExp extends Node {
             String opcode;
             RW.TYPE type = tokenNodes.get(i).type();
             if (type == RW.TYPE.PLUS) {
-                opcode = ALUInstr.ADD;
+                opcode = ALUIr.ADD;
             } else {
-                opcode = ALUInstr.SUB;
+                opcode = ALUIr.SUB;
             }
             Value term = otherTerm.get(i);
             if (value instanceof Constant && term instanceof Constant) {
                 int ans;
                 int left = ((Constant) value).getValue();
                 int right = ((Constant) term).getValue();
-                if (opcode.equals(ALUInstr.ADD)) {
+                if (opcode.equals(ALUIr.ADD)) {
                     ans = left + right;
                 } else {
                     ans = left - right;
                 }
                 value = new Constant(ans);
             } else {
-                ALUInstr aluInstr = new ALUInstr(opcode, value, otherTerm.get(i));
-                IRBuilder.IB.addInstrForBlock(aluInstr);
-                value = aluInstr.getAns();
+                ALUIr aluIr = new ALUIr(opcode, value, otherTerm.get(i));
+                IRBuilder.IB.addInstrForBlock(aluIr);
+                value = aluIr.getAns();
             }
         }
         return value;

@@ -1,19 +1,17 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.MemAsm;
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.MipsBuilder;
-import back_end.Mips.MipsSymbol;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.LocalVar;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.BaseType;
 
-public class ZextInstr extends Instr {
+public class ZextIr extends Instr {
     // extend 专门用于扩展,压缩的可以用icmp和0来表示
 
-    public ZextInstr(BaseType targetType, Value beChangedValue) {
+    public ZextIr(BaseType targetType, Value beChangedValue) {
         addValue(beChangedValue);
         setAns(new LocalVar(targetType, false));
     }
@@ -30,7 +28,7 @@ public class ZextInstr extends Instr {
         Register reg1 = Instr.moveValueIntoReg(Register.T0, paras.get(0));
         Register register = targetSRegorNull(getAns());
         if (register != null) {
-            new MoveAsm(register, reg1);
+            new MoveMips(register, reg1);
             MipsBuilder.MB.storeInReg(getAns(), register);
         } else {
             Instr.storeMemFromReg(reg1, getAns());

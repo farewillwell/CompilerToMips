@@ -5,9 +5,7 @@ import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.IRBuilder;
 import mid_end.llvm_ir.Instrs.IO.GetInt;
-import mid_end.llvm_ir.Instrs.StoreInstr;
 import mid_end.llvm_ir.Value;
-import mid_end.symbols.SymbolManager;
 
 public class GetIntStmt extends AssignStmt {
 

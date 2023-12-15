@@ -5,8 +5,8 @@ import front_end.AST.Exp.LVal;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.GEPInstr;
-import mid_end.llvm_ir.Instrs.StoreInstr;
+import mid_end.llvm_ir.Instrs.GEPIr;
+import mid_end.llvm_ir.Instrs.StoreIr;
 import mid_end.llvm_ir.Value;
 import mid_end.symbols.SymbolManager;
 
@@ -51,11 +51,11 @@ public class AssignStmt extends Stmt {
     public void storeIntoWith(Value valueToBeStore) {
         Value nowArrayOrAnsPointer = SymbolManager.SM.getVarSymbol(lVal.getName()).value;
         for (Exp exp1 : lVal.exps) {
-            GEPInstr gepInstr = new GEPInstr(nowArrayOrAnsPointer, exp1.getIRCode());
-            IRBuilder.IB.addInstrForBlock(gepInstr);
-            nowArrayOrAnsPointer =  gepInstr.getAns();
+            GEPIr gepIr = new GEPIr(nowArrayOrAnsPointer, exp1.getIRCode());
+            IRBuilder.IB.addInstrForBlock(gepIr);
+            nowArrayOrAnsPointer =  gepIr.getAns();
         }
-        StoreInstr storeInstr = new StoreInstr(valueToBeStore, nowArrayOrAnsPointer);
-        IRBuilder.IB.addInstrForBlock(storeInstr);
+        StoreIr storeIr = new StoreIr(valueToBeStore, nowArrayOrAnsPointer);
+        IRBuilder.IB.addInstrForBlock(storeIr);
     }
 }

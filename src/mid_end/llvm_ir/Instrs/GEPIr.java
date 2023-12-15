@@ -8,7 +8,7 @@ import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.LLVMType;
 import mid_end.llvm_ir.type.PointerType;
 
-public class GEPInstr extends Instr {
+public class GEPIr extends Instr {
     //********************************************************************************
     // 注意一个事情,无论构造的时候传进来的是*(a[1])还是*(a*),最后得到的都是一个直接指向一个对象的指针
     // 因此最后得到的指针就是直接的,不用再找一层
@@ -18,7 +18,7 @@ public class GEPInstr extends Instr {
 
     // name是输出用的，不需要查表
     // 传进来的是一个指针,就是那个实际变量地址的指针。
-    public GEPInstr(Value tempPoint, Value offset) {
+    public GEPIr(Value tempPoint, Value offset) {
         if (!(tempPoint.type instanceof PointerType)) {
             throw new RuntimeException("use a un point to gep");
         }
@@ -41,11 +41,11 @@ public class GEPInstr extends Instr {
             // int a[] ,先获取到 这个数组首地址，每一个元素是一个int
             // int a[][3] ,也是先获取到这个数组首地址，每一个元素是一个 [ ]
             isInitMemberPointer = true;
-            LoadInstr loadInstr = new LoadInstr(tempPoint);
-            IRBuilder.IB.addInstrForBlock(loadInstr);
-            addValue(loadInstr.getAns());
+            LoadIr loadIr = new LoadIr(tempPoint);
+            IRBuilder.IB.addInstrForBlock(loadIr);
+            addValue(loadIr.getAns());
             addValue(offset);
-            setAns(new LocalVar(loadInstr.getAns().type, false));
+            setAns(new LocalVar(loadIr.getAns().type, false));
         }
     }
 
@@ -104,7 +104,7 @@ public class GEPInstr extends Instr {
         // 求出指针的位置,注意这里要分为两种,局部变量alloca的话可以直接从reg里面拿指针,否则是全局,则需要la
         Register op0;
         if (getPointer() instanceof GlobalVar) {
-            new LaAsm(((GlobalVar) getPointer()).nameInMips(), Register.T0);
+            new LaMips(((GlobalVar) getPointer()).nameInMips(), Register.T0);
             op0 = Register.T0;
         } else {
             op0 = Instr.moveValueIntoReg(Register.T0, getPointer());
@@ -117,11 +117,11 @@ public class GEPInstr extends Instr {
             int length = ((Constant) numberOffset).getValue();
             // 获得需要的指针位置
             if (register != null) {
-                new AluR2IAsm(AluR2IAsm.ADDI, register, op0, length * objSize);
+                new AluR2IMips(AluR2IMips.ADDI, register, op0, length * objSize);
                 MipsBuilder.MB.storeInReg(getAns(), register);
             } else {
                 // 新开一个存这个得到的指针
-                new AluR2IAsm(AluR2IAsm.ADDI, Register.T0, op0, length * objSize);
+                new AluR2IMips(AluR2IMips.ADDI, Register.T0, op0, length * objSize);
                 Instr.storeMemFromReg(Register.T0, getAns());
             }
         } else {
@@ -132,22 +132,22 @@ public class GEPInstr extends Instr {
             // 长度不会是负数，因此没问题
             if ((objSize & (objSize - 1)) == 0) {
                 int shift = Integer.toBinaryString(objSize).length() - 1;
-                new AluR2IAsm(AluR2IAsm.SLL, Register.T1, op1, shift);
+                new AluR2IMips(AluR2IMips.SLL, Register.T1, op1, shift);
             } else {
-                new LiAsm(objSize, Register.T2);
+                new LiMips(objSize, Register.T2);
                 // 相乘计算大小
-                new MulDivAsm(MulDivAsm.MUL, Register.T2, op1);
+                new MulDivMips(MulDivMips.MUL, Register.T2, op1);
                 // 获取最后的偏移值,存到t1里面
-                new HiLoGetterAsm(HiLoGetterAsm.MFLO, Register.T1);
+                new HiLoGetterMips(HiLoGetterMips.MFLO, Register.T1);
             }
             // 计算得到ans指针变量的值
             if (register != null) {
-                new AluR2RAsm(AluR2RAsm.ADDU, register, Register.T1, op0);
+                new AluR2RMips(AluR2RMips.ADDU, register, Register.T1, op0);
                 MipsBuilder.MB.storeInReg(getAns(), register);
             }
             // 把指针变量值存进去
             else {
-                new AluR2RAsm(AluR2RAsm.ADDU, Register.T0, Register.T1, op0);
+                new AluR2RMips(AluR2RMips.ADDU, Register.T0, Register.T1, op0);
                 Instr.storeMemFromReg(Register.T0, getAns());
             }
         }

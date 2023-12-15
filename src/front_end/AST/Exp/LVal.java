@@ -5,8 +5,8 @@ import front_end.AST.TokenNode;
 import front_end.ErrUseSymbols.*;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.*;
-import mid_end.llvm_ir.Instrs.GEPInstr;
-import mid_end.llvm_ir.Instrs.LoadInstr;
+import mid_end.llvm_ir.Instrs.GEPIr;
+import mid_end.llvm_ir.Instrs.LoadIr;
 import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.PointerType;
 import mid_end.symbols.SymbolManager;
@@ -153,21 +153,21 @@ public class LVal extends Node {
         // 这个是存放实际需要数值的指针
         Value nowArrayOrAnsPointer = SymbolManager.SM.getVarSymbol(tokenNode.content()).value;
         for (Exp exp : exps) {
-            GEPInstr gepInstr = new GEPInstr(nowArrayOrAnsPointer, exp.getIRCode());
-            IRBuilder.IB.addInstrForBlock(gepInstr);
-            nowArrayOrAnsPointer = gepInstr.getAns();
+            GEPIr gepIr = new GEPIr(nowArrayOrAnsPointer, exp.getIRCode());
+            IRBuilder.IB.addInstrForBlock(gepIr);
+            nowArrayOrAnsPointer = gepIr.getAns();
         }
         // 如果是0维，就是单个变量，那么就是一个简单的load取出来就好了，两个都一样。
         //TODO 假如得到的指针里面的内容还是一个数组呢？
         // 如果是int*的那就说明就是到数字了，要是[]*的说明是作为参数传进去的
         // 就是，如果获得的指针指向的是数组，那么就再做一轮gep，不管最后剩下啥。
         if (((PointerType) nowArrayOrAnsPointer.type).objType instanceof ArrayType) {
-            GEPInstr gepInstr = new GEPInstr(nowArrayOrAnsPointer, new Constant(0));
-            IRBuilder.IB.addInstrForBlock(gepInstr);
-            return gepInstr.getAns();
+            GEPIr gepIr = new GEPIr(nowArrayOrAnsPointer, new Constant(0));
+            IRBuilder.IB.addInstrForBlock(gepIr);
+            return gepIr.getAns();
         }
-        LoadInstr loadInstr = new LoadInstr(nowArrayOrAnsPointer);
-        IRBuilder.IB.addInstrForBlock(loadInstr);
-        return loadInstr.getAns();
+        LoadIr loadIr = new LoadIr(nowArrayOrAnsPointer);
+        IRBuilder.IB.addInstrForBlock(loadIr);
+        return loadIr.getAns();
     }
 }

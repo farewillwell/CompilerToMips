@@ -2,8 +2,8 @@ package mid_end.llvm_ir.type;
 
 import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.IcmpInstr;
-import mid_end.llvm_ir.Instrs.ZextInstr;
+import mid_end.llvm_ir.Instrs.IcmpIr;
+import mid_end.llvm_ir.Instrs.ZextIr;
 import mid_end.llvm_ir.Value;
 
 public class BaseType extends LLVMType {
@@ -35,13 +35,13 @@ public class BaseType extends LLVMType {
             if (needType.width != 1) {
                 throw new RuntimeException("turn a large with into smaller but not 1");
             }
-            IcmpInstr icmpInstr = new IcmpInstr(IcmpInstr.NE, value, new Constant(0));
-            IRBuilder.IB.addInstrForBlock(icmpInstr);
-            return icmpInstr.getAns();
+            IcmpIr icmpIr = new IcmpIr(IcmpIr.NE, value, new Constant(0));
+            IRBuilder.IB.addInstrForBlock(icmpIr);
+            return icmpIr.getAns();
         } else {
-            ZextInstr zextInstr = new ZextInstr(needType, value);
-            IRBuilder.IB.addInstrForBlock(zextInstr);
-            return zextInstr.getAns();
+            ZextIr zextIr = new ZextIr(needType, value);
+            IRBuilder.IB.addInstrForBlock(zextIr);
+            return zextIr.getAns();
         }
     }
 

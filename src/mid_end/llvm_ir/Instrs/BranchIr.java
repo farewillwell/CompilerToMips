@@ -1,15 +1,13 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.BranchAsm;
-import back_end.Mips.AsmInstrs.MemAsm;
-import back_end.Mips.MipsBuilder;
+import back_end.Mips.AsmInstrs.BranchMips;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.BasicBlock;
 import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
-public class BranchInstr extends Instr {
+public class BranchIr extends Instr {
     private BasicBlock thenBlock;
     private BasicBlock elseBlock;
 
@@ -30,7 +28,7 @@ public class BranchInstr extends Instr {
         return null;
     }
 
-    public BranchInstr(Value cond, BasicBlock thenBlock, BasicBlock elseBlock) {
+    public BranchIr(Value cond, BasicBlock thenBlock, BasicBlock elseBlock) {
         addValue(cond);
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
@@ -48,8 +46,8 @@ public class BranchInstr extends Instr {
     public void genMipsCode() {
         super.genMipsCode();
         Register cond= Instr.moveValueIntoReg(Register.T0, getCond());
-        new BranchAsm(BranchAsm.BNE, cond, Register.ZERO, getThenBlock().nameInMips);
-        new BranchAsm(BranchAsm.BEQ, cond, Register.ZERO, getElseBlock().nameInMips);
+        new BranchMips(BranchMips.BNE, cond, Register.ZERO, getThenBlock().nameInMips);
+        new BranchMips(BranchMips.BEQ, cond, Register.ZERO, getElseBlock().nameInMips);
     }
 
     public void changeThen(BasicBlock newThen) {
@@ -64,11 +62,11 @@ public class BranchInstr extends Instr {
         return getCond() instanceof Constant;
     }
 
-    public JumpInstr makeEqualJump() {
+    public JumpIr makeEqualJump() {
         if (((Constant) paras.get(0)).getValue() != 0) {
-            return new JumpInstr(getThenBlock());
+            return new JumpIr(getThenBlock());
         } else {
-            return new JumpInstr(getElseBlock());
+            return new JumpIr(getElseBlock());
         }
     }
 

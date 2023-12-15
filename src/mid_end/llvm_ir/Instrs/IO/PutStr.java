@@ -1,7 +1,7 @@
 package mid_end.llvm_ir.Instrs.IO;
 
-import back_end.Mips.AsmInstrs.LaAsm;
-import back_end.Mips.AsmInstrs.LiAsm;
+import back_end.Mips.AsmInstrs.LaMips;
+import back_end.Mips.AsmInstrs.LiMips;
 import back_end.Mips.AsmInstrs.Syscall;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.StringLiteral;
@@ -30,8 +30,8 @@ public class PutStr extends IOInstr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        new LaAsm(((StringLiteral) paras.get(0)).getMipsName(), Register.A0);
-        new LiAsm(4, Register.V0);
+        new LaMips(((StringLiteral) paras.get(0)).getMipsName(), Register.A0);
+        new LiMips(4, Register.V0);
         new Syscall();
     }
 

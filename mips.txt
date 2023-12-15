@@ -1,6 +1,4 @@
 .data
-str_0: .asciiz " "
-str_1: .asciiz " "
 
 .text
 
@@ -14,28 +12,27 @@ j END
 main:
 mainb0:
 
-# call void @putint(i32 29)
-li $a0, 29
-li $v0, 1
-syscall
+# br label %b1
+j mainb1
 
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
-la $a0, str_0
-li $v0, 4
-syscall
+mainb1:
 
-# call void @putint(i32 29)
-li $a0, 29
-li $v0, 1
-syscall
+# %V3 = icmp slt i32 %V9, 100
+li $t1, 100
+slt $v1, $t3, $t1
 
-# call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-la $a0, str_1
-li $v0, 4
-syscall
+# br i1 %V3, label %b3, label %b4
+bne $v1, $zero, mainb3
+beq $v1, $zero, mainb4
+mainb3:
 
-# call void @putint(i32 29)
-li $a0, 29
+# br label %b1
+j mainb1
+
+mainb4:
+
+# call void @putint(i32 0)
+li $a0, 0
 li $v0, 1
 syscall
 

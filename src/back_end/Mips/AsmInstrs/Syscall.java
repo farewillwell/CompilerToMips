@@ -1,6 +1,6 @@
 package back_end.Mips.AsmInstrs;
 
-public class Syscall extends AsmInstr {
+public class Syscall extends MipsInstr {
     public Syscall() {
         super("syscall");
     }

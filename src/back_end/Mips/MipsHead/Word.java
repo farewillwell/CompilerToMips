@@ -1,7 +1,5 @@
 package back_end.Mips.MipsHead;
 
-import mid_end.llvm_ir.Instrs.IcmpInstr;
-
 import java.util.ArrayList;
 
 public class Word extends Header {

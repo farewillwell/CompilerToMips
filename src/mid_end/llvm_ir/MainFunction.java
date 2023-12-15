@@ -2,7 +2,7 @@ package mid_end.llvm_ir;
 
 import mid_end.llvm_ir.type.BaseType;
 
-public class MainFunction extends Function {
+public class  MainFunction extends Function {
     public MainFunction() {
         super(BaseType.I32, "main");
     }

@@ -1,26 +1,26 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.JumpAsm;
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.JumpMips;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.BaseType;
 
-public class ReturnInstr extends Instr {
+public class ReturnIr extends Instr {
     private final BaseType retType;
 
     private Value getRetValue() {
         return paras.get(0);
     }
 
-    public ReturnInstr(Value value) {
+    public ReturnIr(Value value) {
         super();
         retType = BaseType.I32;
         addValue(value);
     }
 
-    public ReturnInstr() {
+    public ReturnIr() {
         retType = BaseType.Void;
     }
 
@@ -40,10 +40,10 @@ public class ReturnInstr extends Instr {
         if (retType.equals(BaseType.I32)) {
             Register get = Instr.moveValueIntoReg(Register.V0, getRetValue());
             if (get != Register.V0) {
-                new MoveAsm(Register.V0, get);
+                new MoveMips(Register.V0, get);
             }
         }
-        new JumpAsm(JumpAsm.JR, Register.RA);
+        new JumpMips(JumpMips.JR, Register.RA);
     }
 
     @Override

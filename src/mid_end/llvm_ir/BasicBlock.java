@@ -1,6 +1,6 @@
 package mid_end.llvm_ir;
 
-import back_end.Mips.AsmInstrs.BlockSignAsm;
+import back_end.Mips.AsmInstrs.BlockSignMips;
 import mid_end.llvm_ir.Instrs.*;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class BasicBlock extends Value {
     }
 
     public boolean lastInstrNotRet() {
-        return instrList.size() == 0 || !(instrList.get(instrList.size() - 1) instanceof ReturnInstr);
+        return instrList.size() == 0 || !(instrList.get(instrList.size() - 1) instanceof ReturnIr);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BasicBlock extends Value {
 
     @Override
     public void genMipsCode() {
-        new BlockSignAsm(nameInMips);
+        new BlockSignMips(nameInMips);
         for (Instr instr : instrList) {
             instr.genMipsCode();
         }
@@ -61,7 +61,7 @@ public class BasicBlock extends Value {
         int mark = instrList.size();
         for (int i = 0; i < instrList.size(); i++) {
             Instr instr = instrList.get(i);
-            if (instr instanceof BranchInstr || instr instanceof JumpInstr || instr instanceof ReturnInstr) {
+            if (instr instanceof BranchIr || instr instanceof JumpIr || instr instanceof ReturnIr) {
                 mark = i;
                 break;
             }
@@ -74,13 +74,13 @@ public class BasicBlock extends Value {
 
     public void refillFlowChart() {
         Instr instr = instrList.get(instrList.size() - 1);
-        if (instr instanceof JumpInstr) {
-            BasicBlock after = ((JumpInstr) instr).getTargetBlock();
+        if (instr instanceof JumpIr) {
+            BasicBlock after = ((JumpIr) instr).getTargetBlock();
             next.add(after);
             after.prev.add(this);
-        } else if (instr instanceof BranchInstr) {
-            BasicBlock thenBlock = ((BranchInstr) instr).getThenBlock();
-            BasicBlock elseBlock = ((BranchInstr) instr).getElseBlock();
+        } else if (instr instanceof BranchIr) {
+            BasicBlock thenBlock = ((BranchIr) instr).getThenBlock();
+            BasicBlock elseBlock = ((BranchIr) instr).getElseBlock();
             next.add(thenBlock);
             next.add(elseBlock);
             thenBlock.prev.add(this);
@@ -201,7 +201,7 @@ public class BasicBlock extends Value {
         Iterator<Instr> iterator = instrList.iterator();
         while (iterator.hasNext()) {
             Instr instr = iterator.next();
-            if (instr instanceof PhiInstr) {
+            if (instr instanceof PhiIr) {
                 instr.isDeleted = true;
                 iterator.remove();
             }
@@ -209,7 +209,7 @@ public class BasicBlock extends Value {
     }
 
     public boolean hasPhi() {
-        return instrList.get(0) instanceof PhiInstr;
+        return instrList.get(0) instanceof PhiIr;
     }
 
     public void insertAtLast(Instr instr) {
@@ -229,8 +229,8 @@ public class BasicBlock extends Value {
 
     public void constBranchTpJump() {
         Instr i = lastInstr();
-        if (i instanceof BranchInstr && ((BranchInstr) i).condConst()) {
-            BranchInstr bi = (BranchInstr) i;
+        if (i instanceof BranchIr && ((BranchIr) i).condConst()) {
+            BranchIr bi = (BranchIr) i;
             instrList.set(instrList.size() - 1, bi.makeEqualJump());
             // 修改 变量关系.支配关系还要改吗?
             //TODO 这里支配关系没有被修改!

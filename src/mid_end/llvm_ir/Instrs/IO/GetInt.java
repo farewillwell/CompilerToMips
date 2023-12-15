@@ -1,7 +1,7 @@
 package mid_end.llvm_ir.Instrs.IO;
 
-import back_end.Mips.AsmInstrs.LiAsm;
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.LiMips;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.AsmInstrs.Syscall;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
@@ -25,11 +25,11 @@ public class GetInt extends IOInstr {
     @Override
     public void genMipsCode() {
         super.genMipsCode();
-        new LiAsm(5, Register.V0);
+        new LiMips(5, Register.V0);
         new Syscall();
         Register register = targetSRegorNull(getAns());
         if (register != null) {
-            new MoveAsm(register, Register.V0);
+            new MoveMips(register, Register.V0);
             MipsBuilder.MB.storeInReg(getAns(), register);
         } else {
             Instr.storeMemFromReg(Register.V0, getAns());

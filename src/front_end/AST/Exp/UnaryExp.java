@@ -9,9 +9,9 @@ import front_end.ErrorCollector;
 import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.Function;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.ALUInstr;
-import mid_end.llvm_ir.Instrs.CallInstr;
-import mid_end.llvm_ir.Instrs.IcmpInstr;
+import mid_end.llvm_ir.Instrs.ALUIr;
+import mid_end.llvm_ir.Instrs.CallIr;
+import mid_end.llvm_ir.Instrs.IcmpIr;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.BaseType;
 import mid_end.symbols.SymbolManager;
@@ -172,10 +172,10 @@ public class UnaryExp extends Node {
             } else {
                 rps = new ArrayList<>();
             }
-            CallInstr callInstr = new CallInstr(function, rps);
-            IRBuilder.IB.addInstrForBlock(callInstr);
+            CallIr callIr = new CallIr(function, rps);
+            IRBuilder.IB.addInstrForBlock(callIr);
             if (function.type != BaseType.Void) {
-                return callInstr.getAns();
+                return callIr.getAns();
             } else {
                 return null;
             }
@@ -196,18 +196,18 @@ public class UnaryExp extends Node {
                 }
             } else {
                 if (unaryOp.isNegative()) {
-                    ALUInstr aluInstr = new ALUInstr(ALUInstr.SUB, new Constant(0), get);
-                    Value value = aluInstr.getAns();
-                    IRBuilder.IB.addInstrForBlock(aluInstr);
+                    ALUIr aluIr = new ALUIr(ALUIr.SUB, new Constant(0), get);
+                    Value value = aluIr.getAns();
+                    IRBuilder.IB.addInstrForBlock(aluIr);
                     return value;
                 } else if (unaryOp.isPositive()) {
                     return get;
                 } else {
                     if (unaryOp.isNot()) {
-                        IcmpInstr icmpInstr = new IcmpInstr
-                                (IcmpInstr.EQ, get, new Constant(0));
-                        IRBuilder.IB.addInstrForBlock(icmpInstr);
-                        return icmpInstr.getAns();
+                        IcmpIr icmpIr = new IcmpIr
+                                (IcmpIr.EQ, get, new Constant(0));
+                        IRBuilder.IB.addInstrForBlock(icmpIr);
+                        return icmpIr.getAns();
                     } else {
                         return get;
                     }

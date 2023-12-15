@@ -1,9 +1,9 @@
 package optimization;
 
 import mid_end.llvm_ir.*;
-import mid_end.llvm_ir.Instrs.ALUInstr;
-import mid_end.llvm_ir.Instrs.IcmpInstr;
-import mid_end.llvm_ir.Instrs.ZextInstr;
+import mid_end.llvm_ir.Instrs.ALUIr;
+import mid_end.llvm_ir.Instrs.IcmpIr;
+import mid_end.llvm_ir.Instrs.ZextIr;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,13 +24,13 @@ public class GVN {
             Iterator<Instr> iterator = block.instrList.iterator();
             while (iterator.hasNext()) {
                 Instr instr = iterator.next();
-                if (instr instanceof ALUInstr && ((ALUInstr) instr).foldConst()) {
+                if (instr instanceof ALUIr && ((ALUIr) instr).foldConst()) {
                     instr.isDeleted = true;
                     iterator.remove();
-                } else if (instr instanceof IcmpInstr && ((IcmpInstr) instr).foldConst()) {
+                } else if (instr instanceof IcmpIr && ((IcmpIr) instr).foldConst()) {
                     instr.isDeleted = true;
                     iterator.remove();
-                } else if (instr instanceof ZextInstr && ((ZextInstr) instr).foldSelf()) {
+                } else if (instr instanceof ZextIr && ((ZextIr) instr).foldSelf()) {
                     instr.isDeleted = true;
                     iterator.remove();
                 }

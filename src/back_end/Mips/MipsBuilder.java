@@ -12,39 +12,39 @@ public class MipsBuilder {
     // 结构:.data 开全局，text头初始化，包括main函数在内的所有函数都当作标签
     // 开始的时候jal main ,j end , end标签放最后
     public static final MipsBuilder MB = new MipsBuilder();
-    private final FinalAsm finalAsm;
+    private final FinalMips finalMips;
 
     public MipsBuilder() {
-        finalAsm = new FinalAsm();
+        finalMips = new FinalMips();
         managerStack = new Stack<>();
     }
 
     public void addHead(Header header) {
-        finalAsm.addHead(header);
+        finalMips.addHead(header);
     }
 
-    public void addInstr(AsmInstr asmInstr) {
-        //System.out.println(asmInstr);
-        finalAsm.addInstr(asmInstr);
+    public void addInstr(MipsInstr mipsInstr) {
+        //System.out.println(mipsInstr);
+        finalMips.addInstr(mipsInstr);
     }
 
     public void headerFinish() {
-        new AnnotationAsm("enter main");
-        new JumpAsm("jal", "main");
-        new AnnotationAsm("leave main");
-        new JumpAsm("j", "END");
+        new AnnotationMips("enter main");
+        new JumpMips("jal", "main");
+        new AnnotationMips("leave main");
+        new JumpMips("j", "END");
     }
     // 定义了所有全局变量之类的东西，加上固定的一段跳转程序.
 
     public void textFinish() {
-        new BlockSignAsm("END");
-        new LiAsm(Syscall.EXIT, Register.V0);
+        new BlockSignMips("END");
+        new LiMips(Syscall.EXIT, Register.V0);
         new Syscall();
     }
 
     // 程序段结束，在末尾加一个END,方便跳转到结束
     public String mips() {
-        return finalAsm.toString();
+        return finalMips.toString();
     }
 
     private final Stack<VarManager> managerStack;
@@ -89,7 +89,7 @@ public class MipsBuilder {
             // 将原本的那个换出,并存到它的内存中
             if (map.get(valueX).register == register) {
                 //int offset = MB.queryOffset(valueX);
-                //new MemAsm(MemAsm.SW, register, Register.SP, offset);
+                //new MemMips(MemMips.SW, register, Register.SP, offset);
                 map.get(valueX).register = null;
             }
         }

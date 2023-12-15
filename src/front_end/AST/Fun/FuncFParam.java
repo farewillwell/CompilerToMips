@@ -7,8 +7,8 @@ import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import front_end.RW;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.AllocInstr;
-import mid_end.llvm_ir.Instrs.StoreInstr;
+import mid_end.llvm_ir.Instrs.AllocIr;
+import mid_end.llvm_ir.Instrs.StoreIr;
 import mid_end.llvm_ir.Param;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.ArrayType;
@@ -100,12 +100,12 @@ public class FuncFParam extends Node {
             }
         }
         Param param = new Param(llvmType);
-        AllocInstr allocInstr = new AllocInstr(llvmType, false);
-        IRBuilder.IB.addInstrForBlock(allocInstr);
-        VarSymbol varSymbol = new VarSymbol(tokenNode.content(), allocInstr.getAns());
+        AllocIr allocIr = new AllocIr(llvmType, false);
+        IRBuilder.IB.addInstrForBlock(allocIr);
+        VarSymbol varSymbol = new VarSymbol(tokenNode.content(), allocIr.getAns());
         SymbolManager.SM.addVarSymbol(varSymbol);
-        StoreInstr storeInstr = new StoreInstr(param, allocInstr.getAns());
-        IRBuilder.IB.addInstrForBlock(storeInstr);
+        StoreIr storeIr = new StoreIr(param, allocIr.getAns());
+        IRBuilder.IB.addInstrForBlock(storeIr);
         return param;
     }
 }

@@ -1,7 +1,7 @@
 package mid_end.llvm_ir.Instrs.IO;
 
-import back_end.Mips.AsmInstrs.LiAsm;
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.LiMips;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.AsmInstrs.Syscall;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
@@ -25,9 +25,9 @@ public class PutInt extends IOInstr {
         super.genMipsCode();
         Register register = Instr.moveValueIntoReg(Register.A0, paras.get(0));
         if (register != Register.A0) {
-            new MoveAsm(Register.A0, register);
+            new MoveMips(Register.A0, register);
         }
-        new LiAsm(1, Register.V0);
+        new LiMips(1, Register.V0);
         new Syscall();
     }
 

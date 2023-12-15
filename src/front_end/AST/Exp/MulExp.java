@@ -6,7 +6,7 @@ import front_end.ErrorCollector;
 import front_end.RW;
 import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.ALUInstr;
+import mid_end.llvm_ir.Instrs.ALUIr;
 import mid_end.llvm_ir.Value;
 
 import java.util.ArrayList;
@@ -99,29 +99,29 @@ public class MulExp extends Node {
             String opcode;
             RW.TYPE type = tokenNodes.get(i).type();
             if (type == RW.TYPE.MULT) {
-                opcode = ALUInstr.MUL;
+                opcode = ALUIr.MUL;
             } else if (type == RW.TYPE.DIV) {
-                opcode = ALUInstr.DIV;
+                opcode = ALUIr.DIV;
             } else {
-                opcode = ALUInstr.SREM;
+                opcode = ALUIr.SREM;
             }
             Value factor = otherFactors.get(i);
             if (value instanceof Constant && factor instanceof Constant) {
                 int ans;
                 int left = ((Constant) value).getValue();
                 int right = ((Constant) factor).getValue();
-                if (opcode.equals(ALUInstr.MUL)) {
+                if (opcode.equals(ALUIr.MUL)) {
                     ans = left * right;
-                } else if (opcode.equals(ALUInstr.DIV)) {
+                } else if (opcode.equals(ALUIr.DIV)) {
                     ans = left / right;
                 } else {
                     ans = left % right;
                 }
                 value = new Constant(ans);
             } else {
-                ALUInstr aluInstr = new ALUInstr(opcode, value, otherFactors.get(i));
-                IRBuilder.IB.addInstrForBlock(aluInstr);
-                value = aluInstr.getAns();
+                ALUIr aluIr = new ALUIr(opcode, value, otherFactors.get(i));
+                IRBuilder.IB.addInstrForBlock(aluIr);
+                value = aluIr.getAns();
             }
         }
         return value;

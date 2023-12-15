@@ -1,17 +1,14 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.LiAsm;
-import back_end.Mips.AsmInstrs.MemAsm;
-import back_end.Mips.MipsBuilder;
+import back_end.Mips.AsmInstrs.MemMips;
 import back_end.Mips.Register;
-import mid_end.llvm_ir.Constant;
 import mid_end.llvm_ir.GlobalVar;
 import mid_end.llvm_ir.Instr;
 import mid_end.llvm_ir.Value;
 
-public class StoreInstr extends Instr {
+public class StoreIr extends Instr {
     // store value 是要被存的值
-    public StoreInstr(Value storeValue, Value inTo) {
+    public StoreIr(Value storeValue, Value inTo) {
         super();
         addValue(storeValue);
         addValue(inTo);
@@ -46,11 +43,11 @@ public class StoreInstr extends Instr {
         Register store = Instr.moveValueIntoReg(Register.T0, getStoreInValue());
         // 找到指针的位置
         if (paras.get(1) instanceof GlobalVar) {
-            new MemAsm(MemAsm.SW, store, ((GlobalVar) paras.get(1)).nameInMips(), 0);
+            new MemMips(MemMips.SW, store, ((GlobalVar) paras.get(1)).nameInMips(), 0);
         } else {
             Register point = Instr.moveValueIntoReg(Register.T1, paras.get(1));
             // 把值存到实际地址里面
-            new MemAsm(MemAsm.SW, store, point, 0);
+            new MemMips(MemMips.SW, store, point, 0);
         }
     }
 }

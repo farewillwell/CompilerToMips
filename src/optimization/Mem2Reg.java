@@ -1,10 +1,10 @@
 package optimization;
 
 import mid_end.llvm_ir.*;
-import mid_end.llvm_ir.Instrs.AllocInstr;
-import mid_end.llvm_ir.Instrs.LoadInstr;
-import mid_end.llvm_ir.Instrs.PhiInstr;
-import mid_end.llvm_ir.Instrs.StoreInstr;
+import mid_end.llvm_ir.Instrs.AllocIr;
+import mid_end.llvm_ir.Instrs.LoadIr;
+import mid_end.llvm_ir.Instrs.PhiIr;
+import mid_end.llvm_ir.Instrs.StoreIr;
 import mid_end.llvm_ir.type.ArrayType;
 import mid_end.llvm_ir.type.PointerType;
 
@@ -38,13 +38,13 @@ public class Mem2Reg {
     private void searchVariableNames(Function func) {
         for (BasicBlock block : func.basicBlocks) {
             for (Instr instr : block.instrList) {
-                if (instr instanceof AllocInstr && !(((PointerType) instr.getAns().type).objType instanceof ArrayType)) {
+                if (instr instanceof AllocIr && !(((PointerType) instr.getAns().type).objType instanceof ArrayType)) {
                     variableNames.add(instr.getAns());
                     defs.put(instr.getAns(), new HashSet<>());
                     // 其中，alloc必然是该变量第一次亮相，所以我只需要判断已经加上的variableNames即可.
-                } else if (instr instanceof StoreInstr) {
+                } else if (instr instanceof StoreIr) {
                     for (Value var : variableNames) {
-                        if (((StoreInstr) instr).hasDef(var)) {
+                        if (((StoreIr) instr).hasDef(var)) {
                             defs.get(var).add(block);
                         }
                     }
@@ -68,7 +68,7 @@ public class Mem2Reg {
                 if (!F.contains(Y)) {
                     F.add(Y);
                     // insert phi
-                    Y.instrList.add(0, new PhiInstr(var));
+                    Y.instrList.add(0, new PhiIr(var));
                     if (!defs.get(var).contains(Y)) {
                         W.add(Y);
                     }
@@ -96,7 +96,7 @@ public class Mem2Reg {
         //---------------------------------------------------------
         while (iterator.hasNext()) {
             Instr instr = iterator.next();
-            if (instr instanceof AllocInstr) {
+            if (instr instanceof AllocIr) {
                 // 数组不搞rename
                 if (instr.type instanceof ArrayType) {
                     continue;
@@ -104,30 +104,30 @@ public class Mem2Reg {
                 reachDefs.put(instr.getAns(), new Stack<>());
                 instr.isDeleted=true;
                 iterator.remove();
-            } else if (instr instanceof StoreInstr) {
-                if (!reachDefs.containsKey(((StoreInstr) instr).getDstPointer())) {
+            } else if (instr instanceof StoreIr) {
+                if (!reachDefs.containsKey(((StoreIr) instr).getDstPointer())) {
                     continue;
                 }
-                reachDefs.get(((StoreInstr) instr).getDstPointer()).push(((StoreInstr) instr).getStoreInValue());
+                reachDefs.get(((StoreIr) instr).getDstPointer()).push(((StoreIr) instr).getStoreInValue());
                 iterator.remove();
                 instr.isDeleted=true;
-            } else if (instr instanceof PhiInstr) {
-                if (!reachDefs.containsKey(((PhiInstr) instr).tieValue)) {
+            } else if (instr instanceof PhiIr) {
+                if (!reachDefs.containsKey(((PhiIr) instr).tieValue)) {
                     continue;
                 }
-                reachDefs.get(((PhiInstr) instr).tieValue).push(instr.getAns());
+                reachDefs.get(((PhiIr) instr).tieValue).push(instr.getAns());
                 // WARNING 这里不能删除!!!!
-            } else if (instr instanceof LoadInstr) {
-                if (!reachDefs.containsKey(((LoadInstr) instr).getFromPointer())) {
+            } else if (instr instanceof LoadIr) {
+                if (!reachDefs.containsKey(((LoadIr) instr).getFromPointer())) {
                     continue;
                 }
                 // 定义了倒是，但是一定有值吗？
                 // 不一定,那怎么办?这个时候是未定义的?
                 // 未定义的统统赋值为0，如果因为这个错了的话那就见鬼了.
-                if (reachDefs.get(((LoadInstr) instr).getFromPointer()).empty()) {
+                if (reachDefs.get(((LoadIr) instr).getFromPointer()).empty()) {
                     instr.getAns().userReplaceMeWith(new Constant());
                 } else {
-                    Value newValue = reachDefs.get(((LoadInstr) instr).getFromPointer()).peek();
+                    Value newValue = reachDefs.get(((LoadIr) instr).getFromPointer()).peek();
                     instr.getAns().userReplaceMeWith(newValue);
                 }
                 instr.isDeleted=true;
@@ -137,20 +137,20 @@ public class Mem2Reg {
         //------------------------- refill phi-----------------------------------//
         for (BasicBlock next : block.next) {
             for (Instr instr : next.instrList) {
-                if (instr instanceof PhiInstr) {
+                if (instr instanceof PhiIr) {
                     // 为什么会遇到前两种这样的情况呢?显然因为一开始的块携带的东西太少了，但是也被算做前驱了
-                    if (!reachDefs.containsKey(((PhiInstr) instr).tieValue)) {
+                    if (!reachDefs.containsKey(((PhiIr) instr).tieValue)) {
                         // 如果是不存在这个,代表未定义，这里暂时赋值成0,constant 默认是undefine
-                        ((PhiInstr) instr).refill(new Constant(), block);
+                        ((PhiIr) instr).refill(new Constant(), block);
                         continue;
                     }
-                    if (reachDefs.get(((PhiInstr) instr).tieValue).empty()) {
+                    if (reachDefs.get(((PhiIr) instr).tieValue).empty()) {
                         // 如果是empty,代表未定义，这里暂时赋值成0
-                        ((PhiInstr) instr).refill(new Constant(), block);
+                        ((PhiIr) instr).refill(new Constant(), block);
                         continue;
                     }
-                    Value newValue = reachDefs.get(((PhiInstr) instr).tieValue).peek();
-                    ((PhiInstr) instr).refill(newValue, block);
+                    Value newValue = reachDefs.get(((PhiIr) instr).tieValue).peek();
+                    ((PhiIr) instr).refill(newValue, block);
                 }
             }
         }

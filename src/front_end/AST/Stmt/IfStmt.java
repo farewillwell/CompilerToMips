@@ -4,7 +4,7 @@ import front_end.AST.Exp.Cond;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.BasicBlock;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.JumpInstr;
+import mid_end.llvm_ir.Instrs.JumpIr;
 import mid_end.llvm_ir.Value;
 
 public class IfStmt extends Stmt {
@@ -59,11 +59,11 @@ public class IfStmt extends Stmt {
             IRBuilder.IB.enterBlock(thenBlock);
             lStmt.getIRCode();
             BasicBlock finallyBlock = new BasicBlock();
-            JumpInstr jumpOfIf = new JumpInstr(finallyBlock);
+            JumpIr jumpOfIf = new JumpIr(finallyBlock);
             IRBuilder.IB.addInstrForBlock(jumpOfIf);
             IRBuilder.IB.enterBlock(elseBlock);
             rStmt.getIRCode();
-            JumpInstr jumpOfElse = new JumpInstr(finallyBlock);
+            JumpIr jumpOfElse = new JumpIr(finallyBlock);
             IRBuilder.IB.addInstrForBlock(jumpOfElse);
             IRBuilder.IB.enterBlock(finallyBlock);
         } else {
@@ -74,7 +74,7 @@ public class IfStmt extends Stmt {
             cond.genCondIr(thenBlock, finallyBlock);
             IRBuilder.IB.enterBlock(thenBlock);
             lStmt.getIRCode();
-            JumpInstr jumpOfIf = new JumpInstr(finallyBlock);
+            JumpIr jumpOfIf = new JumpIr(finallyBlock);
             IRBuilder.IB.addInstrForBlock(jumpOfIf);
             IRBuilder.IB.enterBlock(finallyBlock);
         }

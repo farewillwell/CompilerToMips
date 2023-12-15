@@ -1,6 +1,6 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.MoveAsm;
+import back_end.Mips.AsmInstrs.MoveMips;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.Instr;
@@ -9,7 +9,7 @@ import mid_end.llvm_ir.Value;
 
 import java.util.HashSet;
 
-public class MoveInstr extends Instr {
+public class MoveIr extends Instr {
 
     private Value target() {
         return getAns();
@@ -19,7 +19,7 @@ public class MoveInstr extends Instr {
         return paras.get(0);
     }
 
-    public MoveInstr(Value target, Value moveIn) {
+    public MoveIr(Value target, Value moveIn) {
         setAns(target);
         addValue(moveIn);
     }
@@ -35,7 +35,7 @@ public class MoveInstr extends Instr {
         Register moveIn = Instr.moveValueIntoReg(Register.T0, moveIn());
         Register register = targetSRegorNull(target());
         if (register != null) {
-            new MoveAsm(register, moveIn);
+            new MoveMips(register, moveIn);
             MipsBuilder.MB.storeInReg(getAns(), register);
         } else {
             Instr.storeMemFromReg(moveIn, target());

@@ -5,7 +5,7 @@ import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.BasicBlock;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.JumpInstr;
+import mid_end.llvm_ir.Instrs.JumpIr;
 import mid_end.llvm_ir.Loop;
 import mid_end.llvm_ir.Value;
 
@@ -90,7 +90,7 @@ public class BigForStmt extends Stmt {
         // 这个是每次循环回来操作的指令
         BasicBlock afterLoopBlock = new BasicBlock();
         // 这个是循环后面的指令的block
-        JumpInstr jumpFrontToCond = new JumpInstr(condBlock);
+        JumpIr jumpFrontToCond = new JumpIr(condBlock);
         // 由此指令前跳到cond
         IRBuilder.IB.addInstrForBlock(jumpFrontToCond);
         Loop loop = new Loop(
@@ -108,7 +108,7 @@ public class BigForStmt extends Stmt {
         if (cond != null) {
             cond.genCondIr(loopBlock, afterLoopBlock);
         } else {
-            JumpInstr emptyJump = new JumpInstr(loopBlock);
+            JumpIr emptyJump = new JumpIr(loopBlock);
             IRBuilder.IB.addInstrForBlock(emptyJump);
         }
         // 如果成立的话需要跳进入循环体，否则跳出彻底，显然cond本身满足了这样的性质，因此不用专门跳了
@@ -116,7 +116,7 @@ public class BigForStmt extends Stmt {
         //  进入循环体
         stmt.getIRCode();
         // 解析循环体内容
-        JumpInstr jumpToEndInstr = new JumpInstr(loopEndInstrBlock);
+        JumpIr jumpToEndInstr = new JumpIr(loopEndInstrBlock);
         // 在最后必须要回到end stuff
         IRBuilder.IB.addInstrForBlock(jumpToEndInstr);
         IRBuilder.IB.enterBlock(loopEndInstrBlock);
@@ -125,7 +125,7 @@ public class BigForStmt extends Stmt {
             forStmtRight.getIRCode();
         }
         // 如果存在的话就生成，不过无论如何必须要这么一个块，因为还要跳回去。
-        JumpInstr jumpBackToCond = new JumpInstr(condBlock);
+        JumpIr jumpBackToCond = new JumpIr(condBlock);
         IRBuilder.IB.addInstrForBlock(jumpBackToCond);
         IRBuilder.IB.enterBlock(afterLoopBlock);
         IRBuilder.IB.exitLoop();

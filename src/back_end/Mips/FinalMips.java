@@ -5,13 +5,13 @@ import back_end.Mips.MipsHead.Header;
 
 import java.util.ArrayList;
 
-public class FinalAsm {
+public class FinalMips {
     private final ArrayList<Header> headers;
-    private final ArrayList<AsmInstr> asmInstrs;
+    private final ArrayList<MipsInstr> mipsInstrs;
 
-    public FinalAsm() {
+    public FinalMips() {
         headers = new ArrayList<>();
-        asmInstrs = new ArrayList<>();
+        mipsInstrs = new ArrayList<>();
     }
     // 如何调整 main和函数的func位置？
     // 不需要的，只要保证先跳到main再跳到end就行了
@@ -20,8 +20,8 @@ public class FinalAsm {
         headers.add(header);
     }
 
-    public void addInstr(AsmInstr asmInstr) {
-        asmInstrs.add(asmInstr);
+    public void addInstr(MipsInstr mipsInstr) {
+        mipsInstrs.add(mipsInstr);
     }
 
     @Override
@@ -32,9 +32,9 @@ public class FinalAsm {
             stringBuilder.append(header).append("\n");
         }
         stringBuilder.append("\n.text\n");
-        for (AsmInstr asmInstr : asmInstrs) {
-            stringBuilder.append(asmInstr).append("\n");
-            if (asmInstr instanceof JumpAsm) {
+        for (MipsInstr mipsInstr : mipsInstrs) {
+            stringBuilder.append(mipsInstr).append("\n");
+            if (mipsInstr instanceof JumpMips) {
                 stringBuilder.append("\n");
             }
         }

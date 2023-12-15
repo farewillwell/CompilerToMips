@@ -9,11 +9,11 @@ import mid_end.llvm_ir.type.BaseType;
 import java.util.ArrayList;
 
 
-public class CallInstr extends Instr {
+public class CallIr extends Instr {
     private final Function function;
 
 
-    public CallInstr(Function function, ArrayList<Value> rps) {
+    public CallIr(Function function, ArrayList<Value> rps) {
         this.function = function;
         for (Value value : rps) {
             addValue(value);
@@ -57,7 +57,7 @@ public class CallInstr extends Instr {
         // 进入函数流程:
         // 预存 ra
         int raOff = MipsBuilder.MB.allocOnStack(4);
-        new MemAsm(MemAsm.SW, Register.RA, Register.SP, raOff);
+        new MemMips(MemMips.SW, Register.RA, Register.SP, raOff);
         // 开始将所有使用到的寄存器归位
         MipsBuilder.MB.regStoreBack();
         // 注意,输出的时候可能会用到a0,所以a0也是不能用的!!!
@@ -67,23 +67,23 @@ public class CallInstr extends Instr {
             Register op = Instr.moveValueIntoReg(Register.T0, paras.get(i));
             int paraOff = MipsBuilder.MB.allocOnStack(4);
             if (i < 3) {
-                new MoveAsm(Register.getWithIndex(5 + i), op);
+                new MoveMips(Register.getWithIndex(5 + i), op);
             } else {
-                new MemAsm(MemAsm.SW, op, Register.SP, paraOff);
+                new MemMips(MemMips.SW, op, Register.SP, paraOff);
             }
         }
         // 在分配完参数之后,需要把cur放回去,否则会导致两个函数的交接有问题
         MipsBuilder.MB.backCur(nowCur);
         // 存好了之后，开始将sp放到下一个函数的栈底，也就是当前看到的参数的起始部分
-        new AluR2IAsm(AluR2IAsm.ADDI, Register.SP, Register.SP, nowCur);
-        new JumpAsm(JumpAsm.JAL, function.name);
-        new AluR2IAsm(AluR2IAsm.ADDI, Register.SP, Register.SP, -nowCur);
-        new MemAsm(MemAsm.LW, Register.RA, Register.SP, raOff);
+        new AluR2IMips(AluR2IMips.ADDI, Register.SP, Register.SP, nowCur);
+        new JumpMips(JumpMips.JAL, function.name);
+        new AluR2IMips(AluR2IMips.ADDI, Register.SP, Register.SP, -nowCur);
+        new MemMips(MemMips.LW, Register.RA, Register.SP, raOff);
         MipsBuilder.MB.memStoreBack();
         if (function.type == BaseType.I32) {
             Register register = targetSRegorNull(getAns());
             if (register != null) {
-                new MoveAsm(register, Register.V0);
+                new MoveMips(register, Register.V0);
                 MipsBuilder.MB.storeInReg(getAns(), register);
             } else {
                 Instr.storeMemFromReg(Register.V0, getAns());

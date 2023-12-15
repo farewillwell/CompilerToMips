@@ -1,18 +1,25 @@
 -------------alloc for main ---------------
+%V3----
+$v1---%V3
+$t3----%V9
+$t4----%V7
 declare i32 @getint()
 declare void @putch(i32)
 declare void @putint(i32)
 declare void @putstr(i8*)
 
-@str_0 = constant [2 x i8] c" \00"
-@str_1 = constant [2 x i8] c" \00"
 define dso_local i32 @main() {
 b0:
-  call void @putint(i32 29)
-  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_0, i32 0, i32 0))
-  call void @putint(i32 29)
-  call void @putstr(i8* getelementptr inbounds ([2 x i8], [2 x i8]* @str_1, i32 0, i32 0))
-  call void @putint(i32 29)
+  move %V9, 0
+  br label %b1
+b1:
+  %V3 = icmp slt i32 %V9, 100
+  br i1 %V3, label %b3, label %b4
+b3:
+  move %V9, %V7
+  br label %b1
+b4:
+  call void @putint(i32 0)
   ret i32 0
 }
 

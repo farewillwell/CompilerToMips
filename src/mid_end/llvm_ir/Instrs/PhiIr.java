@@ -8,13 +8,13 @@ import mid_end.llvm_ir.type.BaseType;
 
 import java.util.ArrayList;
 
-public class PhiInstr extends Instr {
+public class PhiIr extends Instr {
     public final ArrayList<BasicBlock> from = new ArrayList<>();
     public final Value tieValue;
     // tieValue 就是它绑定的变量指针名
     // 在重命名的时候，把getAns压到tieValue对应的栈里
 
-    public PhiInstr(Value value) {
+    public PhiIr(Value value) {
         super();
         tieValue = value;
         setAns(new LocalVar(BaseType.I32, false));

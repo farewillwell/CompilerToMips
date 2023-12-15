@@ -4,8 +4,7 @@ import front_end.AST.Exp.Exp;
 import front_end.ErrUseSymbols.ErrUseSymbolManager;
 import front_end.ErrorCollector;
 import mid_end.llvm_ir.IRBuilder;
-import mid_end.llvm_ir.Instrs.ReturnInstr;
-import mid_end.llvm_ir.User;
+import mid_end.llvm_ir.Instrs.ReturnIr;
 import mid_end.llvm_ir.Value;
 
 public class ReturnStmt extends Stmt {
@@ -49,9 +48,9 @@ public class ReturnStmt extends Stmt {
     public Value getIRCode() {
         if (exp != null) {
             Value value = exp.getIRCode();
-            IRBuilder.IB.addInstrForBlock(new ReturnInstr(value));
+            IRBuilder.IB.addInstrForBlock(new ReturnIr(value));
         } else {
-            IRBuilder.IB.addInstrForBlock(new ReturnInstr());
+            IRBuilder.IB.addInstrForBlock(new ReturnIr());
         }
         return null;
     }

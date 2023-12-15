@@ -38,7 +38,7 @@ public class Instr extends User {
 
     @Override
     public void genMipsCode() {
-        new AnnotationAsm(toString());
+        new AnnotationMips(toString());
         // 一定要分清楚，全局和开在栈上的取值方式是不一样的!!!
     }
 
@@ -60,17 +60,17 @@ public class Instr extends User {
     public static Register moveValueIntoReg(Register dst, Value value) {
         // 注意,如果已经在寄存器里了，返回的不是传入的寄存器而是已经在的寄存器
         if (value instanceof Constant) {
-            new LiAsm(((Constant) value).getValue(), dst);
+            new LiMips(((Constant) value).getValue(), dst);
             return dst;
         } else if (value instanceof GlobalVar) {
-            new MemAsm(MemAsm.LW, dst, ((GlobalVar) value).nameInMips(), 0);
+            new MemMips(MemMips.LW, dst, ((GlobalVar) value).nameInMips(), 0);
             return dst;
         } else {
             if (MipsBuilder.MB.hasRegFor(value)) {
                 return MipsBuilder.MB.queryReg(value);
             } else {
                 int inOffset = MipsBuilder.MB.queryOffset(value);
-                new MemAsm(MemAsm.LW, dst, Register.SP, inOffset);
+                new MemMips(MemMips.LW, dst, Register.SP, inOffset);
                 return dst;
             }
         }
@@ -88,10 +88,10 @@ public class Instr extends User {
     // 强调,该方法一定要是目标不被分配寄存器,否则可以更节约的使用
     public static void storeMemFromReg(Register src, Value value) {
         if (value instanceof GlobalVar) {
-            new MemAsm(MemAsm.SW, src, ((GlobalVar) value).nameInMips(), 0);
+            new MemMips(MemMips.SW, src, ((GlobalVar) value).nameInMips(), 0);
         } else {
             int offset = MipsBuilder.MB.queryOffset(value);
-            new MemAsm(MemAsm.SW, src, Register.SP, offset);
+            new MemMips(MemMips.SW, src, Register.SP, offset);
         }
     }
 

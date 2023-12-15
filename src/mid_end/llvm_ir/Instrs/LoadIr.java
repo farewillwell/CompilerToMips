@@ -1,6 +1,6 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.MemAsm;
+import back_end.Mips.AsmInstrs.MemMips;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import mid_end.llvm_ir.GlobalVar;
@@ -9,8 +9,8 @@ import mid_end.llvm_ir.LocalVar;
 import mid_end.llvm_ir.Value;
 import mid_end.llvm_ir.type.PointerType;
 
-public class LoadInstr extends Instr {
-    public LoadInstr(Value pointer) {
+public class LoadIr extends Instr {
+    public LoadIr(Value pointer) {
         super(((PointerType) pointer.type).objType);
         addValue(pointer);
         // 其获取的值类型是这个变量指针所指的值类型
@@ -40,24 +40,24 @@ public class LoadInstr extends Instr {
         if (paras.get(0) instanceof GlobalVar) {
             // 从标签地址里面找值存到分配的值的空间里
             if (register != null) {
-                new MemAsm(MemAsm.LW, register, ((GlobalVar) paras.get(0)).nameInMips(), 0);
+                new MemMips(MemMips.LW, register, ((GlobalVar) paras.get(0)).nameInMips(), 0);
                 MipsBuilder.MB.storeInReg(getAns(), register);
             } else {
-                new MemAsm(MemAsm.LW, Register.T0, ((GlobalVar) paras.get(0)).nameInMips(), 0);
+                new MemMips(MemMips.LW, Register.T0, ((GlobalVar) paras.get(0)).nameInMips(), 0);
                 int offset = MipsBuilder.MB.queryOffset(getAns());
-                new MemAsm(MemAsm.SW, Register.T0, Register.SP, offset);
+                new MemMips(MemMips.SW, Register.T0, Register.SP, offset);
             }
         } else {
             // 取出这个local指针的值到某个寄存器
             Register pointer = Instr.moveValueIntoReg(Register.T0, paras.get(0));
             if (register != null) {
-                new MemAsm(MemAsm.LW, register, pointer, 0);
+                new MemMips(MemMips.LW, register, pointer, 0);
                 MipsBuilder.MB.storeInReg(getAns(), register);
             } else {
-                new MemAsm(MemAsm.LW, Register.T0, pointer, 0);
+                new MemMips(MemMips.LW, Register.T0, pointer, 0);
                 //  把取到的值存回去
                 int offset = MipsBuilder.MB.queryOffset(getAns());
-                new MemAsm(MemAsm.SW, Register.T0, Register.SP, offset);
+                new MemMips(MemMips.SW, Register.T0, Register.SP, offset);
             }
         }
     }

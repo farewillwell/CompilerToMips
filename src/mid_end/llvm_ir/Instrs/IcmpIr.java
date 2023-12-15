@@ -1,6 +1,6 @@
 package mid_end.llvm_ir.Instrs;
 
-import back_end.Mips.AsmInstrs.CmpAsm;
+import back_end.Mips.AsmInstrs.CmpMips;
 import back_end.Mips.MipsBuilder;
 import back_end.Mips.Register;
 import front_end.AST.TokenNode;
@@ -8,7 +8,7 @@ import front_end.RW;
 import mid_end.llvm_ir.*;
 import mid_end.llvm_ir.type.BaseType;
 
-public class IcmpInstr extends Instr {
+public class IcmpIr extends Instr {
     // 无论eq还是rel，其实使用的指令都是Icmp , 只不过操作不一样罢了
     public static final String EQ = "eq";
     // equal
@@ -82,7 +82,7 @@ public class IcmpInstr extends Instr {
 
     private final String opcode;
 
-    public IcmpInstr(String op, Value para1, Value para2) {
+    public IcmpIr(String op, Value para1, Value para2) {
         if (para1.type != para2.type) {
             throw new RuntimeException("compare not same type :" + para1.type + "--" + para2.type);
         }
@@ -112,12 +112,12 @@ public class IcmpInstr extends Instr {
         Register op1 = Instr.moveValueIntoReg(Register.T1, p1);
         Register register = targetSRegorNull(getAns());
         if (register != null) {
-            new CmpAsm(llOpToMipsOp(), register, op0, op1);
+            new CmpMips(llOpToMipsOp(), register, op0, op1);
             MipsBuilder.MB.storeInReg(getAns(), register);
         }
         // 注意,这个得到的值需要存起来,因为你根本不知道比较完的值会不会拿去做计算，而不是用到br去跳转
         else {
-            new CmpAsm(llOpToMipsOp(), Register.T2, op0, op1);
+            new CmpMips(llOpToMipsOp(), Register.T2, op0, op1);
             Instr.storeMemFromReg(Register.T2, getAns());
         }
     }
