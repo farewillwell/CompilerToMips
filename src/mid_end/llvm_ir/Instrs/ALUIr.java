@@ -17,6 +17,10 @@ public class ALUIr extends Instr {
     public static final String DIV = "sdiv";
     public static final String SREM = "srem";
 
+    public static final String AND = "and";
+
+    public static final String OR = "or";
+
     private final String opcode;
 
     // 可扩展？i32 或者什么？
@@ -84,6 +88,14 @@ public class ALUIr extends Instr {
                     ans = new Constant(p0 % p1);
                     break;
                 }
+                case AND: {
+                    ans = new Constant(p0 & p1);
+                    break;
+                }
+                case OR: {
+                    ans = new Constant(p0 | p1);
+                    break;
+                }
                 default:
                     throw new RuntimeException("wrong op!");
             }
@@ -105,6 +117,7 @@ public class ALUIr extends Instr {
         // 如果两边都是常数,已经在前面处理过了，因此不用理会.
         //----------------------------------------------------//
         // 如果乘法有一个为常数
+        /*
         if (opcode.equals(MUL) && (p0 instanceof Constant || p1 instanceof Constant)) {
             //------------------------------------------------------------------------------
             // 预处理，减少分支
@@ -158,7 +171,7 @@ public class ALUIr extends Instr {
                 }
                 return;
             }
-        }
+        }*/
         //-----------------------------------------------------//
         Register op0 = Instr.moveValueIntoReg(Register.T0, p0);
         Register op1 = Instr.moveValueIntoReg(Register.T1, p1);
@@ -167,6 +180,10 @@ public class ALUIr extends Instr {
             new AluR2RMips(AluR2RMips.ADDU, ans, op0, op1);
         } else if (opcode.equals(SUB)) {
             new AluR2RMips(AluR2RMips.SUBU, ans, op0, op1);
+        } else if (opcode.equals(AND)) {
+            new AluR2RMips(AluR2RMips.AND, ans, op0, op1);
+        } else if (opcode.equals(OR)) {
+            new AluR2RMips(AluR2RMips.OR, ans, op0, op1);
         } else {
             if (opcode.equals(MUL)) {
                 new MulDivMips(MulDivMips.MUL, op0, op1);
@@ -197,7 +214,7 @@ public class ALUIr extends Instr {
         Value p0;
         Value p1;
         // hashCode大的在先
-        if (opcode.equals(ADD) || opcode.equals(MUL)) {
+        if (opcode.equals(ADD) || opcode.equals(MUL) || opcode.equals(AND) || opcode.equals(OR)) {
             if (paras.get(0).hashCode() > paras.get(1).hashCode()) {
                 p0 = paras.get(0);
                 p1 = paras.get(1);
